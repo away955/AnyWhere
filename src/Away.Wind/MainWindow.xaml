@@ -1,0 +1,26 @@
+﻿<Window x:Class="Away.Wind.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:c="clr-namespace:Away.Wind.Components"      
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="600" Width="800">
+
+    <Grid>
+        <DockPanel >
+            <c:LeftMenu />
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <c:TopHeader></c:TopHeader>
+                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" Margin="5"></ContentControl>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

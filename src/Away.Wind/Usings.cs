@@ -1,0 +1,9 @@
+﻿global using Prism.Commands;
+global using Prism.Ioc;
+global using Prism.Modularity;
+global using Prism.Mvvm;
+global using Prism.Regions;
+global using Prism.Unity;
+global using System.Windows;
+global using System.Windows.Controls;
+global using System.Windows.Input;

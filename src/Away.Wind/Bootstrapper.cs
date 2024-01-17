@@ -15,6 +15,7 @@ public class Bootstrapper : PrismBootstrapper
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+        containerRegistry.RegisterForNavigation<MenuSettings>("menu-settings");
         containerRegistry.RegisterForNavigation<Settings>("settings");
         containerRegistry.RegisterForNavigation<NotFound>("404");
     }
@@ -42,6 +43,8 @@ public class Bootstrapper : PrismBootstrapper
         //    return Type.GetType(viewModelName);
         //});
         ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
+        //ViewModelLocationProvider.Register<MenuSettings, MenuSettingsViewModel>();
+        //ViewModelLocationProvider.Register<Settings, SettingsViewModel>();
     }
 
     protected override IModuleCatalog CreateModuleCatalog()

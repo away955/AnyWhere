@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" >
 
     <UserControl.Resources>
@@ -14,15 +15,15 @@
     </UserControl.Resources>
 
 
-    <Grid x:Name="nav_pnl" HorizontalAlignment="Left" Width="65" Background="#2E333A">
+    <Grid x:Name="nav_pnl" HorizontalAlignment="Left" Width="65" Background="{StaticResource PrimaryHueDarkBrush}">
         <StackPanel x:Name="st_pnl">
+
             <!--// Grid for the Menu Toggle Button //-->
             <Grid Height="90">
                 <!--// Menu title text //-->
-                <TextBlock  Grid.Row="1"
+                <TextBlock  Grid.Row="1" Name="logoTitle"
                                 Grid.Column="0"
                                 Margin="73,-20,0,0"
-                                Text="{Binding LogoTitle}"
                                 Foreground="White"
                                 FontSize="22"
                                 Background="Transparent"
@@ -35,21 +36,14 @@
                 </TextBlock>
 
                 <!--// Toggle Button //-->
-                <ToggleButton x:Name="Tg_Btn"
+                <ToggleButton x:Name="Tg_Btn" Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                   Grid.Column="0"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Left"
                                   Margin="18,-20,0,0"
                                   Height="30"
                                   Width="30"
-                                  BorderThickness="0"
-                                  Style="{StaticResource tb_style}">
-
-                    <!--// Toggle button default background image //-->
-                    <ToggleButton.Background>
-                        <ImageBrush ImageSource="pack://application:,,,/Away.Wind;component/Assets/tgBtn_default.png" Stretch="None"/>
-                    </ToggleButton.Background>
-                    <!--// Toggle Button - Checked, Unchecked events //-->
+                                  BorderThickness="0">
 
                     <ToggleButton.Triggers>
                         <EventTrigger RoutedEvent="ToggleButton.Unchecked">
@@ -83,21 +77,14 @@
                 </ToggleButton>
 
             </Grid>
-            
+
             <!--// ListView with menu list items //-->
-            <ListView  x:Name="LV" 
-                       ItemsSource="{Binding LeftMenus}"
-                       Style="{StaticResource LeftMenu.ListView}">
+            <ListView x:Name="LV" Style="{StaticResource LeftMenu.ListView}" SelectionChanged="LV_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Width="230">
-                            <Image Source="{Binding Icon}" Stretch="None" Margin="12,0,0,0"/>
+                            <materialDesign:PackIcon Kind="{Binding Icon}" Width="30" Height="30" Margin="12,0,0,0" Foreground="{StaticResource PrimaryHueDarkForegroundBrush}" />
                             <TextBlock Text="{Binding Title}" Margin="25,0,0,0" Style="{StaticResource font_style}"/>
-                            <StackPanel.InputBindings>
-                                <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}},Path=DataContext.NavigateCommand}"
-                                  CommandParameter="{Binding URL}" />
-                            </StackPanel.InputBindings>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

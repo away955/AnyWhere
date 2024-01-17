@@ -28,25 +28,25 @@ public class MainWindowViewModel : BindableBase
     private ObservableCollection<MenuModel> _leftMenus = [
         new MenuModel
         {
-            Icon = "pack://application:,,,/Away.Wind;component/Assets/img_home.png",
+            Icon = "CogOutline",
             Title = "home",
             URL = "404"
         },
         new MenuModel
         {
-            Icon = "pack://application:,,,/Away.Wind;component/Assets/img_contact.png",
-            Title = "contact",
-            URL = "22"
+            Icon = "Home",
+            Title = "menu settings",
+            URL = "menu-settings"
         },
         new MenuModel
         {
-            Icon = "pack://application:,,,/Away.Wind;component/Assets/img_message.png",
+            Icon = "Chat",
             Title = "message",
             URL = "settings"
         },
         new MenuModel
         {
-            Icon = "pack://application:,,,/Away.Wind;component/Assets/img_map.png",
+            Icon = "Account",
             Title = "map",
             URL = "settings"
         },
@@ -84,11 +84,4 @@ public class MainWindowViewModel : BindableBase
     }
 }
 
-public class MenuModel
-{
-    public required string Title { get; set; }
-    public required string Icon { get; set; }
-    public required string URL { get; set; }
 
-    public ObservableCollection<MenuModel>? Children { get; set; }
-}

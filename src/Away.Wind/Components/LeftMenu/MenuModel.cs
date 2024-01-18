@@ -1,4 +1,4 @@
-﻿namespace Away.Wind.Models;
+﻿namespace Away.Wind.Components;
 
 public class MenuModel
 {

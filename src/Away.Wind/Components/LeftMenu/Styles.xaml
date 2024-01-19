@@ -17,15 +17,6 @@
                     Duration="0:0:0.3"/>
     </Storyboard>
 
-    <!--<Style x:Key="menu.btn" TargetType="ToggleButton" BasedOn="{StaticResource MaterialDesignHamburgerToggleButton}">
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="Margin" Value="18,0,0,0" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Width" Value="30"/>
-        <Setter Property="Height" Value="30" />
-    </Style>-->
-
     <Style x:Key="logo" TargetType="Image">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -36,12 +27,13 @@
 
 
     <Style x:Key="menu.font" TargetType="TextBlock">
+        <Setter Property="Margin" Value="22,0,0,0" />
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="#333"/>
+        <Setter Property="FontSize" Value="15"/>
     </Style>
-    
+
     <Style x:Key="logo.title" TargetType="TextBlock" BasedOn="{StaticResource menu.font}">
         <Setter Property="Margin" Value="70,0,0,0" />
         <Setter Property="Foreground" Value="White" />
@@ -50,49 +42,54 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-    
+
 
     <Style x:Key="menu.icon" TargetType="materialDesign:PackIcon" BasedOn="{StaticResource icon}">
         <Setter Property="Margin" Value="12,0,0,0" />
+        <Setter Property="Foreground" Value="#666" />
+        <Setter Property="Width" Value="25" />
+        <Setter Property="Height" Value="25" />
     </Style>
 
     <Style x:Key="menu.listView" TargetType="ListView">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderThickness" Value="0,0,1,0"/>
+        <Setter Property="BorderBrush" Value="#333" />
         <Setter Property="Margin" Value="-1,0,-1,0"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="BorderThickness" Value="2,0,0,0"/>
+                    <Setter Property="BorderBrush" Value="Transparent" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
                                 <Border x:Name="Bd" 
-                                        Height="50"
+                                        Height="40"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         Background="{TemplateBinding Background}"
                                         Padding="{TemplateBinding Padding}"
                                         SnapsToDevicePixels="True">
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    <!--<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />-->
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Name="IconMenu" Kind="{Binding Icon}" Style="{StaticResource menu.icon}" />
+                                        <TextBlock x:Name="TextMenu" Text="{Binding Title}" Style="{StaticResource menu.font}"/>
+                                    </StackPanel>
                                 </Border>
 
                                 <ControlTemplate.Triggers>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsMouseOver" Value="True"/>
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MaterialDesignPaper}"/>
-                                    </MultiTrigger>
-
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="True"/>
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource MaterialDesignPaper}"/>
-                                    </MultiTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="BorderThickness" Value="2,0,0,0"/>
+                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource PrimaryHueDarkBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Bd" Property="BorderThickness" Value="2,0,0,0"/>
+                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource PrimaryHueDarkBrush}"/>
+                                    </Trigger>
                                 </ControlTemplate.Triggers>
 
                             </ControlTemplate>

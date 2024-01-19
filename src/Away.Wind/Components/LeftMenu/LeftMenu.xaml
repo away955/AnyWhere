@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Background="Transparent"
              mc:Ignorable="d" >
 
     <UserControl.Resources>
@@ -11,39 +12,20 @@
     </UserControl.Resources>
 
 
-    <Grid x:Name="MenuGrid" Width="65" Background="{StaticResource PrimaryHueDarkBrush}">
+    <Grid x:Name="MenuGrid" Width="65">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid>
-            <!--<ToggleButton Style="{StaticResource menu.btn}">
-                <ToggleButton.Triggers>
-                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                        <BeginStoryboard Storyboard="{StaticResource HideMenu}" />
-                    </EventTrigger>
-
-                    <EventTrigger RoutedEvent="ToggleButton.Checked">
-                        <BeginStoryboard Storyboard="{StaticResource ShowMenu}" />
-                    </EventTrigger>
-                </ToggleButton.Triggers>
-            </ToggleButton>-->
+            <Border CornerRadius="10,0,0,0" Background="{StaticResource PrimaryHueDarkBrush}"/>
             <Image x:Name="ImgLogo" Style="{StaticResource logo}" />
             <TextBlock Name="LogoTitleText" Style="{StaticResource logo.title}" />
         </Grid>
 
         <ScrollViewer Name="MenuScroll" Loaded="MenuScroll_Loaded" Grid.Row="1">
-            <ListView x:Name="MenuListView" Style="{StaticResource menu.listView}" SelectionChanged="MenuListView_SelectionChanged">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="{Binding Icon}" Style="{StaticResource menu.icon}" />
-                            <TextBlock Text="{Binding Title}" Margin="25,0,0,0" Style="{StaticResource menu.font}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ListView x:Name="MenuListView" Style="{StaticResource menu.listView}" SelectionChanged="MenuListView_SelectionChanged"/>
         </ScrollViewer>
 
     </Grid>

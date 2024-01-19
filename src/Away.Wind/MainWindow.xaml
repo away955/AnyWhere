@@ -5,35 +5,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:c="clr-namespace:Away.Wind.Components"
+        xmlns:c="clr-namespace:Away.Wind.Components"        
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
-        TextElement.FontWeight="Medium"
+        Background="Transparent"
         TextElement.FontSize="14"        
-        FontFamily="{materialDesign:MaterialDesignFont}"
+        Icon="{Binding Icon}"
         AllowsTransparency="True" WindowStyle="None"
-        Title="{Binding Title}" Height="600" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Height="600" Width="800">
 
     <Grid>
+        <c:NofityIcon />
+        <Border CornerRadius="10" Background="#fff" />
         <DockPanel>
-            <c:LeftMenu 
+                <c:LeftMenu
                 Logo="{Binding Logo}"
                 LogoTitle="{Binding LogoTitle}" 
                 MenuToggle="{Binding MenuToggle}"
                 Data="{Binding LeftMenus}" 
                 SelectedCommand="{Binding NavigateCommand}"/>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="65"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="65"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
 
-                <c:TopHeader Mouse.MouseMove="TopHeader_MouseMove"    
+                    <c:TopHeader Mouse.MouseMove="TopHeader_MouseMove"    
                              MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}"/>
-                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1"></ContentControl>
-            </Grid>
-        </DockPanel>
+                    <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" Margin="5"></ContentControl>
+                </Grid>
+            </DockPanel>
+         
     </Grid>
 </Window>

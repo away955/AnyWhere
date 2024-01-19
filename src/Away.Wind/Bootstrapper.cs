@@ -1,8 +1,5 @@
-﻿using Away.Wind.Components;
-using Away.Wind.ViewModels;
+﻿using Away.Wind.ViewModels;
 using Away.Wind.Views;
-using System.Reflection;
-using System.Windows.Controls;
 
 namespace Away.Wind;
 
@@ -35,13 +32,6 @@ public class Bootstrapper : PrismBootstrapper
     {
         base.ConfigureViewModelLocator();
 
-        //ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
-        //{
-        //    var viewName = viewType.FullName;
-        //    var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-        //    var viewModelName = $"{viewName}ViewModel, {viewAssemblyName}";
-        //    return Type.GetType(viewModelName);
-        //});
         ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
         //ViewModelLocationProvider.Register<MenuSettings, MenuSettingsViewModel>();
         //ViewModelLocationProvider.Register<Settings, SettingsViewModel>();

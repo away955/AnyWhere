@@ -4,18 +4,11 @@ public class MainWindowViewModel : BindableBase
 {
     private readonly IRegionManager _regionManager;
 
-    private string _logo = "pack://application:,,,/Away.Wind;component/Assets/logo.png";
-    public string Logo
+    private string _icon = "pack://application:,,,/Away.Wind;component/Assets/favicon.ico";
+    public string Icon
     {
-        get { return _logo; }
-        set { SetProperty(ref _logo, value); }
-    }
-
-    private string _title = "Prism Unity Application";
-    public string Title
-    {
-        get { return _title; }
-        set { SetProperty(ref _title, value); }
+        get { return _icon; }
+        set { SetProperty(ref _icon, value); }
     }
 
     public MainWindowViewModel(IRegionManager regionManager)
@@ -26,21 +19,27 @@ public class MainWindowViewModel : BindableBase
     }
 
     #region Left Menu Settings
+    private string _logo = "pack://application:,,,/Away.Wind;component/Assets/logo_dark.png";
+    public string Logo
+    {
+        get { return _logo; }
+        set { SetProperty(ref _logo, value); }
+    }
 
-    private string _logoTitle = "Away DeskTop";
+    private string _logoTitle = "俊哥出品";
     public string LogoTitle { get => _logoTitle; set => SetProperty(ref _logoTitle, value); }
 
     private ObservableCollection<MenuModel> _leftMenus = [
         new MenuModel
         {
             Icon = "CogOutline",
-            Title = "home",
+            Title = "职业",
             URL = "404"
         },
         new MenuModel
         {
             Icon = "Home",
-            Title = "menu settings",
+            Title = "主页",
             URL = "menu-settings"
         },
         new MenuModel
@@ -142,6 +141,10 @@ public class MainWindowViewModel : BindableBase
         _regionManager.RequestNavigate("ContentRegion", navigatePath);
     }
 
+
+    private bool _menuToggle;
+    public bool MenuToggle { get => _menuToggle; set => SetProperty(ref _menuToggle, value); }
+
     public DelegateCommand<bool?> MenuToggleChangeCommand { get; private set; }
     private void MenuToggleChange(bool? show)
     {
@@ -151,6 +154,4 @@ public class MainWindowViewModel : BindableBase
     #endregion
 
 
-    private bool _menuToggle;
-    public bool MenuToggle { get => _menuToggle; set => SetProperty(ref _menuToggle, value); }
 }

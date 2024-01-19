@@ -3,7 +3,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -13,10 +13,12 @@
     <materialDesign:ColorZone Height="60"
                               BorderThickness="0"
                               Mode="Inverted"
+                              CornerRadius="0,10,0,0"
                               Background="{StaticResource PrimaryHueDarkBrush}">
         <DockPanel>
             <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                           Foreground="{StaticResource PrimaryHueDarkForegroundBrush}"
+                          Width="30" Height="30"
                           Checked="ToggleButton_Checked"
                           Unchecked="ToggleButton_Unchecked"/>
 

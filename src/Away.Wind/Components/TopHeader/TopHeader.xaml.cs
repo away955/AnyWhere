@@ -9,10 +9,15 @@ namespace Away.Wind.Components
     public partial class TopHeader : UserControl
     {
         public readonly static DependencyProperty MenuToggleChangeCommandProperty;
+        public readonly static DependencyProperty DataProperty;
+
 
         static TopHeader()
         {
             MenuToggleChangeCommandProperty = DependencyProperty.Register(nameof(MenuToggleChangeCommand), typeof(ICommand), typeof(TopHeader), new PropertyMetadata(default(ICommand)));
+
+            DataProperty = DependencyProperty.Register(nameof(Data), typeof(ObservableCollection<TopMenuModel>), typeof(TopHeader), new PropertyMetadata(null, new PropertyChangedCallback(OnDataChanged)));
+
         }
 
         public TopHeader()
@@ -29,9 +34,13 @@ namespace Away.Wind.Components
             set { SetValue(MenuToggleChangeCommandProperty, value); }
         }
 
-        private void Close_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 菜单数据
+        /// </summary>
+        public ObservableCollection<TopMenuModel> Data
         {
-            Application.Current.Shutdown();
+            get { return (ObservableCollection<TopMenuModel>)GetValue(DataProperty); }
+            set { SetValue(DataProperty, value); }
         }
 
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -42,6 +51,15 @@ namespace Away.Wind.Components
         private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             this.MenuToggleChangeCommand?.Execute(false);
+        }
+
+
+        private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TopHeader p)
+            {
+                p.LB_Menu.ItemsSource = e.NewValue as ObservableCollection<TopMenuModel>;
+            }
         }
     }
 }

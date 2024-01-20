@@ -18,6 +18,7 @@ public class MainWindowViewModel : BindableBase
         MenuToggleChangeCommand = new DelegateCommand<bool?>(MenuToggleChange);
     }
 
+
     #region Left Menu Settings
     private string _logo = "pack://application:,,,/Away.Wind;component/Assets/logo_dark.png";
     public string Logo
@@ -54,18 +55,16 @@ public class MainWindowViewModel : BindableBase
             Title = "map",
             URL = "settings"
         },
-
-
         new MenuModel
         {
             Icon = "CogOutline",
-            Title = "home",
+            Title = "职业",
             URL = "404"
         },
         new MenuModel
         {
             Icon = "Home",
-            Title = "menu settings",
+            Title = "主页",
             URL = "menu-settings"
         },
         new MenuModel
@@ -83,13 +82,13 @@ public class MainWindowViewModel : BindableBase
         new MenuModel
         {
             Icon = "CogOutline",
-            Title = "home",
+            Title = "职业",
             URL = "404"
         },
         new MenuModel
         {
             Icon = "Home",
-            Title = "menu settings",
+            Title = "主页",
             URL = "menu-settings"
         },
         new MenuModel
@@ -107,13 +106,13 @@ public class MainWindowViewModel : BindableBase
         new MenuModel
         {
             Icon = "CogOutline",
-            Title = "home",
+            Title = "职业",
             URL = "404"
         },
         new MenuModel
         {
             Icon = "Home",
-            Title = "menu settings",
+            Title = "主页",
             URL = "menu-settings"
         },
         new MenuModel
@@ -127,7 +126,7 @@ public class MainWindowViewModel : BindableBase
             Icon = "Account",
             Title = "map",
             URL = "settings"
-        },
+        }
     ];
     public ObservableCollection<MenuModel> LeftMenus { get => _leftMenus; set => SetProperty(ref _leftMenus, value); }
 
@@ -145,13 +144,41 @@ public class MainWindowViewModel : BindableBase
     private bool _menuToggle;
     public bool MenuToggle { get => _menuToggle; set => SetProperty(ref _menuToggle, value); }
 
+    #endregion
+
+    #region Top Header
+
     public DelegateCommand<bool?> MenuToggleChangeCommand { get; private set; }
     private void MenuToggleChange(bool? show)
     {
         MenuToggle = show ?? false;
     }
 
+
+    private ObservableCollection<TopMenuModel> _topMenus = [
+        new TopMenuModel
+        {
+            Icon = "Settings",
+            ToolTip = "设置",
+            Command = new DelegateCommand(() =>
+            {
+                MessageBox.Show("设置");
+            }),
+        },
+        new TopMenuModel
+        {
+            Icon = "CloseBox",
+            ToolTip = "关闭",
+            Command = new DelegateCommand(OnExit),
+        },
+    ];
+    public ObservableCollection<TopMenuModel> TopMenus { get => _topMenus; set => SetProperty(ref _topMenus, value); }
+
     #endregion
 
 
+    private static void OnExit()
+    {
+        Application.Current.Shutdown();
+    }
 }

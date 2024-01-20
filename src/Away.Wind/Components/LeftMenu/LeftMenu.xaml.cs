@@ -121,18 +121,4 @@ public partial class LeftMenu : UserControl
         SelectedCommand?.Execute(model?.URL);
     }
 
-    private void MenuScroll_Loaded(object sender, RoutedEventArgs e)
-    {
-        MenuListView.AddHandler(MouseWheelEvent, new RoutedEventHandler(MyMouseWheelH), true);
-    }
-
-    private void MyMouseWheelH(object sender, RoutedEventArgs e)
-    {
-        MouseWheelEventArgs eargs = (MouseWheelEventArgs)e;
-        double x = (double)eargs.Delta;
-        double y = MenuScroll.VerticalOffset;
-        MenuScroll.ScrollToVerticalOffset(y - x);
-    }
 }
-
-

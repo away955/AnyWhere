@@ -8,5 +8,34 @@
         <Setter Property="Height" Value="20"/>
     </Style>
 
+    <Style x:Key="menu" TargetType="ListBox">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
 
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Button Style="{StaticResource MaterialDesignIconForegroundButton}" 
+                                        ToolTip="{Binding ToolTip}" 
+                                        Command="{Binding Command}"
+                                        Width="30">
+                                    <materialDesign:PackIcon Kind="{Binding Icon}" Style="{StaticResource icon.header}"/>
+                                </Button>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

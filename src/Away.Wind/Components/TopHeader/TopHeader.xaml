@@ -23,14 +23,7 @@
                           Unchecked="ToggleButton_Unchecked"/>
 
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
-                <Button Style="{StaticResource MaterialDesignIconForegroundButton}" ToolTip="设置" Width="30">
-                    <materialDesign:PackIcon Kind="Settings" Style="{StaticResource icon.header}"/>
-                </Button>
-                <Button Style="{StaticResource MaterialDesignIconForegroundButton}" ToolTip="关闭" Width="30"
-                        Click="Close_Click">
-                    <materialDesign:PackIcon Kind="CloseBox" Style="{StaticResource icon.header}"/>
-                </Button>
-
+                <ListBox x:Name="LB_Menu" Style="{StaticResource menu}" />
             </StackPanel>
         </DockPanel>
     </materialDesign:ColorZone>

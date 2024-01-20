@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:c="clr-namespace:Away.Wind.Components"        
+        xmlns:c="clr-namespace:Away.Wind.Components" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="Transparent"
@@ -13,30 +13,33 @@
         Icon="{Binding Icon}"
         AllowsTransparency="True" WindowStyle="None"
         WindowStartupLocation="CenterScreen"
+        Name="MainView"
         Height="600" Width="800">
 
     <Grid>
-        <c:NofityIcon />
+        <c:NofityIcon Data="{Binding TopMenus}" Title="{Binding LogoTitle}" Icon="{Binding Icon}" />
         <Border CornerRadius="10" Background="#fff" />
         <DockPanel>
-                <c:LeftMenu
+            <c:LeftMenu
                 Logo="{Binding Logo}"
                 LogoTitle="{Binding LogoTitle}" 
                 MenuToggle="{Binding MenuToggle}"
                 Data="{Binding LeftMenus}" 
                 SelectedCommand="{Binding NavigateCommand}"/>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="65"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
 
-                    <c:TopHeader Mouse.MouseMove="TopHeader_MouseMove"    
-                             MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}"/>
-                    <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" Margin="5"></ContentControl>
-                </Grid>
-            </DockPanel>
-         
+                <c:TopHeader MouseMove="TopHeader_MouseMove"
+                             Data="{Binding TopMenus}"
+                             MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}">
+                </c:TopHeader>
+                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" Margin="5"></ContentControl>
+            </Grid>
+        </DockPanel>
+
     </Grid>
 </Window>

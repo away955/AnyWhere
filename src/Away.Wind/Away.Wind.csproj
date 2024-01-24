@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
+		<OutputType>Exe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -17,11 +17,30 @@
 	<ItemGroup>
 	  <PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.124" />
 	  <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 	  <PackageReference Include="Prism.Unity" Version="8.1.97" />
+	  <PackageReference Include="Prism.Unity.Extensions" Version="8.0.62" />
+	  <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+	  <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
+	  <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Extensions\" />
 	  <Folder Include="Models\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Away.Service\Away.Service.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

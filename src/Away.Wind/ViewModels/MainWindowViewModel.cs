@@ -2,132 +2,46 @@
 
 public class MainWindowViewModel : BindableBase
 {
+    private readonly IConfiguration _configuration;
     private readonly IRegionManager _regionManager;
 
-    private string _icon = "pack://application:,,,/Away.Wind;component/Assets/favicon.ico";
+    private string _icon;
     public string Icon
     {
         get { return _icon; }
         set { SetProperty(ref _icon, value); }
     }
 
-    public MainWindowViewModel(IRegionManager regionManager)
+    public MainWindowViewModel(IRegionManager regionManager, IConfiguration configuration,ILogger<MainWindowViewModel> logger)
     {
+        _configuration = configuration;
         _regionManager = regionManager;
+
         NavigateCommand = new DelegateCommand<string>(Navigate);
         MenuToggleChangeCommand = new DelegateCommand<bool?>(MenuToggleChange);
+
+        Icon = _configuration.GetSection("Icon").Get<string>()!;
+        Logo = _configuration.GetSection("Logo").Get<string>()!;
+        LogoTitle = _configuration.GetSection("LogoTitle").Get<string>()!;
+        LeftMenus = _configuration.GetSection("LeftMenus").Get<ObservableCollection<MenuModel>>()!;
+
+        logger.LogInformation("good");
+
     }
 
 
     #region Left Menu Settings
-    private string _logo = "pack://application:,,,/Away.Wind;component/Assets/logo_dark.png";
+    private string _logo;
     public string Logo
     {
         get { return _logo; }
         set { SetProperty(ref _logo, value); }
     }
 
-    private string _logoTitle = "俊哥出品";
+    private string _logoTitle;
     public string LogoTitle { get => _logoTitle; set => SetProperty(ref _logoTitle, value); }
 
-    private ObservableCollection<MenuModel> _leftMenus = [
-        new MenuModel
-        {
-            Icon = "CogOutline",
-            Title = "职业",
-            URL = "404"
-        },
-        new MenuModel
-        {
-            Icon = "Home",
-            Title = "主页",
-            URL = "menu-settings"
-        },
-        new MenuModel
-        {
-            Icon = "Chat",
-            Title = "message",
-            URL = "settings"
-        },
-        new MenuModel
-        {
-            Icon = "Account",
-            Title = "map",
-            URL = "settings"
-        },
-        new MenuModel
-        {
-            Icon = "CogOutline",
-            Title = "职业",
-            URL = "404"
-        },
-        new MenuModel
-        {
-            Icon = "Home",
-            Title = "主页",
-            URL = "menu-settings"
-        },
-        new MenuModel
-        {
-            Icon = "Chat",
-            Title = "message",
-            URL = "settings"
-        },
-        new MenuModel
-        {
-            Icon = "Account",
-            Title = "map",
-            URL = "settings"
-        },
-        new MenuModel
-        {
-            Icon = "CogOutline",
-            Title = "职业",
-            URL = "404"
-        },
-        new MenuModel
-        {
-            Icon = "Home",
-            Title = "主页",
-            URL = "menu-settings"
-        },
-        new MenuModel
-        {
-            Icon = "Chat",
-            Title = "message",
-            URL = "settings"
-        },
-        new MenuModel
-        {
-            Icon = "Account",
-            Title = "map",
-            URL = "settings"
-        },
-        new MenuModel
-        {
-            Icon = "CogOutline",
-            Title = "职业",
-            URL = "404"
-        },
-        new MenuModel
-        {
-            Icon = "Home",
-            Title = "主页",
-            URL = "menu-settings"
-        },
-        new MenuModel
-        {
-            Icon = "Chat",
-            Title = "message",
-            URL = "settings"
-        },
-        new MenuModel
-        {
-            Icon = "Account",
-            Title = "map",
-            URL = "settings"
-        }
-    ];
+    private ObservableCollection<MenuModel> _leftMenus;
     public ObservableCollection<MenuModel> LeftMenus { get => _leftMenus; set => SetProperty(ref _leftMenus, value); }
 
     public DelegateCommand<string> NavigateCommand { get; private set; }

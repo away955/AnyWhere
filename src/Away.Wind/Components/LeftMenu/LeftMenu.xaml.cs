@@ -120,5 +120,4 @@ public partial class LeftMenu : UserControl
         var model = e.AddedItems[0] as MenuModel;
         SelectedCommand?.Execute(model?.URL);
     }
-
 }

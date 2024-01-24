@@ -11,7 +11,7 @@
     </UserControl.Resources>
 
 
-    <Grid x:Name="MenuGrid" Width="65">
+    <Grid x:Name="MenuGrid" Width="60">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*" />
@@ -23,7 +23,9 @@
             <TextBlock Name="LogoTitleText" Style="{StaticResource logo.title}" />
         </Grid>
 
-        <ListView x:Name="MenuListView" Grid.Row="1" Style="{StaticResource menu.listView}" />
+        <ListView x:Name="MenuListView" Grid.Row="1" 
+                  SelectionChanged="MenuListView_SelectionChanged"
+                  Style="{StaticResource menu.listView}" />
 
     </Grid>
 </UserControl>

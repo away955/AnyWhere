@@ -23,6 +23,10 @@ public partial class NofityIcon : UserControl
     {
         if (d is NofityIcon p)
         {
+            if (e.NewValue == null)
+            {
+                return;
+            }
             p.TBI.IconSource = new BitmapImage(new Uri(Convert.ToString(e.NewValue) ?? string.Empty, UriKind.Absolute));
         }
     }

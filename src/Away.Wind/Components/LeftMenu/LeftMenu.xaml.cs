@@ -29,6 +29,10 @@ public partial class LeftMenu : UserControl
     {
         if (d is LeftMenu p)
         {
+            if (e.NewValue == null)
+            {
+                return;
+            }
             p.ImgLogo.Source = new BitmapImage(new Uri(Convert.ToString(e.NewValue) ?? string.Empty, UriKind.Absolute));
         }
     }

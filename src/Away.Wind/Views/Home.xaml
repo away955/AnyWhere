@@ -6,7 +6,7 @@
              xmlns:c="clr-namespace:Away.Wind.Components"
              mc:Ignorable="d">
     <Grid>
-        <TextBlock Text="主页" />
-        <c:Input />
+ 
+        <c:Input Width="300" HorizontalAlignment="Left"/>
     </Grid>
 </UserControl>

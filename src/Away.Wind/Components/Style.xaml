@@ -11,7 +11,7 @@
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Foreground" Value="{StaticResource PrimaryHueDarkForegroundBrush}" />
             </Style>
-            <Style  TargetType="materialDesign:PackIcon" BasedOn="{StaticResource icon}" />
+            <!--<Style  TargetType="materialDesign:PackIcon" BasedOn="{StaticResource icon}" />-->
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

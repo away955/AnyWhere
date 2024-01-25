@@ -5,16 +5,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" >
-    <Grid>
-        <TextBox
-  x:Name="NameTextBox"
-  materialDesign:HintAssist.HelperText="Helper text longer than error"
-  materialDesign:HintAssist.Hint="Name">
-            <TextBox.Text>
-                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                    
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="red"/>
+                <Setter Property="BorderThickness" Value="0.5"/>
+                <Setter Property="CornerRadius" Value="5"/>
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Margin" Value="5,0,0,0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="MinWidth" Value="200" />
+                <Setter Property="MaxWidth" Value="200"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="MaxLines" Value="1"/>
+                <Style.Triggers>
+                    <Trigger Property="Focusable" Value="True">
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid Height="30" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.ColumnSpan="2"/>
+        <materialDesign:PackIcon Kind="Account"/>
+        <TextBox Grid.Column="1"></TextBox>
     </Grid>
 </UserControl>

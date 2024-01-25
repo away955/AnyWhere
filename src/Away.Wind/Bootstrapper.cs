@@ -31,6 +31,9 @@ public sealed class Bootstrapper : PrismBootstrapper
     {
         services.AddSingleton(Configuration);
         services.AddLogging(o => o.AddSerilog());
+
+        var connStr = Configuration.GetConnectionString("Sqlite");
+        services.AddSqlSugarClient(connStr!);
         services.AddHttpClient();
 
         services.AddScoped<IDemo, Demo>();

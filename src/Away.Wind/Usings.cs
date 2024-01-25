@@ -1,4 +1,5 @@
-﻿global using Away.Wind.Components;
+﻿global using Away.Service.DB.Repositories;
+global using Away.Wind.Components;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Logging;
 global using Prism.Commands;

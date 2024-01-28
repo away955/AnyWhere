@@ -72,7 +72,7 @@
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         Background="{TemplateBinding Background}"
                                         Padding="{TemplateBinding Padding}"
-                                        SnapsToDevicePixels="True">                                    
+                                        SnapsToDevicePixels="True">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Name="IconMenu" Kind="{Binding Icon}" Style="{StaticResource menu.icon}" />
                                         <TextBlock x:Name="TextMenu" Text="{Binding Title}" Style="{StaticResource menu.font}"/>

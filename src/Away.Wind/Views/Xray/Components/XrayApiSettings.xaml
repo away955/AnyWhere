@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Away.Wind.Views.XrayApiSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" >
+
+
+    <Grid>
+        <StackPanel>
+
+            <StackPanel>
+                <TextBlock  Foreground="#666" FontWeight="Light" Text="开启的 API 列表"/>
+                <ItemsControl ItemsSource="{Binding XrayApiItems}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Foreground="#333" Content="{Binding Title}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            
+
+            <TextBox materialDesign:HintAssist.Hint="出站代理标识"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Text="{Binding XrayConfig.api.tag}"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -18,17 +18,13 @@
 
                 <!--自定义控件公共样式-->
                 <ResourceDictionary Source="pack://application:,,,/Away.Wind;component/Components/Style.xaml" />
-                <ResourceDictionary>
-                    <!--PRIMARY-->
+                <ResourceDictionary>                   
                     <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#4f83cc"/>
                     <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#01579b"/>
                     <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#ff0000"/>
-
                     <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#ffffff"/>
                     <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#ffffff"/>
                     <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#ffffff"/>
-
-                    <!--ACCENT-->
                     <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#4f83cc"/>
                     <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="#4f83cc"/>
                 </ResourceDictionary>

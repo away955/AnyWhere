@@ -1,5 +1,7 @@
 ﻿global using Away.Service.DB.Repositories;
+global using Away.Service.IOC;
 global using Away.Wind.Components;
+global using Away.Wind.ViewModels;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Logging;
 global using Prism.Commands;
@@ -7,7 +9,6 @@ global using Prism.Ioc;
 global using Prism.Modularity;
 global using Prism.Mvvm;
 global using Prism.Regions;
-global using Prism.Unity;
 global using Serilog;
 global using System.Collections.ObjectModel;
 global using System.Windows;

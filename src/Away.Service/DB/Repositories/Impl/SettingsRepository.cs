@@ -1,6 +1,7 @@
 ﻿namespace Away.Service.DB.Repositories.Impl;
 
-public class SettingsRepository(ISugerDbContext db) : RepositoryBase<SettingsEntity>(db), ISettingsRepository
+[ServiceInject]
+public sealed class SettingsRepository(ISugerDbContext db) : RepositoryBase<SettingsEntity>(db), ISettingsRepository
 {
     public string? GetValue(string key)
     {

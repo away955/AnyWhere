@@ -1,8 +1,11 @@
-﻿using Away.Service;
-using Away.Wind.ViewModels;
-using Away.Wind.Views;
+﻿using Away.Wind.Views;
+using DryIoc;
+using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Prism.DryIoc;
 using System.IO;
+using System.Net.Http;
+using System.Reflection;
 
 namespace Away.Wind;
 
@@ -15,12 +18,31 @@ public sealed class Bootstrapper : PrismBootstrapper
         Configuration = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
              .AddJsonFile("appsettings.json")
-        .Build();
+             .Build();
 
         Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
             .CreateLogger();
     }
+
+    protected override Rules CreateContainerRules()
+    {
+        return Rules.Default.WithConcreteTypeDynamicRegistrations(reuse: Reuse.Transient)
+                            .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+                            .WithFuncAndLazyWithoutRegistration()
+                            .WithTrackingDisposableTransients()
+                            .WithFactorySelector(Rules.SelectLastRegisteredFactory());
+    }
+
+    protected override IContainerExtension CreateContainerExtension()
+    {
+        var container = new Container(CreateContainerRules());
+        var services = new ServiceCollection();
+        AddServiceCollections(services);
+        container.WithDependencyInjectionAdapter(services);
+        return new DryIocContainerExtension(container);
+    }
+
     protected override DependencyObject CreateShell()
     {
         Log.Logger.Information("启动成功");
@@ -31,46 +53,57 @@ public sealed class Bootstrapper : PrismBootstrapper
     {
         services.AddSingleton(Configuration);
         services.AddLogging(o => o.AddSerilog());
-
+        services.AddHttpClient("xray")
+            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
+            });
         var connStr = Configuration.GetConnectionString("Sqlite");
         services.AddSqlSugarClient(connStr!);
-        services.AddHttpClient();
-
-        services.AddScoped<IDemo, Demo>();
+        services.AddAwayDI();
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        containerRegistry.RegisterServices(AddServiceCollections);
+        var types = typeof(Bootstrapper).Assembly.DefinedTypes;
+        foreach (var type in types)
+        {
+            var nav = type.GetCustomAttribute<NavigationAttribute>();
+            if (nav != null)
+            {
+                containerRegistry.Register(typeof(object), type, nav.Name);
+                continue;
+            }
 
-        containerRegistry.RegisterForNavigation<Home>("home");
-        containerRegistry.RegisterForNavigation<MenuSettings>("menu-settings");
-        containerRegistry.RegisterForNavigation<Settings>("settings");
-        containerRegistry.RegisterForNavigation<NotFound>("404");
+            var dialog = type.GetCustomAttribute<DialogAttribute>();
+            if (dialog != null)
+            {
+                containerRegistry.Register(typeof(object), type, dialog.Name);
+                continue;
+            }
+
+            var dialogWind = type.GetCustomAttribute<DialogWindowAttribute>();
+            if (dialogWind != null)
+            {
+                containerRegistry.Register(typeof(Prism.Services.Dialogs.IDialogWindow), type, dialogWind.Name);
+                continue;
+            }
+        }
+
     }
 
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     {
-        //var moduleAType = typeof(ModuleAModule);
-        //moduleCatalog.AddModule(new ModuleInfo()
-        //{
-        //    ModuleName = moduleAType.Name,
-        //    ModuleType = moduleAType.AssemblyQualifiedName,
-        //    InitializationMode = InitializationMode.OnDemand
-        //});
+
     }
 
-    protected override void ConfigureViewModelLocator()
-    {
-        base.ConfigureViewModelLocator();
+    //protected override void ConfigureViewModelLocator()
+    //{
+    //    base.ConfigureViewModelLocator();       
+    //}
 
-        ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
-        //ViewModelLocationProvider.Register<MenuSettings, MenuSettingsViewModel>();
-        //ViewModelLocationProvider.Register<Settings, SettingsViewModel>();
-    }
-
-    protected override IModuleCatalog CreateModuleCatalog()
-    {
-        return new ConfigurationModuleCatalog();
-    }
+    //protected override IModuleCatalog CreateModuleCatalog()
+    //{
+    //    return new ConfigurationModuleCatalog();
+    //}
 }

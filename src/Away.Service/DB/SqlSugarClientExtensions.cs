@@ -15,16 +15,6 @@ public static class SqlSugarClientExtensions
             }
         });
         services.AddSingleton<ISugerDbContext>(db);
-        services.AddRepository();
         return services;
-    }
-
-    private static void AddRepository(this IServiceCollection services)
-    {
-        services.AddScoped<IMenuRepository, MenuRepository>();
-        services.AddScoped<ISettingsRepository, SettingsRepository>();
-
-
-
     }
 }

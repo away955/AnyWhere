@@ -11,6 +11,6 @@
 
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
-        }    
+        }
     }
 }

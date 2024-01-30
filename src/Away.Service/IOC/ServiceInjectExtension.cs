@@ -6,8 +6,11 @@ public static class ServiceInjectExtension
 {
     public static void AddAwayDI(this IServiceCollection services)
     {
-        var types = typeof(ServiceInjectExtension).Assembly.DefinedTypes
-            .Where(t => t.GetCustomAttribute<ServiceInjectAttribute>() != null);
+        var types = AppDomain.CurrentDomain.GetAssemblies()
+              .Where(o => o.FullName!.Contains("Away"))
+              .SelectMany(o => o.DefinedTypes)
+              .Where(o => o.GetCustomAttribute<ServiceInjectAttribute>() != null);
+
         foreach (var implType in types)
         {
             services.AddDefaultInject(implType);

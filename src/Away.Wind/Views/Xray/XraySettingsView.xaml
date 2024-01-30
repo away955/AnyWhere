@@ -10,61 +10,59 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style TargetType="TabItem" BasedOn="{StaticResource MaterialDesignTabItem}">
-                <Setter Property="Height" Value="40"/>
-                <Setter Property="HeaderTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <TextBlock Foreground="#333" Text="{Binding}" />
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
+            <Style TargetType="TabControl" BasedOn="{StaticResource MaterialDesignFilledUniformTabControl}">
+                <Setter Property="TabStripPlacement" Value="Left"/>
+            </Style>
+            <Style x:Key="item.settings" TargetType="UserControl">
+                <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+                <Setter Property="Padding" Value="20"/>
+                <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextBoxBorder}"/>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Margin="0,10">
+    <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
             <Button Content="保存" Width="60" Command="{Binding SaveXrayConfigCommand}"/>
             <ToggleButton IsChecked="{Binding XrayIsEnable}" Style="{StaticResource MaterialDesignSwitchToggleButton}" />
         </StackPanel>
 
-        <TabControl TabStripPlacement="Left">
+        <TabControl>
             <TabItem Header="日志">
-                <local:XrayLogSettings Margin="20"/>
+                <local:XrayLogSettings Style="{StaticResource item.settings}" />
             </TabItem>
-            <TabItem Header="接口">
-                <local:XrayApiSettings Margin="20"/>
+            <TabItem Header="接口" >
+                <local:XrayApiSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="DNS">
-                <local:XrayDnsSettings Margin="20"/>
+                <local:XrayDnsSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="路由">
-                <local:XrayRouteSettings Margin="20"/>
+                <local:XrayRouteSettings Style="{StaticResource item.settings}" />
             </TabItem>
             <TabItem Header="本地策略">
-                <local:XrayPolicySettings Margin="20"/>
+                <local:XrayPolicySettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="入站配置">
-                <local:XrayInboundSettings Margin="20"/>
+                <local:XrayInboundSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="出站配置">
-                <local:XrayOutboundSettings Margin="20"/>
+                <local:XrayOutboundSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="网络连接">
-                <local:XrayTransportSettings Margin="20"/>
+                <local:XrayTransportSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="流量统计">
-                <local:XrayStatsSettings Margin="20"/>
+                <local:XrayStatsSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="反向代理">
-                <local:XrayReverseSettings Margin="20"/>
+                <local:XrayReverseSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="FakeDNS 配置">
-                <local:XrayFakednsSettings Margin="20"/>
+                <local:XrayFakednsSettings Style="{StaticResource item.settings}"/>
             </TabItem>
             <TabItem Header="Metrics 配置">
-                <local:XrayMetricsSettings Margin="20"/>
+                <local:XrayMetricsSettings Style="{StaticResource item.settings}"/>
             </TabItem>
         </TabControl>
     </Grid>

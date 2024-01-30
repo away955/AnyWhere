@@ -14,8 +14,8 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Height" Value="600"/>
             <Setter Property="Width" Value="800"/>
-            <!--<Setter Property="AllowsTransparency" Value="True" />
-            <Setter Property="WindowStyle" Value="None"/>-->
+            <Setter Property="AllowsTransparency" Value="True" />
+            <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="TextElement.FontSize" Value="14"/>
             <Setter Property="Icon" Value="{Binding Icon}"/>
         </Style>
@@ -43,7 +43,8 @@
                              Data="{Binding TopMenus}"
                              MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}">
                 </c:TopHeader>
-                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1"></ContentControl>
+                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" 
+                                Background="{StaticResource MaterialDesignDarkBackground}"/>
             </Grid>
         </DockPanel>
 

@@ -7,30 +7,28 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="Aqua" SecondaryColor="DarkGreen" />
-
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
 
+                <!--明亮主题-->
+                <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />-->
+                <!--暗黑主题-->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="#FF303030" SecondaryColor="#BCFFFFFF" />
+                
                 <!--自定义控件公共样式-->
                 <ResourceDictionary Source="pack://application:,,,/Away.Wind;component/Components/Style.xaml" />
-                <ResourceDictionary>                   
-                    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#4f83cc"/>
-                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#01579b"/>
-                    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#ff0000"/>
-                    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#ffffff"/>
-                    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#ffffff"/>
-                    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#ffffff"/>
-                    <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#4f83cc"/>
-                    <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="#4f83cc"/>
-                </ResourceDictionary>
-
             </ResourceDictionary.MergedDictionaries>
 
+            <!--<SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary100Foreground}"/>
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{StaticResource Primary900Foreground}"/>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary200Foreground}"/>
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="{StaticResource Primary800Foreground}"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{StaticResource Primary200Foreground}"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{StaticResource Primary700Foreground}"/>
+            <SolidColorBrush x:Key="SecondaryAccentBrush" Color="{StaticResource Primary400Foreground}"/>
+            <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="{StaticResource Primary100Foreground}"/>-->
         </ResourceDictionary>
 
     </Application.Resources>

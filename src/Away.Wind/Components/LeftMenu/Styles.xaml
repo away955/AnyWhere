@@ -30,32 +30,30 @@
         <Setter Property="Margin" Value="22,0,0,0" />
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="#333"/>
         <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
     </Style>
 
     <Style x:Key="logo.title" TargetType="TextBlock" BasedOn="{StaticResource menu.font}">
         <Setter Property="Margin" Value="70,0,0,0" />
-        <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="20" />
-        <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
     </Style>
 
 
     <Style x:Key="menu.icon" TargetType="materialDesign:PackIcon" BasedOn="{StaticResource icon}">
         <Setter Property="Margin" Value="12,0,0,0" />
-        <Setter Property="Foreground" Value="#666" />
         <Setter Property="Width" Value="25" />
         <Setter Property="Height" Value="25" />
     </Style>
 
     <Style x:Key="menu.listView" TargetType="ListView">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0,0,0.5,0"/>
-        <Setter Property="BorderBrush" Value="#333" />
+        <Setter Property="Background" Value="{StaticResource MaterialDesignToolBarBackground}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource MaterialDesignTextAreaBorder}" />
         <Setter Property="Margin" Value="-1,0,-1,0"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
@@ -82,11 +80,11 @@
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="Bd" Property="BorderThickness" Value="2,0,0,0"/>
-                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource PrimaryHueDarkBrush}"/>
+                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="Bd" Property="BorderThickness" Value="2,0,0,0"/>
-                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource PrimaryHueDarkBrush}"/>
+                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
 

@@ -1,8 +1,6 @@
-﻿using Away.Service.Xray.Model;
+﻿using Away.Service.Utils;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Away.Service.Xray.Impl;
 
@@ -12,19 +10,13 @@ public class XrayService : IXrayService
     private readonly ILogger<XrayService> _logger;
     private readonly string _xrayConfigPath;
     private readonly string _xrayPath;
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
     private XrayConfig? _xrayConfig;
 
     public XrayService(ILogger<XrayService> logger)
     {
         _logger = logger;
         _xrayConfig = new XrayConfig();
-        _jsonSerializerOptions = new JsonSerializerOptions
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = true,
-            PropertyNameCaseInsensitive = true,
-        };
+
 
         var baseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Xray");
         _xrayConfigPath = Path.Combine(baseDirectory, "config.json");
@@ -36,43 +28,51 @@ public class XrayService : IXrayService
             SetConfig(_xrayConfig);
         }
         GetConfig();
-        //File.WriteAllText(Path.Combine(baseDirectory, "config2.json"), Serialize(_xrayConfig));
+
     }
 
     public void SetConfig(XrayConfig xrayConfig)
     {
-        File.WriteAllText(_xrayConfigPath, Serialize(xrayConfig));
+        File.WriteAllText(_xrayConfigPath, XrayUtils.Serialize(xrayConfig));
     }
 
     public XrayConfig? GetConfig()
     {
         var json = File.ReadAllText(_xrayConfigPath);
-        _xrayConfig = Deserialize<XrayConfig>(json);
+        _xrayConfig = XrayUtils.Deserialize<XrayConfig>(json);
         return _xrayConfig;
     }
 
-    public void Run()
+    private Action? XrayStop;
+    public void XrayStart()
     {
-        Process process = new();
-        process.StartInfo = new ProcessStartInfo
-        {
-            FileName = _xrayPath,
-        };
+        _logger.LogInformation("Xray Start");
 
-        process.OutputDataReceived += (sender, args) =>
+        Process xrayProcess = new()
         {
-            _logger.LogInformation(args.Data);
+            StartInfo = new ProcessStartInfo(_xrayPath),
         };
-        process.Start();
+        xrayProcess.OutputDataReceived += (sender, e) =>
+        {
+            _logger.LogInformation("{}", e.Data);
+        };
+        xrayProcess.Start();
+        XrayStop = xrayProcess.Kill;
     }
 
-
-    private string Serialize<T>(T t)
+    public void XrayClose()
     {
-        return JsonSerializer.Serialize(t, _jsonSerializerOptions);
+        _logger.LogInformation("Xray Close");
+        XrayStop?.Invoke();
     }
-    private T? Deserialize<T>(string json)
+
+    public static void XraysClose()
     {
-        return JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
+        Log.Logger.Information("All Xray Close");
+        var xrays = Process.GetProcessesByName("xray");
+        foreach (var xray in xrays)
+        {
+            xray.Kill();
+        }
     }
 }

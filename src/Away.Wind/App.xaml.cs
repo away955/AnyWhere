@@ -1,4 +1,6 @@
-﻿namespace Away.Wind
+﻿using Away.Service.Xray.Impl;
+
+namespace Away.Wind
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -11,6 +13,11 @@
 
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
+        }
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            XrayService.XraysClose();
         }
     }
 }

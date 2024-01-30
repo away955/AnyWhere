@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Extensions.DependencyInjection;
+﻿using Away.Service.DB.Impl;
+
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class SqlSugarClientExtensions
 {

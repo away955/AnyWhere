@@ -1,5 +1,5 @@
 ﻿namespace Away.Service.DB.Repositories;
 
-public interface IMenuRepository : ISimpleClient<MenuEntity>
+public interface IMenuRepository : IRepositoryBase<MenuEntity>
 {
 }

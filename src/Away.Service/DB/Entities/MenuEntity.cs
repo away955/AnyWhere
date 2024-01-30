@@ -16,18 +16,18 @@ public sealed class MenuEntity
     /// 标题
     /// </summary>
     [SugarColumn(DefaultValue = "")]
-    public string? Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     /// <summary>
     /// 图标
     /// </summary>
     [SugarColumn(DefaultValue = "")]
-    public string? Icon { get; set; }
+    public string Icon { get; set; } = string.Empty;
 
     /// <summary>
     /// 路径
     /// </summary>
     [SugarColumn(DefaultValue = "")]
-    public string? Url { get; set; }
+    public string Url { get; set; } = string.Empty;
 }
 

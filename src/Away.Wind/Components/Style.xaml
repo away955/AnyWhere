@@ -10,9 +10,11 @@
                 <Setter Property="Width" Value="30" />
                 <Setter Property="Height" Value="30" />
                 <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="Foreground" Value="{StaticResource PrimaryHueDarkForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
             </Style>
-            <!--<Style  TargetType="materialDesign:PackIcon" BasedOn="{StaticResource icon}" />-->
+            <Style TargetType="UserControl">
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

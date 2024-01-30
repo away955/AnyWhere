@@ -16,17 +16,17 @@ public sealed class SettingsEntity
     /// 键
     /// </summary>
     [SugarColumn(DefaultValue = "")]
-    public string? Key { get; set; }
+    public string Key { get; set; } = string.Empty;
 
     /// <summary>
     /// 值
     /// </summary>
     [SugarColumn(DefaultValue = "")]
-    public string? Value { get; set; }
+    public string Value { get; set; } = string.Empty;
 
     /// <summary>
     /// 备注
     /// </summary>
     [SugarColumn(DefaultValue = "")]
-    public string? Remark { get; set; }
+    public string? Remark { get; set; } = string.Empty;
 }

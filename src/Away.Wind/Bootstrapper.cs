@@ -25,6 +25,12 @@ public sealed class Bootstrapper : PrismBootstrapper
             .CreateLogger();
     }
 
+    protected override DependencyObject CreateShell()
+    {
+        Log.Logger.Information("启动成功");
+        return Container.Resolve<MainWindow>();
+    }
+
     protected override Rules CreateContainerRules()
     {
         return Rules.Default.WithConcreteTypeDynamicRegistrations(reuse: Reuse.Transient)
@@ -41,12 +47,6 @@ public sealed class Bootstrapper : PrismBootstrapper
         AddServiceCollections(services);
         container.WithDependencyInjectionAdapter(services);
         return new DryIocContainerExtension(container);
-    }
-
-    protected override DependencyObject CreateShell()
-    {
-        Log.Logger.Information("启动成功");
-        return Container.Resolve<MainWindow>();
     }
 
     private void AddServiceCollections(IServiceCollection services)

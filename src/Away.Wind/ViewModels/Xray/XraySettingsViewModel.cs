@@ -19,7 +19,26 @@ public class XraySettingsViewModel : BindableBase
 
         XrayConfig = _xrayService.GetConfig() ?? new XrayConfig();
         SaveXrayConfigCommand = new DelegateCommand(OnSaveXrayConfigCommand);
-        RunCommand = new DelegateCommand(OnRunCommand);
+
+    }
+
+
+    private bool _xrayIsEnable;
+    public bool XrayIsEnable
+    {
+        get => _xrayIsEnable;
+        set
+        {
+            if (_xrayIsEnable == false)
+            {
+                _xrayService.XrayStart();
+            }
+            else
+            {
+                _xrayService.XrayClose();
+            }
+            SetProperty(ref _xrayIsEnable, value);
+        }
     }
 
     private XrayConfig? _xrayConfig;
@@ -35,11 +54,7 @@ public class XraySettingsViewModel : BindableBase
         _xrayService.SetConfig(_xrayConfig!);
     }
 
-    public DelegateCommand RunCommand { get; private set; }
-    private void OnRunCommand()
-    {
-        _xrayService.Run();
-    }
+
 
     public ObservableCollection<MultiComboBoxModel> XrayApiItems { get; set; } =
     [

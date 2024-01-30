@@ -5,6 +5,6 @@ public sealed class SettingsRepository(ISugerDbContext db) : RepositoryBase<Sett
 {
     public string? GetValue(string key)
     {
-        return this.AsQueryable().Where(o => o.Key == key).First()?.Value;
+        return this.AsQueryable().First(o => o.Key == key)?.Value;
     }
 }

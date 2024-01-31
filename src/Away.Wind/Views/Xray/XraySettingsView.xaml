@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewmodels="clr-namespace:Away.Wind.ViewModels"
              xmlns:local="clr-namespace:Away.Wind.Views"
+             xmlns:c="clr-namespace:Away.Wind.Components" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DataContext="{d:DesignInstance Type=viewmodels:XraySettingsViewModel}"
              mc:Ignorable="d">
 
@@ -14,8 +15,7 @@
                 <Setter Property="TabStripPlacement" Value="Left"/>
             </Style>
             <Style x:Key="item.settings" TargetType="UserControl">
-                <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
-                <Setter Property="Padding" Value="20"/>
+                <Setter Property="Padding" Value="10,30,10,0"/>
                 <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextBoxBorder}"/>
             </Style>
         </ResourceDictionary>
@@ -23,8 +23,14 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <Button Content="保存" Width="60" Command="{Binding SaveXrayConfigCommand}"/>
-            <ToggleButton IsChecked="{Binding XrayIsEnable}" Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+            <c:SwitchButton ToolTip="启动Xray" IsChecked="{Binding XrayIsEnable}" />
+            <Button Style="{StaticResource MaterialDesignIconForegroundButton}" Margin="5,0,10,0"
+                    ToolTip="保存Xray配置" 
+                    Command="{Binding SaveXrayConfigCommand}"
+                    Width="25">
+                <materialDesign:PackIcon Kind="ContentSave" Style="{StaticResource icon}"/>
+            </Button>
+
         </StackPanel>
 
         <TabControl>

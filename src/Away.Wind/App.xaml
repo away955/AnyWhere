@@ -15,8 +15,8 @@
                 <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />-->
                 <!--暗黑主题-->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
-                <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="#FF303030" SecondaryColor="#BCFFFFFF" />
-                
+                <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="#FF303030" SecondaryColor="#29FFFFFF" />
+
                 <!--自定义控件公共样式-->
                 <ResourceDictionary Source="pack://application:,,,/Away.Wind;component/Components/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>

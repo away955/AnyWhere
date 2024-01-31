@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:c="clr-namespace:Away.Wind.Components"
+        xmlns:c="clr-namespace:Away.Wind.Components" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"      
         WindowStartupLocation="CenterScreen"
         >
@@ -18,14 +18,23 @@
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="TextElement.FontSize" Value="14"/>
             <Setter Property="Icon" Value="{Binding Icon}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Window">
+                        <Border CornerRadius="10" Background="{StaticResource MaterialDesignToolBarBackground}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Style>
 
-
     <Grid>
         <c:NofityIcon Data="{Binding TopMenus}" Title="{Binding LogoTitle}" Icon="{Binding Icon}" />
-        <Border CornerRadius="10" Background="#fff" />
-        <DockPanel>
+        
+        <DockPanel >
             <c:LeftMenu
                 Logo="{Binding Logo}"
                 LogoTitle="{Binding LogoTitle}" 
@@ -41,10 +50,8 @@
 
                 <c:TopHeader MouseMove="TopHeader_MouseMove"
                              Data="{Binding TopMenus}"
-                             MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}">
-                </c:TopHeader>
-                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" 
-                                Background="{StaticResource MaterialDesignDarkBackground}"/>
+                             MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}" />
+                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1"/>
             </Grid>
         </DockPanel>
 

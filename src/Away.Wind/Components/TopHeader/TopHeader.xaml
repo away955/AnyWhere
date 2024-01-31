@@ -10,11 +10,7 @@
         <ResourceDictionary Source="Styles.xaml"></ResourceDictionary>
     </UserControl.Resources>
 
-    <materialDesign:ColorZone Height="60"
-                              BorderThickness="0"
-                              Mode="Inverted"
-                              CornerRadius="0,10,0,0"
-                              Background="{StaticResource MaterialDesignToolBarBackground}">
+    <materialDesign:ColorZone Height="60" Background="Transparent">
         <DockPanel>
             <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                           Foreground="{StaticResource MaterialDesignTextAreaBorder}"
@@ -23,7 +19,7 @@
                           Unchecked="ToggleButton_Unchecked"/>
 
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
-                <ListBox x:Name="LB_Menu" Style="{StaticResource menu}" />
+                <ListBox x:Name="LB_Menu" Style="{StaticResource menu}"/>
             </StackPanel>
         </DockPanel>
     </materialDesign:ColorZone>

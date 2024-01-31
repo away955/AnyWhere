@@ -11,7 +11,7 @@ public static class XrayUtils
     {
         _jsonSerializerOptions = new JsonSerializerOptions
         {
-            NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             WriteIndented = true,
             PropertyNameCaseInsensitive = true,

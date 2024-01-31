@@ -25,18 +25,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock
-        Margin="10,0,0,0"
-        VerticalAlignment="Center"
-        Text="搜索条件" />
-            <TextBox
-        x:Name="QueryBox"
-        Width="200"
-        Height="25"
-        Margin="10,0,0,0"
-        VerticalContentAlignment="Center"
-        Text="{Binding URL}" />
-
             <Button
         x:Name="QuertyButton"
         Margin="10,0,0,0"

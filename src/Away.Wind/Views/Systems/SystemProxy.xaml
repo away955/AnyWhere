@@ -4,17 +4,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:Away.Wind.Components"
              xmlns:viewmodels="clr-namespace:Away.Wind.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewmodels:SystemProxyViewModel}"
+             d:DataContext="{d:DesignInstance Type=viewmodels:SystemProxyViewModel}"           
              mc:Ignorable="d">
-    
+
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <!--<Setter Property="Background" Value="White"/>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="UserControl">
+                        <Border Background="{StaticResource MaterialDesignPaper}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Style>
+
+
     <Grid Margin="20,10">
         <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="开关" Margin="0,0,10,0"/>
-                <ToggleButton IsChecked="{Binding IsEnable}" Style="{StaticResource MaterialDesignSwitchToggleButton}"  />
-            </StackPanel>
-            
+            <c:SwitchButton Text="系统代理" IsChecked="{Binding IsEnable}" />
+
             <TextBox materialDesign:HintAssist.Hint="代理地址"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      Text="{Binding Server}"/>

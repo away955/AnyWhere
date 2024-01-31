@@ -11,11 +11,11 @@
         <StackPanel>
 
             <StackPanel>
-                <TextBlock  Foreground="#666" FontWeight="Light" Text="开启的 API 列表"/>
+                <TextBlock FontWeight="Light" Text="开启的 API 列表"/>
                 <ItemsControl ItemsSource="{Binding XrayApiItems}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Foreground="#333" Content="{Binding Title}"/>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Title}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

@@ -1,7 +1,7 @@
 ﻿using Away.Service.DB.Entities;
 using Away.Service.XrayNode;
 
-namespace Away.Wind.ViewModels;
+namespace Away.Wind.Views.Xray;
 
 public class XrayNodesViewModel : BindableBase
 {

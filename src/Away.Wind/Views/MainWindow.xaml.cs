@@ -2,9 +2,8 @@
 
 namespace Away.Wind.Views;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
+[Navigation]
+[ViewModel(typeof(MainWindowViewModel))]
 public partial class MainWindow : Window
 {
     public MainWindow()

@@ -3,6 +3,7 @@ using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -90,20 +91,31 @@ public sealed class Bootstrapper : PrismBootstrapper
             }
         }
 
-    }
+    }    
 
-    protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+    protected override void ConfigureViewModelLocator()
     {
+        base.ConfigureViewModelLocator();
+        ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
+        {
+            // 自定义：属性标记
+            var vmType = viewType.GetCustomAttribute<ViewModelAttribute>()?.ViewModelType;
+            if (vmType != null)
+            {
+                return vmType;
+            }
 
+            // 默认方式
+            string fullName = viewType.FullName!;
+            fullName = fullName.Replace(".Views.", ".ViewModels.");
+            string fullName2 = viewType.GetTypeInfo().Assembly.FullName!;
+            string arg = (fullName.EndsWith("View") ? "Model" : "ViewModel");
+            return Type.GetType(string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", fullName, arg, fullName2));
+        });
     }
 
-    //protected override void ConfigureViewModelLocator()
+    //protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     //{
-    //    base.ConfigureViewModelLocator();       
-    //}
 
-    //protected override IModuleCatalog CreateModuleCatalog()
-    //{
-    //    return new ConfigurationModuleCatalog();
     //}
 }

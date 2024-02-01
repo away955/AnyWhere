@@ -1,9 +1,10 @@
-﻿namespace Away.Wind.Views;
+﻿using Away.Wind.Views.Systems;
 
-/// <summary>
-/// MenuSettings.xaml 的交互逻辑
-/// </summary>
+namespace Away.Wind.Views;
+
+
 [Navigation("system-menu")]
+[ViewModel(typeof(SystemMenuViewModel))]
 public partial class SystemMenu : UserControl
 {
     public SystemMenu()

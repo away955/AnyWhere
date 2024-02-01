@@ -1,24 +1,27 @@
 ﻿using Away.Service.Xray;
-using Away.Service.Xray.Model;
 
-namespace Away.Wind.ViewModels;
+namespace Away.Wind.Views.Xray;
 
 public class XraySettingsViewModel : BindableBase
 {
     private readonly ILogger<XraySettingsViewModel> _logger;
     private readonly IXrayService _xrayService;
 
+    private readonly IDialogService _dialogService;
+
     public XraySettingsViewModel(
         ILogger<XraySettingsViewModel> logger,
-        IXrayService xrayService
+        IXrayService xrayService,
+        IDialogService dialogService
         )
     {
         _logger = logger;
         _xrayService = xrayService;
-
+        _dialogService = dialogService;
 
         XrayConfig = _xrayService.GetConfig() ?? new XrayConfig();
         SaveXrayConfigCommand = new DelegateCommand(OnSaveXrayConfigCommand);
+        ShowDialogCommand = new DelegateCommand<string>(OnShowDialogCommand);
 
     }
 
@@ -54,8 +57,6 @@ public class XraySettingsViewModel : BindableBase
         _xrayService.SetConfig(_xrayConfig!);
     }
 
-
-
     public ObservableCollection<MultiComboBoxModel> XrayApiItems { get; set; } =
     [
         new MultiComboBoxModel("HandlerService"),
@@ -63,5 +64,11 @@ public class XraySettingsViewModel : BindableBase
         new MultiComboBoxModel("StatsService")
     ];
 
+
+    public DelegateCommand<string> ShowDialogCommand { get; set; }
+    private void OnShowDialogCommand(string message)
+    {
+        _dialogService.Show(message, new DialogParameters(), null);
+    }
 
 }

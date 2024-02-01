@@ -1,4 +1,4 @@
-﻿namespace Away.Wind.ViewModels;
+﻿namespace Away.Wind.Views;
 
 public class MainWindowViewModel : BindableBase
 {

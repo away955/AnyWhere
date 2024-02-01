@@ -5,44 +5,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Away.Wind.Components"
-             xmlns:viewmodels="clr-namespace:Away.Wind.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewmodels:SystemProxyViewModel}"           
+             xmlns:vm="clr-namespace:Away.Wind.Views.Systems"
+             d:DataContext="{d:DesignInstance Type=vm:SystemProxyViewModel}"           
              mc:Ignorable="d">
 
     <UserControl.Style>
         <Style TargetType="UserControl">
-            <!--<Setter Property="Background" Value="White"/>-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="UserControl">
-                        <Border Background="{StaticResource MaterialDesignPaper}">
-                            <ContentPresenter/>
-                        </Border>
+                        <Grid>
+                            <materialDesign:ColorZone Height="{Binding RelativeSource={RelativeSource Self},Path=Parent.ActualHeight}">
+                                <ContentPresenter/>
+                            </materialDesign:ColorZone>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </UserControl.Style>
+    
+    <StackPanel>
+        <c:SwitchButton Text="系统代理" IsChecked="{Binding IsEnable}" />
 
+        <TextBox materialDesign:TextFieldAssist.PrefixText="代理地址" Text="{Binding Server}"/>
 
-    <Grid Margin="20,10">
-        <StackPanel>
-            <c:SwitchButton Text="系统代理" IsChecked="{Binding IsEnable}" />
+        <TextBox materialDesign:TextFieldAssist.PrefixText="白名单"
+                 MinHeight="100"
+                 MaxHeight="150"
+                 AcceptsReturn="True"  
+                 VerticalScrollBarVisibility="Auto"
+                 Text="{Binding WhiteList}"/>
 
-            <TextBox materialDesign:HintAssist.Hint="代理地址"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Text="{Binding Server}"/>
-
-            <TextBox materialDesign:HintAssist.Hint="白名单"  
-                     MinHeight="100"
-                     MaxHeight="150"
-                     AcceptsReturn="True"
-                     
-                     VerticalScrollBarVisibility="Auto"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Text="{Binding WhiteList}"/>
-
-            <Button Content="保存" Width="60" Command="{Binding SaveCommand}" />
-        </StackPanel>
-    </Grid>
+        <Button Content="保存" Width="60" Command="{Binding SaveCommand}" />
+    </StackPanel>
 </UserControl>

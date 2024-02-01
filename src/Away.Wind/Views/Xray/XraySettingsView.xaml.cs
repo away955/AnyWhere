@@ -1,9 +1,10 @@
-﻿namespace Away.Wind.Views;
+﻿using Away.Wind.Views.Xray;
 
-/// <summary>
-/// XraySettings.xaml 的交互逻辑
-/// </summary>
+namespace Away.Wind.Views;
+
+
 [Navigation("xray-settings")]
+[ViewModel(typeof(XraySettingsViewModel))]
 public partial class XraySettingsView : UserControl
 {
     public XraySettingsView()

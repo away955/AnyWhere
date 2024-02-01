@@ -1,9 +1,10 @@
-﻿namespace Away.Wind.Views;
+﻿using Away.Wind.Views.Xray;
 
-/// <summary>
-/// XrayNodes.xaml 的交互逻辑
-/// </summary>
+namespace Away.Wind.Views;
+
+
 [Navigation("xray-nodes")]
+[ViewModel(typeof(XrayNodesViewModel))]
 public partial class XrayNodes : UserControl
 {
     public XrayNodes()

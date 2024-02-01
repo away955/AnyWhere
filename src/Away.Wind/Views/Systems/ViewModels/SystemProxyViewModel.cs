@@ -1,6 +1,6 @@
 ﻿using Away.Service.Proxy;
 
-namespace Away.Wind.ViewModels;
+namespace Away.Wind.Views.Systems;
 
 /// <summary>
 /// 系统代理

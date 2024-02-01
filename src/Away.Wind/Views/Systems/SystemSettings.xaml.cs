@@ -1,9 +1,9 @@
-﻿namespace Away.Wind.Views;
+﻿using Away.Wind.Views.Systems;
 
-/// <summary>
-/// Settings.xaml 的交互逻辑
-/// </summary>
+namespace Away.Wind.Views;
+
 [Navigation("system-settings")]
+[ViewModel(typeof(SystemSettingsViewModel))]
 public partial class SystemSettings : UserControl
 {
     public SystemSettings()

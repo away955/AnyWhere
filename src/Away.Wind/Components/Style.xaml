@@ -12,8 +12,12 @@
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
             </Style>
-            <Style TargetType="UserControl">
-                <!--<Setter Property="Background" Value="Transparent"/>-->
+            
+            <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
+                <Setter Property="CanUserAddRows" Value="False"/>
+                <Setter Property="ColumnWidth" Value="*"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="AutoGenerateColumns" Value="False"/>
             </Style>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>

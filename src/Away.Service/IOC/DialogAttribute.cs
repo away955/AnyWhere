@@ -1,11 +1,11 @@
 ﻿namespace Away.Service.IOC;
 
+/// <summary>
+/// 标记弹窗内容
+/// </summary>
+/// <param name="name"></param>
 [AttributeUsage(AttributeTargets.Class)]
-public class DialogAttribute : Attribute
+public class DialogAttribute(string? name = null) : Attribute
 {
-    public DialogAttribute(string? name = null)
-    {
-        Name = name;
-    }
-    public string? Name { get; set; }
+    public string? Name { get; set; } = name;
 }

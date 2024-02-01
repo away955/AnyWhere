@@ -27,7 +27,7 @@
                                 <Button Style="{StaticResource MaterialDesignIconForegroundButton}" 
                                         ToolTip="{Binding ToolTip}" 
                                         Command="{Binding Command}"
-                                        Width="30">
+                                        Width="30" Height="30">
                                     <materialDesign:PackIcon Kind="{Binding Icon}" Style="{StaticResource icon.header}"/>
                                 </Button>
                             </ControlTemplate>

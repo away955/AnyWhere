@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:c="clr-namespace:Away.Wind.Components" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:c="clr-namespace:Away.Wind.Components"
+        xmlns:vm="clr-namespace:Away.Wind.Views"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         mc:Ignorable="d"      
         WindowStartupLocation="CenterScreen"
         >
@@ -17,6 +19,7 @@
             <Setter Property="AllowsTransparency" Value="True" />
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="TextElement.FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
             <Setter Property="Icon" Value="{Binding Icon}"/>
 
             <Setter Property="Template">
@@ -33,7 +36,7 @@
 
     <Grid>
         <c:NofityIcon Data="{Binding TopMenus}" Title="{Binding LogoTitle}" Icon="{Binding Icon}" />
-        
+
         <DockPanel >
             <c:LeftMenu
                 Logo="{Binding Logo}"

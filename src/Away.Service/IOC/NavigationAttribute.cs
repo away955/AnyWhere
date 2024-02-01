@@ -1,12 +1,11 @@
 ﻿namespace Away.Service.IOC;
 
+/// <summary>
+/// 标记导航
+/// </summary>
+/// <param name="name"></param>
 [AttributeUsage(AttributeTargets.Class)]
-public class NavigationAttribute : Attribute
+public class NavigationAttribute(string? name = null) : Attribute
 {
-    public NavigationAttribute(string name)
-    {
-        Name = name;
-    }
-
-    public string Name { get; set; }
+    public string? Name { get; set; } = name;
 }

@@ -1,10 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using System.Web;
 using Away.Service.Utils;
+using Away.Service.Xray.Model;
 
 namespace Away.Service.XrayNode.Model;
 
-public class Trojan
+public class Trojan : IModelXrayNode
 {
     public string host { get; set; } = string.Empty;
     public int port { get; set; }
@@ -38,14 +39,13 @@ public class Trojan
 
             var query = reg.Result("${query}");
             var items = HttpUtility.ParseQueryString(query);
-            //security=tls&sni=trojan.miwan.co.uk&alpn=http%2F1.1&type=tcp&headerType=none
             if (items != null)
             {
-                trojan.security = items.Get("security");
-                trojan.sni = items.Get("sni");
-                trojan.alpn = items.Get("alpn");
-                trojan.type = items.Get("type");
-                trojan.headerType = items.Get("headerType");
+                trojan.security = items.Get("security") ?? string.Empty;
+                trojan.sni = items.Get("sni") ?? string.Empty;
+                trojan.alpn = items.Get("alpn") ?? string.Empty;
+                trojan.type = items.Get("type") ?? string.Empty;
+                trojan.headerType = items.Get("headerType") ?? string.Empty;
             }
 
 
@@ -67,8 +67,51 @@ public class Trojan
             Alias = ps,
             Host = host,
             Port = port,
-            security = security,
-            Transport = type
         };
+    }
+
+    public XrayOutbound ToXrayOutbound()
+    {
+        var model = new XrayOutbound()
+        {
+            tag = "proxy",
+            protocol = "trojan",
+        };
+
+        // settings 配置
+        var settings = new Dictionary<string, object>();
+        var item = new
+        {
+            address = host,
+            method = "chacha20",
+            ota = false,
+            password = password,
+            port = port,
+            level = 1
+        };
+        settings.Add("servers", new object[] { item });
+        model.settings = settings;
+
+        // streamSettings 配置
+        model.streamSettings = new OutboundStreamSettings()
+        {
+            network = type,
+            security = security,
+            tcpSettings = new
+            {
+                allowInsecure = false,
+                serverName = sni,
+                alpn = new List<string> { alpn },
+                show = false
+            }
+        };
+
+        // mux 
+        model.mux = new OutboundMux
+        {
+            enabled = false,
+        };
+
+        return model;
     }
 }

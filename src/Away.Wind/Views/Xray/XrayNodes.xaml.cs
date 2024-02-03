@@ -4,7 +4,7 @@ namespace Away.Wind.Views;
 
 
 [Navigation("xray-nodes")]
-[ViewModel(typeof(XrayNodesViewModel))]
+[ViewModel(typeof(XrayNodesVM))]
 public partial class XrayNodes : UserControl
 {
     public XrayNodes()

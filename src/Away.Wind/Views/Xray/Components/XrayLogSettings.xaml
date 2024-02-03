@@ -7,7 +7,7 @@
 
     <Grid>
         <StackPanel>
-            <c:SwitchButton Text="DNS查询日志" IsChecked="{Binding XrayConfig.log.dnsLog}"/>
+            <c:SwitchButton Label="DNS查询日志" IsChecked="{Binding XrayConfig.log.dnsLog}"/>
             <ComboBox materialDesign:HintAssist.Hint="日志的级别"
                       Text="{Binding XrayConfig.log.loglevel}"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}">
@@ -20,14 +20,12 @@
 
             <TextBox VerticalAlignment="Center"
                      Text="{Binding XrayConfig.log.access}"
-                     materialDesign:HintAssist.Hint="访问日志的文件地址"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                     materialDesign:HintAssist.Hint="访问日志的文件地址"/>
 
 
             <TextBox VerticalAlignment="Center"
                      Text="{Binding XrayConfig.log.error}"
-                     materialDesign:HintAssist.Hint="错误日志的文件地址"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                     materialDesign:HintAssist.Hint="错误日志的文件地址"/>
         </StackPanel>
     </Grid>
 </UserControl>

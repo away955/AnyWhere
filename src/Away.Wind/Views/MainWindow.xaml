@@ -19,13 +19,13 @@
             <Setter Property="AllowsTransparency" Value="True" />
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="TextElement.FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
             <Setter Property="Icon" Value="{Binding Icon}"/>
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Window">
-                        <Border CornerRadius="10" Background="{StaticResource MaterialDesignToolBarBackground}">
+                        <Border CornerRadius="5" Background="{DynamicResource MaterialDesignToolBarBackground}">
                             <ContentPresenter/>
                         </Border>
                     </ControlTemplate>
@@ -54,7 +54,14 @@
                 <c:TopHeader MouseMove="TopHeader_MouseMove"
                              Data="{Binding TopMenus}"
                              MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}" />
-                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1"/>
+
+                <Border Grid.Row="1"
+                        Background="{DynamicResource MaterialDesignPaper}"
+                        Padding="10" 
+                        Margin="10"
+                        CornerRadius="5">
+                    <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+                </Border>
             </Grid>
         </DockPanel>
 

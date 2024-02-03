@@ -13,7 +13,7 @@
     <materialDesign:ColorZone Height="60" Background="Transparent">
         <DockPanel>
             <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                          Foreground="{StaticResource MaterialDesignTextAreaBorder}"
+                          Foreground="{DynamicResource MaterialDesignBody}"
                           Width="30" Height="30"
                           Checked="ToggleButton_Checked"
                           Unchecked="ToggleButton_Unchecked"/>

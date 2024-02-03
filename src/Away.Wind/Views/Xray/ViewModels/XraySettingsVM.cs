@@ -2,15 +2,14 @@
 
 namespace Away.Wind.Views.Xray;
 
-public class XraySettingsViewModel : BindableBase
+public class XraySettingsVM : BindableBase, INavigationAware
 {
-    private readonly ILogger<XraySettingsViewModel> _logger;
+    private readonly ILogger<XraySettingsVM> _logger;
     private readonly IXrayService _xrayService;
-
     private readonly IDialogService _dialogService;
 
-    public XraySettingsViewModel(
-        ILogger<XraySettingsViewModel> logger,
+    public XraySettingsVM(
+        ILogger<XraySettingsVM> logger,
         IXrayService xrayService,
         IDialogService dialogService
         )
@@ -20,19 +19,41 @@ public class XraySettingsViewModel : BindableBase
         _dialogService = dialogService;
 
         XrayConfig = _xrayService.GetConfig() ?? new XrayConfig();
-        SaveXrayConfigCommand = new DelegateCommand(OnSaveXrayConfigCommand);
-        ShowDialogCommand = new DelegateCommand<string>(OnShowDialogCommand);
+        SaveXrayConfigCommand = new(OnSaveXrayConfigCommand);
+        ShowDialogCommand = new(OnShowDialogCommand);
 
+        ResetCommand();
+    }
+
+    public void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        ResetCommand();
+    }
+
+    public bool IsNavigationTarget(NavigationContext navigationContext)
+    {
+        ResetCommand();
+        return true;
+    }
+
+    public void OnNavigatedFrom(NavigationContext navigationContext)
+    {
+    }
+
+    private void ResetCommand()
+    {
+        IsOpenXray = _xrayService.IsOpened;
     }
 
 
-    private bool _xrayIsEnable;
-    public bool XrayIsEnable
+    private bool _isOpenXray;
+    public bool IsOpenXray
     {
-        get => _xrayIsEnable;
+        get => _isOpenXray;
         set
         {
-            if (_xrayIsEnable == false)
+            SetProperty(ref _isOpenXray, value);
+            if (_isOpenXray)
             {
                 _xrayService.XrayStart();
             }
@@ -40,7 +61,6 @@ public class XraySettingsViewModel : BindableBase
             {
                 _xrayService.XrayClose();
             }
-            SetProperty(ref _xrayIsEnable, value);
         }
     }
 
@@ -70,5 +90,6 @@ public class XraySettingsViewModel : BindableBase
     {
         _dialogService.Show(message, new DialogParameters(), null);
     }
+
 
 }

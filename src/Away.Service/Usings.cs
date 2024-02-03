@@ -7,3 +7,4 @@ global using Microsoft.Extensions.Logging;
 global using Serilog;
 global using SqlSugar;
 global using System.Text.Json;
+global using Microsoft.Extensions.DependencyInjection;

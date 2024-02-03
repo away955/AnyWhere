@@ -15,16 +15,19 @@ public class XrayNodeEntity
     /// <summary>
     /// 类型
     /// </summary>
+    [SugarColumn(DefaultValue = "")]
     public string Type { get; set; } = string.Empty;
 
     /// <summary>
     /// 别名
     /// </summary>
+    [SugarColumn(DefaultValue = "")]
     public string Alias { get; set; } = string.Empty;
 
     /// <summary>
     /// 地址
     /// </summary>
+    [SugarColumn(DefaultValue = "")]
     public string Host { get; set; } = string.Empty;
 
     /// <summary>
@@ -33,22 +36,40 @@ public class XrayNodeEntity
     public int Port { get; set; }
 
     /// <summary>
-    /// 加密方式
-    /// </summary>
-    public string security { get; set; } = string.Empty;
-
-    /// <summary>
-    /// 传输协议
-    /// </summary>
-    public string Transport { get; set; } = string.Empty;
-
-    /// <summary>
-    /// 安全协议
-    /// </summary>
-    public string TLS { get; set; } = string.Empty;
-
-    /// <summary>
     /// 原Url
     /// </summary>
+    [SugarColumn(DefaultValue = "")]
     public string Url { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public XrayNodeStatus Status { get; set; }
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    [SugarColumn(DefaultValue = "")]
+    public string Remark { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 是否使用
+    /// </summary>
+    public bool IsChecked { get; set; }
+}
+
+public enum XrayNodeStatus
+{
+    /// <summary>
+    /// 不可用
+    /// </summary>
+    Error = -1,
+    /// <summary>
+    /// 未检测
+    /// </summary>
+    Default = 0,
+    /// <summary>
+    /// 可用
+    /// </summary>
+    Success = 1,
 }

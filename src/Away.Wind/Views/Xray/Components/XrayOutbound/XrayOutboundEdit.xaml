@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Away.Wind.Views.XrayOutboundEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:xray="clr-namespace:Away.Wind.Views.Xray"
+             d:DataContext="{d:DesignInstance Type=xray:XrayOutboundEditVM}"
+             mc:Ignorable="d">
+
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Setter Property="MinWidth" Value="600"/>
+            <Setter Property="MinHeight" Value="500"/>
+        </Style>
+    </UserControl.Style>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <UniformGrid Columns="3">
+            <TextBox materialDesign:HintAssist.Hint="标识" Text="{Binding Outbound.tag}"/>
+            <TextBox materialDesign:HintAssist.Hint="发送数据的IP地址" Text="{Binding Outbound.sendThrough}"/>
+            <TextBox materialDesign:HintAssist.Hint="协议" Text="{Binding Outbound.protocol}"/>
+        </UniformGrid>
+
+
+        <materialDesign:Card Grid.Row="1">
+            <UniformGrid Columns="3">
+                <TextBox materialDesign:HintAssist.Hint="地址" Text="{Binding Outbound.tag}"/>
+                <TextBox materialDesign:HintAssist.Hint="端口" Text="{Binding Outbound.sendThrough}"/>
+                <TextBox materialDesign:HintAssist.Hint="协议" Text="{Binding Outbound.protocol}"/>
+            </UniformGrid>
+        </materialDesign:Card>
+        
+        <Border Grid.Row="1"> 
+            <StackPanel>
+
+                <UniformGrid Columns="3">
+                    <TextBox materialDesign:HintAssist.Hint="地址" Text="{Binding Outbound.tag}"/>
+                    <TextBox materialDesign:HintAssist.Hint="端口" Text="{Binding Outbound.sendThrough}"/>
+                    <TextBox materialDesign:HintAssist.Hint="协议" Text="{Binding Outbound.protocol}"/>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+
+</UserControl>

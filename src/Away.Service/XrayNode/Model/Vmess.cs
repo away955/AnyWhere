@@ -1,10 +1,9 @@
-﻿using System.Text.Json;
+﻿using Away.Service.Xray.Model;
 using System.Text.RegularExpressions;
-using Away.Service.Utils;
 
 namespace Away.Service.XrayNode.Model;
 
-public class Vmess
+public class Vmess : IModelXrayNode
 {
     public string v { get; set; } = string.Empty;
     public string ps { get; set; } = string.Empty;
@@ -59,10 +58,49 @@ public class Vmess
             Type = "vmess",
             Alias = ps,
             Host = add,
-            Port = port,
-            security = scy,
-            Transport = net,
-            TLS = tls
+            Port = port
         };
     }
+
+    public XrayOutbound ToXrayOutbound()
+    {
+        var model = new XrayOutbound()
+        {
+            tag = "proxy",
+            protocol = "vmess",
+        };
+
+        // settings 配置
+        var settings = new Dictionary<string, object>();
+        var user = new
+        {
+            id = id,
+            alterId = aid,
+            email = "t@t.tt",
+            security = type
+        };
+        var item = new
+        {
+            address = host,
+            port = port,
+            users = new[] { user }
+        };
+        settings.Add("vnext", new object[] { item });
+        model.settings = settings;
+
+        // streamSettings 配置
+        model.streamSettings = new OutboundStreamSettings()
+        {
+            network = net
+        };
+
+        // mux 
+        model.mux = new OutboundMux
+        {
+            enabled = false,
+        };
+
+        return model;
+    }
+
 }

@@ -7,36 +7,25 @@
              xmlns:c="clr-namespace:Away.Wind.Components"
              xmlns:vm="clr-namespace:Away.Wind.Views.Systems"
              d:DataContext="{d:DesignInstance Type=vm:SystemProxyViewModel}"           
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             Width="400" Height="300">
 
-    <UserControl.Style>
-        <Style TargetType="UserControl">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="UserControl">
-                        <Grid>
-                            <materialDesign:ColorZone Height="{Binding RelativeSource={RelativeSource Self},Path=Parent.ActualHeight}">
-                                <ContentPresenter/>
-                            </materialDesign:ColorZone>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Style>
-    
-    <StackPanel>
-        <c:SwitchButton Text="系统代理" IsChecked="{Binding IsEnable}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
 
-        <TextBox materialDesign:TextFieldAssist.PrefixText="代理地址" Text="{Binding Server}"/>
+        <StackPanel>
+            <c:SwitchButton Label="系统代理" IsChecked="{Binding IsEnable}" />
+            <TextBox materialDesign:HintAssist.Hint="代理地址" Text="{Binding Server}"/>
+            <TextBox materialDesign:HintAssist.Hint="白名单" 
+                     AcceptsReturn="True"            
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     Text="{Binding WhiteList}"/>
+        </StackPanel>
+        <Button Grid.Row="1" Content="保存" Width="60" Command="{Binding SaveCommand}" />
+    </Grid>
 
-        <TextBox materialDesign:TextFieldAssist.PrefixText="白名单"
-                 MinHeight="100"
-                 MaxHeight="150"
-                 AcceptsReturn="True"  
-                 VerticalScrollBarVisibility="Auto"
-                 Text="{Binding WhiteList}"/>
-
-        <Button Content="保存" Width="60" Command="{Binding SaveCommand}" />
-    </StackPanel>
 </UserControl>

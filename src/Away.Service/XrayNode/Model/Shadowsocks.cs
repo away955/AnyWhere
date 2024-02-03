@@ -1,14 +1,14 @@
-﻿using System.Text.RegularExpressions;
-using Away.Service.Utils;
+﻿using Away.Service.Xray.Model;
+using System.Text.RegularExpressions;
 
 namespace Away.Service.XrayNode.Model;
 
-public class Shadowsocks
+public class Shadowsocks : IModelXrayNode
 {
     public string ps { get; set; } = string.Empty;
     public int port { get; set; }
     public string host { get; set; } = string.Empty;
-    public string scy { get; set; } = string.Empty;
+    public string method { get; set; } = string.Empty;
     public string password { get; set; } = string.Empty;
     public string url { get; set; } = string.Empty;
 
@@ -32,10 +32,10 @@ public class Shadowsocks
 
 
             var passwd = XrayUtils.Base64Decode(reg.Result("${password}"));
-            var reg_passwd = Regex.Match(passwd, "(?<username>.*):(?<password>.*)");
+            var reg_passwd = Regex.Match(passwd, "(?<method>.*):(?<password>.*)");
             if (reg_passwd.Success)
             {
-                model.scy = reg_passwd.Result("${username}");
+                model.method = reg_passwd.Result("${method}");
                 model.password = reg_passwd.Result("${password}");
             }
 
@@ -56,8 +56,44 @@ public class Shadowsocks
             Type = "shadowsocks",
             Alias = ps,
             Host = host,
-            Port = port,
-            security = scy,
+            Port = port
         };
+    }
+
+    public XrayOutbound ToXrayOutbound()
+    {
+        var model = new XrayOutbound()
+        {
+            tag = "proxy",
+            protocol = "shadowsocks",
+        };
+
+        // settings 配置
+        var settings = new Dictionary<string, object>();
+        var item = new
+        {
+            address = host,
+            port = port,
+            method = method,
+            ota = false,
+            password = password,
+            level = 1
+        };
+        settings.Add("servers", new object[] { item });
+        model.settings = settings;
+
+        // streamSettings 配置
+        model.streamSettings = new OutboundStreamSettings()
+        {
+            network = "tcp"
+        };
+
+        // mux 
+        model.mux = new OutboundMux
+        {
+            enabled = false,
+        };
+
+        return model;
     }
 }

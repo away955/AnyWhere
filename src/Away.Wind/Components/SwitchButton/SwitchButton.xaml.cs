@@ -2,7 +2,7 @@
 
 /// <summary>
 /// SwitchButton.xaml 的交互逻辑
-/// </summary>
+/// </summary>n
 public partial class SwitchButton : UserControl
 {
     public SwitchButton()
@@ -10,10 +10,10 @@ public partial class SwitchButton : UserControl
         InitializeComponent();
     }
 
-    public string Text
+    public string Label
     {
-        get { return (string)GetValue(TextProperty); }
-        set { SetValue(TextProperty, value); }
+        get { return (string)GetValue(LabelProperty); }
+        set { SetValue(LabelProperty, value); }
     }
 
     public bool IsChecked
@@ -23,16 +23,33 @@ public partial class SwitchButton : UserControl
     }
 
 
-    public readonly static DependencyProperty TextProperty;
+    public readonly static DependencyProperty LabelProperty;
     public readonly static DependencyProperty IsCheckedProperty;
     static SwitchButton()
     {
-        TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(SwitchButton), new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnTextChanged)));
-        IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(SwitchButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        LabelProperty = DependencyProperty.Register(nameof(Label), typeof(string), typeof(SwitchButton), new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnLabelChanged)));
+        IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(SwitchButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsCheckedChange));
 
     }
 
-    private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnIsCheckedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not SwitchButton control)
+        {
+            return;
+        }
+
+        if (Convert.ToBoolean(e.NewValue))
+        {
+            control.TxtCheckLabel.Text = "开";
+        }
+        else
+        {
+            control.TxtCheckLabel.Text = "关";
+        }
+    }
+
+    private static void OnLabelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not SwitchButton control)
         {

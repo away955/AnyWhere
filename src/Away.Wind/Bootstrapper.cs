@@ -62,6 +62,7 @@ public sealed class Bootstrapper : PrismBootstrapper
         var connStr = Configuration.GetConnectionString("Sqlite");
         services.AddSqlSugarClient(connStr!);
         services.AddAwayDI();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -91,7 +92,7 @@ public sealed class Bootstrapper : PrismBootstrapper
             }
         }
 
-    }    
+    }
 
     protected override void ConfigureViewModelLocator()
     {

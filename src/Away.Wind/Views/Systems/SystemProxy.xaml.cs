@@ -2,8 +2,7 @@
 
 namespace Away.Wind.Views;
 
-
-[Navigation("system-proxy")]
+[Dialog("system-proxy")]
 [ViewModel(typeof(SystemProxyViewModel))]
 public partial class SystemProxy : UserControl
 {

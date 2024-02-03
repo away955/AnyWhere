@@ -7,14 +7,14 @@
 
     <UserControl.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
         </Style>
     </UserControl.Resources>
 
     <Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock Name="TxtLabel" Opacity="0.7"/>
-            <TextBlock Name="TxtCheckLabel" Text="关" Margin="10,0"/>
+            <TextBlock Name="TxtLabel"/>
+            <TextBlock Name="TxtCheckLabel" Text="关" Margin="5,0"/>
             <CheckBox Name="CBSwitchBtn"
                       Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                       Checked="CBSwitchBtn_Checked"

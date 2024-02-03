@@ -15,12 +15,21 @@ public class XrayOutbound
     public OutboundMux? mux { get; set; }
 }
 
+
+public class OutboundUser
+{
+    public string? id { get; set; }
+    public string? alterId { get; set; }
+    public string? email { get; set; }
+    public string? security { get; set; }
+}
+
 public class OutboundStreamSettings
 {
     public string? network { get; set; }
     public string? security { get; set; }
     public TLSModel? tlsSettings { get; set; }
-    public TcpModel? tcpSettings { get; set; }
+    public object? tcpSettings { get; set; }
     public KcpModel? kcpSettings { get; set; }
     public WebSocketModel? wsSettings { get; set; }
     public HttpModel? httpSettings { get; set; }

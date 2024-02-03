@@ -21,7 +21,7 @@ public partial class LeftMenu : UserControl
         LogoTitleProperty = DependencyProperty.Register(nameof(LogoTitle), typeof(string), typeof(LeftMenu), new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnLogoTitleChanged)));
         MenuToggleProperty = DependencyProperty.Register(nameof(MenuToggle), typeof(bool), typeof(LeftMenu), new PropertyMetadata(false, new PropertyChangedCallback(OnMenuToggleChanged)));
 
-        DataProperty = DependencyProperty.Register(nameof(Data), typeof(ObservableCollection<MenuModel>), typeof(LeftMenu), new PropertyMetadata(null, new PropertyChangedCallback(OnDataChanged)));
+        DataProperty = DependencyProperty.Register(nameof(Data), typeof(ObservableCollection<ItemMenuModel>), typeof(LeftMenu), new PropertyMetadata(null, new PropertyChangedCallback(OnDataChanged)));
         SelectedCommandProperty = DependencyProperty.Register(nameof(SelectedCommand), typeof(ICommand), typeof(LeftMenu), new PropertyMetadata(default(ICommand)));
     }
 
@@ -72,9 +72,9 @@ public partial class LeftMenu : UserControl
     /// <summary>
     /// 菜单数据源
     /// </summary>
-    public ObservableCollection<MenuModel> Data
+    public ObservableCollection<ItemMenuModel> Data
     {
-        get { return (ObservableCollection<MenuModel>)GetValue(DataProperty); }
+        get { return (ObservableCollection<ItemMenuModel>)GetValue(DataProperty); }
         set { SetValue(DataProperty, value); }
     }
 
@@ -91,7 +91,7 @@ public partial class LeftMenu : UserControl
     {
         if (d is LeftMenu p)
         {
-            p.MenuListView.ItemsSource = e.NewValue as ObservableCollection<MenuModel>;
+            p.MenuListView.ItemsSource = e.NewValue as ObservableCollection<ItemMenuModel>;
         }
     }
 
@@ -121,7 +121,7 @@ public partial class LeftMenu : UserControl
 
     private void MenuListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var model = e.AddedItems[0] as MenuModel;
+        var model = e.AddedItems[0] as ItemMenuModel;
         SelectedCommand?.Execute(model?.URL);
     }
 }

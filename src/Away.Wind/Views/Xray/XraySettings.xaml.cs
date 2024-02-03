@@ -4,10 +4,10 @@ namespace Away.Wind.Views;
 
 
 [Navigation("xray-settings")]
-[ViewModel(typeof(XraySettingsViewModel))]
-public partial class XraySettingsView : UserControl
+[ViewModel(typeof(XraySettingsVM))]
+public partial class XraySettings : UserControl
 {
-    public XraySettingsView()
+    public XraySettings()
     {
         InitializeComponent();
     }

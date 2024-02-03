@@ -31,7 +31,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
     </Style>
 
     <Style x:Key="logo.title" TargetType="TextBlock" BasedOn="{StaticResource menu.font}">
@@ -39,7 +39,7 @@
         <Setter Property="FontSize" Value="20" />
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
     </Style>
 
 
@@ -53,7 +53,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="BorderBrush" Value="{StaticResource MaterialDesignTextAreaBorder}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignBody}" />
         <Setter Property="Margin" Value="-1,0,-1,0"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
@@ -80,11 +80,11 @@
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="Bd" Property="BorderThickness" Value="2,0,0,0"/>
-                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
+                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource MaterialDesignBody}"/>
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="Bd" Property="BorderThickness" Value="2,0,0,0"/>
-                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource MaterialDesignTextAreaBorder}"/>
+                                        <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource MaterialDesignBody}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
 

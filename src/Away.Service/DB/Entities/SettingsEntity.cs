@@ -28,5 +28,5 @@ public sealed class SettingsEntity
     /// 备注
     /// </summary>
     [SugarColumn(DefaultValue = "")]
-    public string? Remark { get; set; } = string.Empty;
+    public string Remark { get; set; } = string.Empty;
 }

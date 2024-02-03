@@ -8,7 +8,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid>
-                        <Border Background="#646465" CornerRadius="3"/>
+                        <Border Background="{DynamicResource MaterialDesignBody}" CornerRadius="3"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -24,7 +24,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Fill="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                    <Rectangle Fill="{TemplateBinding Background}" 
+                               Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -39,7 +41,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Fill="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                    <Rectangle Fill="{TemplateBinding Background}" 
+                               Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -55,7 +59,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Fill="#90000000" Width="0" Height="0"/>
+                    <Rectangle Fill="{DynamicResource MaterialDesignBody}" Width="0" Height="0"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

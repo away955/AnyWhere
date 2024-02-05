@@ -1,5 +1,6 @@
 using Away.Service.Utils;
 using Away.Service.XrayNode;
+using Away.Service.XrayNode.Impl;
 using Away.Service.XrayNode.Model;
 
 namespace Away.Tests.Xray;
@@ -7,6 +8,17 @@ namespace Away.Tests.Xray;
 [TestClass]
 public class TestXrayNode : TestBase
 {
+    [TestMethod]
+    public void TestNodeSpeed()
+    {
+        var xrayNodeSpeedTest = GetService<IXrayNodeSpeedTest>();
+        var res = xrayNodeSpeedTest.TestSpeed(new Service.DB.Entities.XrayNodeEntity
+        {
+            Type = "vmess",
+            Url = "vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogImdpdGh1Yi5jb20vZnJlZWZxIC0g576O5Zu9Q2xvdWRGbGFyZeiKgueCuSAxMSIsDQogICJhZGQiOiAid3d3LmRhcmtyb29tLmxvbCIsDQogICJwb3J0IjogIjgwODAiLA0KICAiaWQiOiAiMjI4MjZiNDQtNWMxYS00YjRiLWRiYWEtODNhMmU4YmQ5NWYwIiwNCiAgImFpZCI6ICIwIiwNCiAgInNjeSI6ICJhdXRvIiwNCiAgIm5ldCI6ICJ3cyIsDQogICJ0eXBlIjogIm5vbmUiLA0KICAiaG9zdCI6ICJ3d3cuZGFya3Jvb20ubG9sIiwNCiAgInBhdGgiOiAiLyIsDQogICJ0bHMiOiAiIiwNCiAgInNuaSI6ICIiLA0KICAiYWxwbiI6ICIiLA0KICAiZnAiOiAiIg0KfQ=="
+        }).ConfigureAwait(false).GetAwaiter().GetResult();
+    }
+
     [TestMethod]
     [DataRow("vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIue+juWbvSBDbG91ZEZsYXJl6IqC54K5IiwNCiAgImFkZCI6ICJ3d3cuY3Jpc3B5cmFpbmJvdy5iaXoiLA0KICAicG9ydCI6ICI4MDgwIiwNCiAgImlkIjogIjIyODI2YjQ0LTVjMWEtNGI0Yi1kYmFhLTgzYTJlOGJkOTVmMCIsDQogICJhaWQiOiAiMCIsDQogICJzY3kiOiAiYXV0byIsDQogICJuZXQiOiAid3MiLA0KICAidHlwZSI6ICJub25lIiwNCiAgImhvc3QiOiAiIiwNCiAgInBhdGgiOiAiLyIsDQogICJ0bHMiOiAiIiwNCiAgInNuaSI6ICIiLA0KICAiYWxwbiI6ICIiLA0KICAiZnAiOiAiIg0KfQ==")]
     public void TestVmess(string content)

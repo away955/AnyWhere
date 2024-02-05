@@ -1,81 +1,56 @@
 ﻿<UserControl x:Class="Away.Wind.Views.XraySettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:c="clr-namespace:Away.Wind.Components"
-             xmlns:local="clr-namespace:Away.Wind.Views"
-             xmlns:vm="clr-namespace:Away.Wind.Views.Xray"
+             xmlns:vm="clr-namespace:Away.Wind.Views.Xray.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:XraySettingsVM}"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style x:Key="Top.group.botton" TargetType="StackPanel" >
-                <Setter Property="Orientation" Value="Horizontal"/>
-                <Setter Property="HorizontalAlignment" Value="Right"/>
-                <Setter Property="VerticalAlignment" Value="Top"/>
-                <Setter Property="FlowDirection" Value="RightToLeft"/>
-            </Style>
             <Style TargetType="TabControl" BasedOn="{StaticResource MaterialDesignFilledUniformTabControl}">
                 <Setter Property="TabStripPlacement" Value="Left"/>
-            </Style>
-            <Style x:Key="item.settings" TargetType="UserControl">
-                <Setter Property="Padding" Value="10,30,0,0"/>
-                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-        <StackPanel Style="{StaticResource Top.group.botton}">
-            <c:SwitchButton ToolTip="启动Xray" IsChecked="{Binding IsOpenXray}" />
-            <Button Style="{StaticResource MaterialDesignIconForegroundButton}" Margin="5,0,10,0"
-                    ToolTip="保存Xray配置" 
-                    Command="{Binding SaveXrayConfigCommand}"
-                    Width="25" Height="25">
-                <materialDesign:PackIcon Kind="ContentSave" Style="{StaticResource icon}"/>
-            </Button>
-        </StackPanel>
 
-        <TabControl>
-            <TabItem Header="日志">
-                <local:XrayLogSettings Style="{StaticResource item.settings}" />
-            </TabItem>
-            <TabItem Header="接口" >
-                <local:XrayApiSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="DNS">
-                <local:XrayDnsSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="路由">
-                <local:XrayRouteSettings Style="{StaticResource item.settings}" />
-            </TabItem>
-            <TabItem Header="本地策略">
-                <local:XrayPolicySettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="入站配置">
-                <local:XrayInboundSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="出站配置">
-                <local:XrayOutboundSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="网络连接">
-                <local:XrayTransportSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="流量统计">
-                <local:XrayStatsSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="反向代理">
-                <local:XrayReverseSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="FakeDNS 配置">
-                <local:XrayFakednsSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-            <TabItem Header="Metrics 配置">
-                <local:XrayMetricsSettings Style="{StaticResource item.settings}"/>
-            </TabItem>
-        </TabControl>     
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="126"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <TabControl SelectedValue="日志">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding NavCommand}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <TabItem Header="日志" Tag="xray-log-settings"/>
+            <TabItem Header="接口" Tag="xray-api-settings"/>
+            <TabItem Header="DNS" Tag="xray-dns-settings"/>
+            <TabItem Header="路由" Tag="xray-log-settings"/>
+            <TabItem Header="本地策略" Tag="xray-log-settings"/>
+            <TabItem Header="入站配置" Tag="xray-log-settings"/>
+            <TabItem Header="出站配置" Tag="xray-outbound-settings"/>
+            <TabItem Header="网络连接" Tag="xray-log-settings"/>
+            <TabItem Header="流量统计" Tag="xray-log-settings"/>
+            <TabItem Header="反向代理" Tag="xray-log-settings"/>
+            <TabItem Header="FakeDNS 配置" Tag="xray-log-settings"/>
+            <TabItem Header="Metrics 配置" Tag="xray-log-settings"/>
+        </TabControl>
+
+        <Border Grid.Column="1"
+                    Padding="10"
+                    Background="{DynamicResource MaterialDesignDataGridRowHoverBackground}">
+            <ContentControl prism:RegionManager.RegionName="XraySettingsBox" />
+        </Border>
     </Grid>
+    
 </UserControl>

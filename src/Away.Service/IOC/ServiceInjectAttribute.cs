@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Away.Service.IOC;
+﻿namespace Away.Service.IOC;
 
 /// <summary>
 /// 标记注册DI

@@ -8,7 +8,7 @@ public class XrayApi
     /// <summary>
     /// 出站代理标识
     /// </summary>
-    public string? tag { get; set; }
+    public string tag { get; set; } = string.Empty;
     /// <summary>
     /// 开启的 API 列表
     /// HandlerService
@@ -29,5 +29,14 @@ public class XrayApi
     /// ReflectionService
     /// 支持 gRPC 客户端获取服务端的 API 列表。
     /// </summary>
-    public List<string>? services { get; set; }
+    public List<string> services { get; set; } = [];
+
+    public static XrayApi Default
+    {
+        get => new()
+        {
+            tag = "api",
+            services = ["HandlerService", "LoggerService", "ReflectionService"]
+        };
+    }
 }

@@ -58,7 +58,7 @@
             <!--列表字段-->
             <DataGrid.Columns>
                 <DataGridTextColumn Width="60" Binding="{Binding Id}" Header="编号" />
-                <DataGridTemplateColumn Header="状态" SortMemberPath="Remark">
+                <DataGridTemplateColumn Header="状态" SortMemberPath="Status">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

@@ -1,8 +1,8 @@
 ﻿namespace Away.Wind.Views;
 
-/// <summary>
-/// XrayApiSettings.xaml 的交互逻辑
-/// </summary>
+
+[Navigation("xray-api-settings")]
+[ViewModel(typeof(XrayApiSettingsVM))]
 public partial class XrayApiSettings : UserControl
 {
     public XrayApiSettings()

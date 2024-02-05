@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Away.Wind.Components"
-             xmlns:vm="clr-namespace:Away.Wind.Views.Xray"
+             xmlns:vm="clr-namespace:Away.Wind.Views.Xray.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:XrayNodesVM}"
              mc:Ignorable="d">
 
@@ -45,6 +45,8 @@
                     </MenuItem>
 
                     <MenuItem Header="刷新" Command="{Binding ResetCommand}"/>
+                    <MenuItem Header="测试所有节点速度" Command="{Binding SpeedTest}"/>
+
                     <MenuItem Header="更新节点 F5" Command="{Binding UpdateNodeCommand}"/>
                     <MenuItem Header="复制节点 Ctrl+C"
                               Command="{Binding CopyCommand}"
@@ -56,7 +58,7 @@
             <!--列表字段-->
             <DataGrid.Columns>
                 <DataGridTextColumn Width="60" Binding="{Binding Id}" Header="编号" />
-                <DataGridTemplateColumn Header="状态" >
+                <DataGridTemplateColumn Header="状态" SortMemberPath="Remark">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -67,21 +69,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Alias}" Header="节点名称" />
-
-                <DataGridTemplateColumn Header="地址" >
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Type}"/>
-                                <TextBlock Text="://"/>
-                                <TextBlock Text="{Binding Host}"/>
-                                <TextBlock Text=":"/>
-                                <TextBlock Text="{Binding Port}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Alias}" Header="节点名称" />                
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

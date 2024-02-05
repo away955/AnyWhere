@@ -1,8 +1,8 @@
 ﻿namespace Away.Wind.Views;
 
-/// <summary>
-/// XrayDnsSettings.xaml 的交互逻辑
-/// </summary>
+
+[Navigation("xray-dns-settings")]
+[ViewModel(typeof(XrayDnsSettingsVM))]
 public partial class XrayDnsSettings : UserControl
 {
     public XrayDnsSettings()

@@ -30,11 +30,11 @@ public sealed class XrayConfig
     /// <summary>
     /// 一个数组，每个元素是一个入站连接配置。
     /// </summary>
-    public List<XrayInbound>? inbounds { get; set; }
+    public List<XrayInbound> inbounds { get; set; } = [];
     /// <summary>
     /// 一个数组，每个元素是一个出站连接配置。
     /// </summary>
-    public List<XrayOutbound>? outbounds { get; set; }
+    public List<XrayOutbound> outbounds { get; set; } = [];
     /// <summary>
     /// 用于配置 Xray 其它服务器建立和使用网络连接的方式
     /// </summary>
@@ -55,5 +55,50 @@ public sealed class XrayConfig
     /// metrics 配置。更直接（希望更好）的统计导出方式。
     /// </summary>
     public XrayMetrics? metrics { get; set; }
+
+
+    public static XrayConfig Default { get => CreateDefault(); }
+    private static XrayConfig CreateDefault()
+    {
+        XrayConfig config = new();
+        config.log = XrayLog.Default;
+        config.api = XrayApi.Default;
+        config.dns = XrayDns.Default;
+        config.routing = XrayRoute.Default;
+        config.inbounds = [
+            new XrayInbound
+            {
+                listen = "127.0.0.1",
+                port = 1080,
+                protocol = "socks",
+                tag = "socks",
+            },
+            new XrayInbound
+            {
+                listen = "127.0.0.1",
+                port = 1081,
+                protocol = "http",
+                tag = "http",
+            }
+        ];
+
+        config.outbounds = [
+            new XrayOutbound
+            {
+                tag = "direct",
+                protocol = "freedom",
+            },
+            new XrayOutbound
+            {
+                tag = "block",
+                protocol = "blackhole",
+                settings = new Dictionary<string, object> {
+                    { "response", new { type = "http" } }
+                }
+            },
+        ];
+
+        return config;
+    }
 }
 

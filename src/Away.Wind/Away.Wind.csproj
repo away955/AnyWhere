@@ -8,6 +8,7 @@
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Assets\favicon.ico</ApplicationIcon>
 		<StartupObject>Away.Wind.App</StartupObject>
+		<NoWarn>1701;1702;IDE1006;</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

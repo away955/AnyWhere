@@ -1,95 +1,27 @@
-﻿using Away.Service.Xray;
+﻿namespace Away.Wind.Views.Xray.ViewModels;
 
-namespace Away.Wind.Views.Xray;
-
-public class XraySettingsVM : BindableBase, INavigationAware
+public class XraySettingsVM : BindableBase
 {
-    private readonly ILogger<XraySettingsVM> _logger;
-    private readonly IXrayService _xrayService;
-    private readonly IDialogService _dialogService;
+    private readonly IRegionManager _regionManager;
 
-    public XraySettingsVM(
-        ILogger<XraySettingsVM> logger,
-        IXrayService xrayService,
-        IDialogService dialogService
-        )
+    public XraySettingsVM(IRegionManager regionManager)
     {
-        _logger = logger;
-        _xrayService = xrayService;
-        _dialogService = dialogService;
-
-        XrayConfig = _xrayService.GetConfig() ?? new XrayConfig();
-        SaveXrayConfigCommand = new(OnSaveXrayConfigCommand);
-        ShowDialogCommand = new(OnShowDialogCommand);
-
-        ResetCommand();
+        _regionManager = regionManager;
+        NavCommand = new(OnNavCommand);
     }
 
-    public void OnNavigatedTo(NavigationContext navigationContext)
+    public DelegateCommand<SelectionChangedEventArgs?> NavCommand { get; private set; }
+    private void OnNavCommand(SelectionChangedEventArgs? e)
     {
-        ResetCommand();
-    }
-
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-    {
-        ResetCommand();
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext)
-    {
-    }
-
-    private void ResetCommand()
-    {
-        IsOpenXray = _xrayService.IsOpened;
-    }
-
-
-    private bool _isOpenXray;
-    public bool IsOpenXray
-    {
-        get => _isOpenXray;
-        set
+        string? s;
+        if (e == null || e.AddedItems[0] is not TabItem t)
         {
-            SetProperty(ref _isOpenXray, value);
-            if (_isOpenXray)
-            {
-                _xrayService.XrayStart();
-            }
-            else
-            {
-                _xrayService.XrayClose();
-            }
+            s = "xray-log-settings";
         }
+        else
+        {
+            s = Convert.ToString(t.Tag);
+        }
+        _regionManager.RequestNavigate("XraySettingsBox", s);
     }
-
-    private XrayConfig? _xrayConfig;
-    public XrayConfig? XrayConfig
-    {
-        get => _xrayConfig;
-        set => SetProperty(ref _xrayConfig, value);
-    }
-
-    public DelegateCommand SaveXrayConfigCommand { get; set; }
-    public void OnSaveXrayConfigCommand()
-    {
-        _xrayService.SetConfig(_xrayConfig!);
-    }
-
-    public ObservableCollection<MultiComboBoxModel> XrayApiItems { get; set; } =
-    [
-        new MultiComboBoxModel("HandlerService"),
-        new MultiComboBoxModel("LoggerService"),
-        new MultiComboBoxModel("StatsService")
-    ];
-
-
-    public DelegateCommand<string> ShowDialogCommand { get; set; }
-    private void OnShowDialogCommand(string message)
-    {
-        _dialogService.Show(message, new DialogParameters(), null);
-    }
-
-
 }

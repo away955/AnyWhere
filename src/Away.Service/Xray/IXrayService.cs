@@ -1,13 +1,6 @@
 ﻿namespace Away.Service.Xray;
 
-public interface IXrayService
+public interface IXrayService : IBaseXrayService
 {
-    bool IsOpened { get; }
-    XrayConfig Config { get; }
-    XrayConfig? GetConfig();
-    void SetConfig(XrayConfig xrayConfig);
-    void SaveConfig();
 
-    void XrayStart();
-    void XrayClose();
 }

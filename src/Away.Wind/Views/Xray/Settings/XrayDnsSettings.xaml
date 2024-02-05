@@ -14,7 +14,6 @@
             <TextBox materialDesign:HintAssist.Hint="DNS 服务器列表"
                      Text="{Binding XrayConfig.dns.servers}"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-
             
         </StackPanel>
     </Grid>

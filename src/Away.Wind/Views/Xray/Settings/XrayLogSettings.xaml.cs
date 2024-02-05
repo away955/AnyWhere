@@ -1,8 +1,8 @@
 ﻿namespace Away.Wind.Views;
 
-/// <summary>
-/// XrayLogSettings.xaml 的交互逻辑
-/// </summary>
+
+[Navigation("xray-log-settings")]
+[ViewModel(typeof(XrayLogSettingsVM))]
 public partial class XrayLogSettings : UserControl
 {
     public XrayLogSettings()

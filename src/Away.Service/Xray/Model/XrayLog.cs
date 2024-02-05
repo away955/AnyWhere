@@ -12,7 +12,7 @@ public class XrayLog
     /// 当此项不指定或为空值时，表示将日志输出至 stdout。
     /// 特殊值none，即关闭 access log
     /// </summary>
-    public string? access { get; set; }
+    public string access { get; set; } = string.Empty;
 
     /// <summary>
     /// 错误日志的文件地址，其值是一个合法的文件地址，
@@ -21,7 +21,7 @@ public class XrayLog
     /// 当此项不指定或为空值时，表示将日志输出至 stdout。
     /// 特殊值none，即关闭 error log。
     /// </summary>
-    public string? error { get; set; }
+    public string error { get; set; } = string.Empty;
 
     /// <summary>
     /// error: 日志的级别, 指示 error 日志需要记录的信息. 默认值为 "warning"。
@@ -37,4 +37,7 @@ public class XrayLog
     /// 是否启用 DNS 查询日志
     /// </summary>
     public bool dnsLog { get; set; }
+
+
+    public static XrayLog Default { get => new(); }
 }

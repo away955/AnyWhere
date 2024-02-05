@@ -81,7 +81,7 @@ public class Vmess : IModelXrayNode
         };
         var item = new
         {
-            address = host,
+            address = !string.IsNullOrWhiteSpace(add) ? add : host,
             port = port,
             users = new[] { user }
         };

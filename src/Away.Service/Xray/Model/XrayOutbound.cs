@@ -5,14 +5,23 @@
 /// </summary>
 public class XrayOutbound
 {
+    /// <summary>
+    /// 用于发送数据的 IP 地址，当主机有多个 IP 地址时有效，默认值为 "0.0.0.0"
+    /// </summary>
     public string? sendThrough { get; set; }
-    public string? protocol { get; set; }
-    public string? tag { get; set; }
+    public required string protocol { get; set; }
+    /// <summary>
+    /// 此出站连接的标识 唯一
+    /// </summary>
+    public required string tag { get; set; }
 
     public Dictionary<string, object>? settings { get; set; }
     public OutboundStreamSettings? streamSettings { get; set; }
     public OutboundProxySettings? proxySettings { get; set; }
-    public OutboundMux? mux { get; set; }
+    /// <summary>
+    /// Mux 功能是在一条 TCP 连接上分发多个 TCP 连接的数据
+    /// </summary>
+    public OutboundMux mux { get; set; } = new();
 }
 
 
@@ -94,8 +103,14 @@ public class OutboundProxySettings
 
 public class OutboundMux
 {
+    /// <summary>
+    /// 是否启用 Mux 转发请求
+    /// </summary>
     public bool enabled { get; set; }
-    public int concurrency { get; set; }
-    public int xudpConcurrency { get; set; }
-    public string? xudpProxyUDP443 { get; set; }
+
+    /// <summary>
+    /// 最大并发连接数。最小值 1，最大值 1024，默认值 8。
+    /// 填负数，如 -1，不加载 mux 模块（v4.22.0+）
+    /// </summary>
+    public int concurrency { get; set; } = -1;
 }

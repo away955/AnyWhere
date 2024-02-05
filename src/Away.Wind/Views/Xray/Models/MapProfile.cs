@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Away.Service.DB.Entities;
-
-namespace Away.Wind.Views.Xray.Models;
+﻿namespace Away.Wind.Views.Xray.Models;
 
 public class MapProfile : Profile
 {
@@ -9,5 +6,8 @@ public class MapProfile : Profile
     {
         this.CreateMap<XrayNodeEntity, XrayNodeModel>();
         this.CreateMap<XrayNodeModel, XrayNodeEntity>();
+
+        CreateMap<XrayLogModel, XrayLog>();
+        CreateMap<XrayLog, XrayLogModel>();
     }
 }

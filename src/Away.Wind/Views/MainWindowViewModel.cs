@@ -113,7 +113,7 @@ public class MainWindowViewModel : BindableBase, INavigationAware
         {
             return;
         }
-        _regionManager.RequestNavigate("ContentRegion", navigatePath);
+        _regionManager.RequestNavigate("MainBox", navigatePath);
     }
 
 

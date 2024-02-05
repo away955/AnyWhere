@@ -5,6 +5,6 @@ public class XrayNodeRepository(ISugerDbContext db) : RepositoryBase<XrayNodeEnt
 {
     public Task<int> SaveNodes(List<XrayNodeEntity> entities)
     {
-        return Context.Storageable(entities).WhereColumns(o=>o.Url).ExecuteCommandAsync();
+        return Context.Storageable(entities).WhereColumns(o => new { o.Host, o.Port }).ExecuteCommandAsync();
     }
 }

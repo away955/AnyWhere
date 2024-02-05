@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Away.Service.DB.Entities;
-using Away.Service.Xray;
-using Away.Service.XrayNode;
+﻿using Away.Service.XrayNode;
 using Away.Service.XrayNode.Model;
-using Away.Wind.Views.Xray.Models;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
 
-namespace Away.Wind.Views.Xray;
+namespace Away.Wind.Views.Xray.ViewModels;
 
 public class XrayNodesVM : BindableBase, INavigationAware
 {
@@ -16,6 +12,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
     private readonly IXrayNodeRepository _xrayNodeRepository;
     private readonly IXrayNodeService _xrayNodeService;
     private readonly IXrayService _xrayService;
+    private readonly IXrayNodeSpeedTest _xrayNodeSpeedTest;
     private readonly IMapper _mapper;
 
     public XrayNodesVM(
@@ -23,7 +20,8 @@ public class XrayNodesVM : BindableBase, INavigationAware
         IXrayNodeRepository xrayNodeRepository,
         IXrayNodeService xrayNodeService,
         IXrayService xrayService,
-        IMapper mapper
+        IMapper mapper,
+        IXrayNodeSpeedTest xrayNodeSpeedTest
         )
     {
         _mapper = mapper;
@@ -31,13 +29,14 @@ public class XrayNodesVM : BindableBase, INavigationAware
         _xrayNodeRepository = xrayNodeRepository;
         _xrayNodeService = xrayNodeService;
         _xrayService = xrayService;
+        _xrayNodeSpeedTest = xrayNodeSpeedTest;
 
         ResetCommand = new(OnResetCommand);
         UpdateNodeCommand = new(OnUpdateNodeCommand);
         CheckedCommand = new(OnCheckedCommand);
         CopyCommand = new(OnCopyCommand);
         PasteCommand = new(OnPasteCommand);
-
+        SpeedTest = new(OnSpeedTest);
 
     }
 
@@ -104,50 +103,52 @@ public class XrayNodesVM : BindableBase, INavigationAware
     /// 选择代理节点
     /// </summary>
     public DelegateCommand<XrayNodeModel?> CheckedCommand { get; private set; }
-    private void OnCheckedCommand(XrayNodeModel? entity)
+    private void OnCheckedCommand(XrayNodeModel? model)
     {
-        if (entity == null || string.IsNullOrWhiteSpace(entity.Url))
+        if (model == null || string.IsNullOrWhiteSpace(model.Url))
         {
             return;
         }
 
-        if ("vmess" == entity.Type)
-        {
-            var vmess = Vmess.Parse(entity.Url);
-            SetProxy(o =>
-            {
-                o.SetOutbound(vmess!);
-            });
-        }
-        else if ("trojan" == entity.Type)
-        {
-            var trojan = Trojan.Parse(entity.Url);
-            SetProxy(o =>
-            {
-                o.SetOutbound(trojan!);
-            });
-        }
-        else if ("shadowsocks" == entity.Type)
-        {
-            var model = Shadowsocks.Parse(entity.Url);
-            SetProxy(o =>
-            {
-                o.SetOutbound(model!);
-            });
-        }
+        var entity = _mapper.Map<XrayNodeEntity>(model);
+        _xrayService.Config.SetOutbound(entity);
+        _xrayService.SaveConfig();
+        _xrayService.XrayRestart();
 
         // 设置选中节点
         foreach (var item in XrayNodeItemsSource)
         {
-            item.IsChecked = item.Id == entity.Id;
+            item.IsChecked = item.Id == model.Id;
         }
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
         _xrayNodeRepository.SaveNodes(items);
     }
-    private void SetProxy(Action<XrayConfig> action)
+
+    /// <summary>
+    /// 测试节点速度
+    /// </summary>
+    public DelegateCommand SpeedTest { get; private set; }
+    private async void OnSpeedTest()
     {
-        action(_xrayService.Config);
-        _xrayService.SaveConfig();
+        var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
+        foreach (var model in XrayNodeItemsSource)
+        {
+            model.Status = XrayNodeStatus.Default;
+            model.Remark = "检测中...";
+            var entity = _mapper.Map<XrayNodeEntity>(model);
+            var result = await _xrayNodeSpeedTest.TestSpeed(entity);
+            if (result.IsSuccess)
+            {
+                model.Status = entity.Status = XrayNodeStatus.Success;
+                model.Remark = entity.Remark = result.Speed;
+            }
+            else
+            {
+                model.Status = entity.Status = XrayNodeStatus.Error;
+                model.Remark = entity.Remark = result.Error;
+            }
+            await _xrayNodeRepository.UpdateAsync(entity);
+        }
     }
 
     /// <summary>

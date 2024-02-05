@@ -1,8 +1,5 @@
 ﻿namespace Away.Wind.Components;
 
-/// <summary>
-/// SwitchButton.xaml 的交互逻辑
-/// </summary>n
 public partial class SwitchButton : UserControl
 {
     public SwitchButton()
@@ -41,10 +38,12 @@ public partial class SwitchButton : UserControl
 
         if (Convert.ToBoolean(e.NewValue))
         {
+            control.CBSwitchBtn.IsChecked = true;
             control.TxtCheckLabel.Text = "开";
         }
         else
         {
+            control.CBSwitchBtn.IsEnabled = false;
             control.TxtCheckLabel.Text = "关";
         }
     }

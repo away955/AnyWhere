@@ -4,24 +4,19 @@ using System.Net;
 
 namespace Away.Service.XrayNode.Impl;
 
-[ServiceInject(ServiceLifetime.Singleton)]
-public class XrayNodeSpeedTest : BaseXrayService, IXrayNodeSpeedTest
+
+public class BaseSpeedTest(int port, string configFileName) : BaseXrayService(configFileName)
 {
-    private const string ExeFileName = "v2ray";
-    private const string Host = "127.0.0.1";
-    private const int Port = 2024;
+    protected const string Host = "127.0.0.1";
     /// <summary>
     /// 测试地址
     /// </summary>
-    private const string TestUrl = "http://hel1-speed.hetzner.com/100MB.bin";
+    protected const string TestUrl = "http://hel1-speed.hetzner.com/100MB.bin";
     /// <summary>
     /// 测试时间
     /// </summary>
-    private const int TestSeconds = 10;
-
-    public XrayNodeSpeedTest(ILogger<XrayService> logger) : base(logger, ExeFileName, "speed_test.json")
-    {
-    }
+    protected const int TestSeconds = 10;
+    protected int _port = port;
 
     public async Task<SpeedTestResult> TestSpeed(XrayNodeEntity entity)
     {
@@ -39,7 +34,7 @@ public class XrayNodeSpeedTest : BaseXrayService, IXrayNodeSpeedTest
         Config.SetInbound(new XrayInbound()
         {
             listen = Host,
-            port = Port,
+            port = _port,
             tag = "node_test",
             protocol = "http",
         });
@@ -53,7 +48,7 @@ public class XrayNodeSpeedTest : BaseXrayService, IXrayNodeSpeedTest
         {
             using var httpclient = new HttpClient(new HttpClientHandler
             {
-                Proxy = new WebProxy(Host, Port),
+                Proxy = new WebProxy(Host, _port),
             })
             {
                 Timeout = TimeSpan.FromSeconds(5)
@@ -93,15 +88,8 @@ public class XrayNodeSpeedTest : BaseXrayService, IXrayNodeSpeedTest
         }
         catch (Exception ex)
         {
-            _logger.LogInformation("测试节点速度失败:{0}", ex.Message);
+            Log.Information($"测试节点速度失败:{ex.Message}");
             return new SpeedTestResult { Error = "不可用" };
         }
     }
-}
-
-public sealed class SpeedTestResult
-{
-    public bool IsSuccess { get; set; }
-    public string Speed { get; set; } = string.Empty;
-    public string Error { get; set; } = string.Empty;
 }

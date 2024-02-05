@@ -1,5 +1,4 @@
 ﻿using Away.Service.XrayNode;
-using Away.Service.XrayNode.Model;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
@@ -12,7 +11,6 @@ public class XrayNodesVM : BindableBase, INavigationAware
     private readonly IXrayNodeRepository _xrayNodeRepository;
     private readonly IXrayNodeService _xrayNodeService;
     private readonly IXrayService _xrayService;
-    private readonly IXrayNodeSpeedTest _xrayNodeSpeedTest;
     private readonly IMapper _mapper;
 
     public XrayNodesVM(
@@ -20,8 +18,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
         IXrayNodeRepository xrayNodeRepository,
         IXrayNodeService xrayNodeService,
         IXrayService xrayService,
-        IMapper mapper,
-        IXrayNodeSpeedTest xrayNodeSpeedTest
+        IMapper mapper
         )
     {
         _mapper = mapper;
@@ -29,7 +26,6 @@ public class XrayNodesVM : BindableBase, INavigationAware
         _xrayNodeRepository = xrayNodeRepository;
         _xrayNodeService = xrayNodeService;
         _xrayService = xrayService;
-        _xrayNodeSpeedTest = xrayNodeSpeedTest;
 
         ResetCommand = new(OnResetCommand);
         UpdateNodeCommand = new(OnUpdateNodeCommand);
@@ -128,15 +124,27 @@ public class XrayNodesVM : BindableBase, INavigationAware
     /// 测试节点速度
     /// </summary>
     public DelegateCommand SpeedTest { get; private set; }
-    private async void OnSpeedTest()
+    private void OnSpeedTest()
     {
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
-        foreach (var model in XrayNodeItemsSource)
+        var speedService = new XrayNodeSpeedTest(items, 10, 3000);
+        speedService.OnTesting += (entity) =>
         {
+            var model = XrayNodeItemsSource.FirstOrDefault(o => o.Id == entity.Id);
+            if (model == null)
+            {
+                return;
+            }
             model.Status = XrayNodeStatus.Default;
             model.Remark = "检测中...";
-            var entity = _mapper.Map<XrayNodeEntity>(model);
-            var result = await _xrayNodeSpeedTest.TestSpeed(entity);
+        };
+
+        speedService.OnCompeleted += async (e) =>
+        {
+            var result = e.Data;
+            var entity = e.XrayNode;
+            var model = XrayNodeItemsSource.FirstOrDefault(o => o.Id == entity.Id)!;
+
             if (result.IsSuccess)
             {
                 model.Status = entity.Status = XrayNodeStatus.Success;
@@ -148,7 +156,9 @@ public class XrayNodesVM : BindableBase, INavigationAware
                 model.Remark = entity.Remark = result.Error;
             }
             await _xrayNodeRepository.UpdateAsync(entity);
-        }
+
+        };
+        speedService.Listen();
     }
 
     /// <summary>

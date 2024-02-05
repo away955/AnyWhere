@@ -1,6 +1,4 @@
-﻿using Away.Service.XrayNode.Model;
-
-namespace Away.Service.XrayNode.Impl;
+﻿namespace Away.Service.XrayNode.Impl;
 
 [ServiceInject]
 public class XrayNodeService(
@@ -14,8 +12,15 @@ public class XrayNodeService(
 
     public async Task SetXrayNodeByUrl(string url)
     {
-        var response = await _httpClient.GetStringAsync(url);
-        await SetXrayNodeByBase64String(response);
+        try
+        {
+            var response = await _httpClient.GetStringAsync(url);
+            await SetXrayNodeByBase64String(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation(ex.Message);
+        }
     }
 
     public async Task SetXrayNodeByBase64String(string text)

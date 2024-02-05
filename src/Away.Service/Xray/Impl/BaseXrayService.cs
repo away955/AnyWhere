@@ -4,14 +4,13 @@ namespace Away.Service.Xray.Impl;
 
 public abstract class BaseXrayService : IBaseXrayService
 {
-    protected readonly ILogger<XrayService> _logger;
-    private readonly string _xrayConfigPath;
-    private readonly string _xrayPath;
+    protected const string ExeFileName = "v2ray";
+    protected readonly string _xrayConfigPath;
+    protected readonly string _xrayPath;
 
 
-    public BaseXrayService(ILogger<XrayService> logger, string ExeFileName, string ConfigFileName)
+    public BaseXrayService(string ConfigFileName)
     {
-        _logger = logger;
         Config = XrayConfig.Default;
 
 
@@ -56,7 +55,7 @@ public abstract class BaseXrayService : IBaseXrayService
             return;
         }
 
-        _logger.LogInformation("启动代理");
+        Log.Information("启动代理");
 
         Process xrayProcess = new()
         {
@@ -64,7 +63,11 @@ public abstract class BaseXrayService : IBaseXrayService
         };
         xrayProcess.OutputDataReceived += (sender, e) =>
         {
-            _logger.LogInformation("{}", e.Data);
+            if (string.IsNullOrWhiteSpace(e.Data))
+            {
+                return;
+            }
+            Log.Information(e.Data);
         };
         xrayProcess.Start();
         IsOpened = true;
@@ -77,7 +80,7 @@ public abstract class BaseXrayService : IBaseXrayService
         {
             return;
         }
-        _logger.LogInformation("关闭代理");
+        Log.Information("关闭代理");
         XrayStop?.Invoke();
         IsOpened = false;
     }

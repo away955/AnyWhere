@@ -1,6 +1,4 @@
-﻿using Away.Wind.Views.Systems;
-
-namespace Away.Wind.Views;
+﻿namespace Away.Wind.Views;
 
 [Dialog("system-proxy")]
 [ViewModel(typeof(SystemProxyViewModel))]

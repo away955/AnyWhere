@@ -1,4 +1,4 @@
-﻿namespace Away.Wind.Views.Xray.ViewModels;
+﻿namespace Away.Wind.ViewModels;
 
 public class XraySettingsVM : BindableBase
 {

@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:Away.Wind.Components"
-             xmlns:viewmodels="clr-namespace:Away.Wind.Views.Xray.ViewModels"
+             xmlns:viewmodels="clr-namespace:Away.Wind.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewmodels:XrayLogSettingsVM}">
 

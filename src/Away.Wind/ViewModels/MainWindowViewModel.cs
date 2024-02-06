@@ -1,4 +1,4 @@
-﻿namespace Away.Wind.Views;
+﻿namespace Away.Wind;
 
 public class MainWindowViewModel : BindableBase, INavigationAware
 {
@@ -24,18 +24,18 @@ public class MainWindowViewModel : BindableBase, INavigationAware
 
         NavigateCommand = new DelegateCommand<string>(Navigate);
         MenuToggleChangeCommand = new DelegateCommand<bool?>(MenuToggleChange);
-        OnResetCommand();
+        Init();
     }
 
 
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
-        OnResetCommand();
+        Init();
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext)
     {
-        OnResetCommand();
+        Init();
         return true;
     }
 
@@ -44,7 +44,7 @@ public class MainWindowViewModel : BindableBase, INavigationAware
 
     }
 
-    private void OnResetCommand()
+    private void Init()
     {
         Icon = _settingsRepository.GetValue("Icon");
         Logo = _settingsRepository.GetValue("Logo");

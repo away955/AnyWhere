@@ -1,9 +1,7 @@
 ﻿using Away.Service.XrayNode;
-using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Windows.Data;
 
-namespace Away.Wind.Views.Xray.ViewModels;
+namespace Away.Wind.ViewModels;
 
 public class XrayNodesVM : BindableBase, INavigationAware
 {
@@ -196,24 +194,5 @@ public class XrayNodesVM : BindableBase, INavigationAware
             }
         }
         OnResetCommand();
-    }
-}
-
-public class XrayNodeStatusConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        return value switch
-        {
-            XrayNodeStatus.Error => "AirplaneAlert",
-            XrayNodeStatus.Default => "AirplaneSearch",
-            XrayNodeStatus.Success => "AirplaneCheck",
-            _ => string.Empty
-        }; ;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
     }
 }

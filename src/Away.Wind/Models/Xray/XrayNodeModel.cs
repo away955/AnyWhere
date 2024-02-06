@@ -1,6 +1,4 @@
-﻿using Away.Service.DB.Entities;
-
-namespace Away.Wind.Views.Xray.Models;
+﻿namespace Away.Wind.Models;
 
 public class XrayNodeModel : BindableBase
 {

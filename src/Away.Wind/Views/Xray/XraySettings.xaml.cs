@@ -1,6 +1,4 @@
-﻿using Away.Wind.Views.Xray;
-
-namespace Away.Wind.Views;
+﻿namespace Away.Wind.Views;
 
 
 [Navigation("xray-settings")]

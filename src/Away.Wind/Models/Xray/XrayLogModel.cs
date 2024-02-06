@@ -1,4 +1,4 @@
-﻿namespace Away.Wind.Views.Xray.Models;
+﻿namespace Away.Wind.Models;
 
 public class XrayLogModel : BindableBase
 {

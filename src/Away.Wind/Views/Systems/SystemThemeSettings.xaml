@@ -4,16 +4,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:Away.Wind.Views.Systems.ViewModels"
+             xmlns:vm="clr-namespace:Away.Wind.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:SystemThemeSettingsVM}"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary>
-            <vm:ColorToBrushConverter x:Key="ColorToBrushConverter" />
-            <vm:BrushToHexConverter x:Key="BrushToHexConverter" />
-            <vm:MultiValueEqualityConverter x:Key="MultiValueEqualityConverter" />
-
+        <ResourceDictionary>  
             <Style x:Key="PaletteButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
                 <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
                 <Setter Property="BorderBrush" Value="Transparent" />

@@ -1,23 +1,26 @@
-﻿using Away.Service.Xray.Impl;
+﻿using Away.Service.Windows;
+using Away.Service.Xray.Impl;
 
-namespace Away.Wind
+namespace Away.Wind;
+
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    protected override void OnStartup(StartupEventArgs e)
     {
-        protected override void OnStartup(StartupEventArgs e)
+        if (ProcessOnly.Check("AwayApp20240206"))
         {
-            base.OnStartup(e);
+            Current.Shutdown();
+            Environment.Exit(-1);
+            return;
+        }
+        base.OnStartup(e);
+        var bootstrapper = new Bootstrapper();
+        bootstrapper.Run();
 
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
-        }
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-            XrayService.XraysClose();
-        }
+    }
+    protected override void OnExit(ExitEventArgs e)
+    {
+        base.OnExit(e);
+        XrayService.XraysClose();
     }
 }

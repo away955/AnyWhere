@@ -55,7 +55,7 @@ public abstract class BaseXrayService : IBaseXrayService
             return;
         }
 
-        Log.Information("启动代理"); 
+        Log.Information("启动代理");
         Process xrayProcess = new()
         {
             StartInfo = new ProcessStartInfo
@@ -73,8 +73,7 @@ public abstract class BaseXrayService : IBaseXrayService
             }
             Log.Information(e.Data);
         };
-        xrayProcess.Start();
-        IsOpened = true;
+        IsOpened = xrayProcess.Start();
         XrayStop = xrayProcess.Kill;
     }
 

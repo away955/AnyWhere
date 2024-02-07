@@ -67,7 +67,7 @@ public sealed class XrayNodeSpeedTest
 
     public void Cancel() => _cts.Cancel();
 
-    public void Listen()
+    public void Listen(Action? action = null)
     {
         Task.Run(() =>
         {
@@ -77,6 +77,7 @@ public sealed class XrayNodeSpeedTest
                 if (_count == _total)
                 {
                     Log.Information("节点测试完成");
+                    action?.Invoke();
                     break;
                 }
                 _ = RunOne();

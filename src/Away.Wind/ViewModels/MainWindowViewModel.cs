@@ -1,4 +1,6 @@
-﻿namespace Away.Wind.ViewModels;
+﻿using MaterialDesignThemes.Wpf;
+
+namespace Away.Wind.ViewModels;
 
 public class MainWindowViewModel : BindableBase
 {
@@ -11,10 +13,20 @@ public class MainWindowViewModel : BindableBase
     private LeftMenuVM _leftMenuVM = null!;
     public LeftMenuVM LeftMenuVM { get => _leftMenuVM; set => SetProperty(ref _leftMenuVM, value); }
 
+    private SnackbarMessageQueue _messageQueue = new();
+    public SnackbarMessageQueue MessageQueue
+    {
+        get => _messageQueue;
+        set => SetProperty(ref _messageQueue, value);
+    }
+
+
+
     public MainWindowViewModel(
         TaskBarIconVM taskBarIconVM,
         TopHeaderVM topHeaderVM,
-        LeftMenuVM leftMenuVM
+        LeftMenuVM leftMenuVM,
+        IMessageService messageService
         )
     {
 
@@ -22,8 +34,14 @@ public class MainWindowViewModel : BindableBase
         TopHeaderVM = topHeaderVM;
         LeftMenuVM = leftMenuVM;
 
+        messageService.Subscribe(ShowMessage);
 
         TopHeaderVM.OnToggleButtonChange += (o) => LeftMenuVM.Toggle = o;
+    }
+
+    private void ShowMessage(string text)
+    {
+        MessageQueue.Enqueue(text);
     }
 
 

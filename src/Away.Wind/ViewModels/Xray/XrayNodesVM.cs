@@ -1,4 +1,5 @@
 ﻿using Away.Service.XrayNode;
+using Away.Wind.Views;
 using System.Text.RegularExpressions;
 
 namespace Away.Wind.ViewModels;
@@ -10,13 +11,15 @@ public class XrayNodesVM : BindableBase, INavigationAware
     private readonly IXrayNodeService _xrayNodeService;
     private readonly IXrayService _xrayService;
     private readonly IMapper _mapper;
+    private readonly IMessageService _messageService;
 
     public XrayNodesVM(
         ILogger<XrayNodesVM> logger,
         IXrayNodeRepository xrayNodeRepository,
         IXrayNodeService xrayNodeService,
         IXrayService xrayService,
-        IMapper mapper
+        IMapper mapper,
+        IMessageService messageService
         )
     {
         _mapper = mapper;
@@ -24,6 +27,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
         _xrayNodeRepository = xrayNodeRepository;
         _xrayNodeService = xrayNodeService;
         _xrayService = xrayService;
+        _messageService = messageService;
 
         ResetCommand = new(OnResetCommand);
         UpdateNodeCommand = new(OnUpdateNodeCommand);
@@ -116,6 +120,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
         }
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
         _xrayNodeRepository.SaveNodes(items);
+        _messageService.Show("切换节点成功");
     }
 
     /// <summary>
@@ -124,6 +129,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
     public DelegateCommand SpeedTest { get; private set; }
     private void OnSpeedTest()
     {
+        _messageService.Show("开始测试");
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
         var speedService = new XrayNodeSpeedTest(items, 10, 3000);
         speedService.OnTesting += (entity) =>
@@ -156,7 +162,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
             await _xrayNodeRepository.UpdateAsync(entity);
 
         };
-        speedService.Listen();
+        speedService.Listen(()=>_messageService.Show("节点测试完成"));
     }
 
     /// <summary>

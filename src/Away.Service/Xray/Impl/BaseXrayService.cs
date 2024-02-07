@@ -55,11 +55,15 @@ public abstract class BaseXrayService : IBaseXrayService
             return;
         }
 
-        Log.Information("启动代理");
-
+        Log.Information("启动代理"); 
         Process xrayProcess = new()
         {
-            StartInfo = new ProcessStartInfo(_xrayPath, $"run -c {_xrayConfigPath}"),
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = _xrayPath,
+                Arguments = $"run -c {_xrayConfigPath}",
+                CreateNoWindow = true
+            }
         };
         xrayProcess.OutputDataReceived += (sender, e) =>
         {

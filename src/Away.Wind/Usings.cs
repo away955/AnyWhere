@@ -6,6 +6,7 @@ global using Away.Service.Xray;
 global using Away.Service.Xray.Model;
 global using Away.Wind.Components;
 global using Away.Wind.Models;
+global using Away.Wind.Services;
 global using Away.Wind.ViewModels;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Logging;

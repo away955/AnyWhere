@@ -1,17 +1,14 @@
 ﻿<Window x:Class="Away.Wind.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:tb="http://www.hardcodet.net/taskbar"
-        xmlns:c="clr-namespace:Away.Wind.Components"
         xmlns:vm="clr-namespace:Away.Wind.ViewModels"
+        xmlns:views="clr-namespace:Away.Wind.Views"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         mc:Ignorable="d"      
-        WindowStartupLocation="CenterScreen"
-        >
+        WindowStartupLocation="CenterScreen">
 
     <Window.Style>
         <Style TargetType="Window">
@@ -22,7 +19,6 @@
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="TextElement.FontSize" Value="14"/>
             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
-            <Setter Property="Icon" Value="{Binding Icon}"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -36,61 +32,23 @@
         </Style>
     </Window.Style>
 
-    <Window.Resources>
-        <Style x:Key="tar.menu.item" TargetType="MenuItem" BasedOn="{StaticResource MaterialDesignMenuItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="MenuItem">
-                        <Border Margin="10,5" Padding="5">
-                            <StackPanel Orientation="Horizontal" >
-                                <materialDesign:PackIcon Kind="{TemplateBinding Icon,Converter={StaticResource IconToStringConverter}}"/>
-                                <TextBlock Margin="10,0,0,0" Text="{TemplateBinding  Header}" />
-                            </StackPanel>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
-        <Style x:Key="tar.menu" TargetType="ContextMenu" BasedOn="{StaticResource MaterialDesignContextMenu}">
-            <Setter Property="Margin" Value="0,0,0,50" />
-            <Setter Property="Width" Value="150"/>
-            <Setter Property="Height" Value="200"/>
-            <Setter Property="ItemContainerStyle" Value="{StaticResource tar.menu.item}"/>
-        </Style>
-
-    </Window.Resources>
 
     <Grid>
-        <!--<c:NofityIcon Data="{Binding TopMenus}" Title="{Binding LogoTitle}" Icon="{Binding Icon}" />-->
+        <views:TaskBarIcon DataContext="{Binding TaskBarIconVM}"/>
 
-        <tb:TaskbarIcon Visibility="Visible" IconSource="{Binding Icon}">
-            <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu Style="{StaticResource tar.menu}">
-                    <MenuItem Header="关闭" Icon="Logout"/>
-                    <MenuItem Header="启动" Icon="Logout"/>
-
-
-                </ContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
-        </tb:TaskbarIcon>
-        <DockPanel >
-            <c:LeftMenu
-                Logo="{Binding Logo}"
-                LogoTitle="{Binding LogoTitle}" 
-                MenuToggle="{Binding MenuToggle}"
-                Data="{Binding LeftMenus}" 
-                SelectedCommand="{Binding NavigateCommand}"/>
-
+        <DockPanel>
+            <views:LeftMenu DataContext="{Binding LeftMenuVM}"  />
+            
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="60"></RowDefinition>
+                    <RowDefinition Height="60" ></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <c:TopHeader MouseMove="TopHeader_MouseMove"
-                             Data="{Binding TopMenus}"
-                             MenuToggleChangeCommand="{Binding MenuToggleChangeCommand}" />
+                <Border MouseMove="TopHeader_MouseMove">
+                    <views:TopHeader DataContext="{Binding TopHeaderVM}" />
+                </Border>
 
                 <Border Grid.Row="1"
                         Background="{DynamicResource MaterialDesignPaper}"

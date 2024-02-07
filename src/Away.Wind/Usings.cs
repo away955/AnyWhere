@@ -16,5 +16,6 @@ global using Prism.Regions;
 global using Prism.Services.Dialogs;
 global using Serilog;
 global using System.Collections.ObjectModel;
+global using System.ComponentModel;
 global using System.Windows;
 global using System.Windows.Controls;

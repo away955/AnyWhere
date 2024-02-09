@@ -3,11 +3,12 @@
 public class TaskBarIconVM : BindableBase
 {
     private readonly ISettingsRepository _settingsRepository;
-    public TaskBarIconVM(
-        ISettingsRepository settingsRepository
-        )
+    private readonly IXrayService _xrayService;
+
+    public TaskBarIconVM(ISettingsRepository settingsRepository, IXrayService xrayService)
     {
         _settingsRepository = settingsRepository;
+        _xrayService = xrayService;
 
         ShutdownCommand = new(OnShutdownCommand);
         ShowCommand = new(OnShowCommand);
@@ -38,6 +39,7 @@ public class TaskBarIconVM : BindableBase
     }
     private void OnShutdownCommand()
     {
+        _xrayService.CloseAll();
         IsClose = true;
     }
 
@@ -55,4 +57,5 @@ public class TaskBarIconVM : BindableBase
     {
         IsShow = true;
     }
+
 }

@@ -38,13 +38,20 @@ public partial class MainWindow : Window
         }
         if (e.PropertyName == nameof(TaskBarIconVM.IsShow))
         {
-            this.Show();
-            vm.IsShow = false;
+            if (vm.IsShow)
+            {
+                this.Show();
+                this.Activate();
+                vm.IsShow = false;
+            }
             return;
         }
         if (e.PropertyName == nameof(TaskBarIconVM.IsClose))
         {
-            this.Close();
+            Dispatcher.Invoke(() =>
+            {
+                Application.Current.Shutdown();
+            });
             return;
         }
     }

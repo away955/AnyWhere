@@ -20,10 +20,10 @@ public class XrayApiSettingsVM : SettingsVMBase
     {
 
     }
-    public ObservableCollection<MultiComboBoxModel> XrayApiItems { get; set; } =
+    public ObservableCollection<string> XrayApiItems { get; set; } =
     [
-        new MultiComboBoxModel("HandlerService"),
-        new MultiComboBoxModel("LoggerService"),
-        new MultiComboBoxModel("StatsService")
+        "HandlerService",
+        "LoggerService",
+        "StatsService"
     ];
 }

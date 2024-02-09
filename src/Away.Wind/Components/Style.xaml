@@ -3,7 +3,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="./MultiComboBox/Style.xaml"/>
         <ResourceDictionary Source="./Styles/ScrollViewerStyle.xaml"/>
         <ResourceDictionary>
             <Style x:Key="icon" TargetType="materialDesign:PackIcon">

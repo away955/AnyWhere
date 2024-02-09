@@ -73,7 +73,10 @@
                 </i:Interaction.Triggers>
             </ToggleButton>
 
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,0,5,0"
+                        DockPanel.Dock="Right" 
+                        HorizontalAlignment="Right">
                 <ListBox ItemsSource="{Binding MenuItemsSource}"/>
             </StackPanel>
         </DockPanel>

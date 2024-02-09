@@ -1,34 +1,40 @@
 ﻿using Away.Service.XrayNode;
-using Away.Wind.Views;
 using System.Text.RegularExpressions;
 
 namespace Away.Wind.ViewModels;
 
-public class XrayNodesVM : BindableBase, INavigationAware
+public class XrayNodesVM : BindableBase
 {
     private readonly ILogger<XrayNodesVM> _logger;
     private readonly IXrayNodeRepository _xrayNodeRepository;
     private readonly IXrayNodeService _xrayNodeService;
+    private readonly IXrayNodeSubRepository _xrayNodeSubRepository;
     private readonly IXrayService _xrayService;
     private readonly IMapper _mapper;
     private readonly IMessageService _messageService;
+    private readonly IDialogService _dialogService;
 
     public XrayNodesVM(
         ILogger<XrayNodesVM> logger,
         IXrayNodeRepository xrayNodeRepository,
         IXrayNodeService xrayNodeService,
+        IXrayNodeSubRepository xrayNodeSubRepository,
         IXrayService xrayService,
         IMapper mapper,
-        IMessageService messageService
+        IMessageService messageService,
+        IDialogService dialogService
         )
     {
         _mapper = mapper;
         _logger = logger;
         _xrayNodeRepository = xrayNodeRepository;
         _xrayNodeService = xrayNodeService;
+        _xrayNodeSubRepository = xrayNodeSubRepository;
         _xrayService = xrayService;
         _messageService = messageService;
+        _dialogService = dialogService;
 
+        SettingsCommand = new(() => _dialogService.Show("xray-settings"));
         ResetCommand = new(OnResetCommand);
         UpdateNodeCommand = new(OnUpdateNodeCommand);
         CheckedCommand = new(OnCheckedCommand);
@@ -36,45 +42,39 @@ public class XrayNodesVM : BindableBase, INavigationAware
         PasteCommand = new(OnPasteCommand);
         SpeedTest = new(OnSpeedTest);
 
-    }
-
-    public void OnNavigatedTo(NavigationContext navigationContext)
-    {
         OnResetCommand();
     }
 
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-    {
-        OnResetCommand();
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext)
-    {
-
-    }
-
+    public DelegateCommand SettingsCommand { get; private set; }
 
     public DelegateCommand ResetCommand { get; private set; }
     private void OnResetCommand()
     {
-        IsOpenXray = _xrayService.IsOpened;
+        IsEnableXray = _xrayService.IsEnable;
+        IsEnableGlobalProxy = _xrayService.IsEnableGlobalProxy;
         var xraynodes = _xrayNodeRepository.GetList();
         var items = xraynodes.Select(_mapper.Map<XrayNodeModel>);
         XrayNodeItemsSource = new ObservableCollection<XrayNodeModel>(items);
     }
 
-
-    private bool _isOpenXray;
-    public bool IsOpenXray
+    private bool _isEnableXray;
+    /// <summary>
+    /// 是否启用xray
+    /// </summary>
+    public bool IsEnableXray
     {
-        get => _isOpenXray;
+        get => _isEnableXray;
         set
         {
-            SetProperty(ref _isOpenXray, value);
-            if (_isOpenXray)
+            SetProperty(ref _isEnableXray, value);
+            if (_isEnableXray)
             {
                 _xrayService.XrayStart();
+                var inbound = _xrayService.Config.inbounds.FirstOrDefault();
+                if (inbound == null)
+                {
+                    return;
+                }
             }
             else
             {
@@ -83,18 +83,50 @@ public class XrayNodesVM : BindableBase, INavigationAware
         }
     }
 
+    private bool _isEnableGlobalProxy;
+    /// <summary>
+    /// 是否启用全局网络代理
+    /// </summary>
+    public bool IsEnableGlobalProxy
+    {
+        get => _isEnableGlobalProxy;
+        set
+        {
+            SetProperty(ref _isEnableGlobalProxy, value);
+            if (_isEnableGlobalProxy)
+            {
+                _xrayService.OpenGlobalProxy();
+            }
+            else
+            {
+                _xrayService.CloseGlobalProxy();
+            }
+        }
+    }
+
     private ObservableCollection<XrayNodeModel> _xrayNodeItemsSource = [];
+    /// <summary>
+    /// 节点列表
+    /// </summary>
     public ObservableCollection<XrayNodeModel> XrayNodeItemsSource
     {
         get => _xrayNodeItemsSource;
         set => SetProperty(ref _xrayNodeItemsSource, value);
     }
 
+    /// <summary>
+    /// 更新节点
+    /// </summary>
     public DelegateCommand UpdateNodeCommand { get; private set; }
     public async void OnUpdateNodeCommand()
     {
-        await _xrayNodeService.SetXrayNodeByUrl("https://bulinkbulink.com/freefq/free/master/v2");
+        var subs = _xrayNodeSubRepository.AsQueryable().Where(o => o.IsDisable == false).ToList();
+        foreach (var sub in subs)
+        {
+            await _xrayNodeService.SetXrayNodeByUrl(sub.Url);
+        }
         OnResetCommand();
+        _messageService.Show("节点订阅更新完成");
     }
 
     /// <summary>
@@ -112,6 +144,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
         _xrayService.Config.SetOutbound(entity);
         _xrayService.SaveConfig();
         _xrayService.XrayRestart();
+        IsEnableXray = _xrayService.IsEnable;
 
         // 设置选中节点
         foreach (var item in XrayNodeItemsSource)
@@ -162,7 +195,7 @@ public class XrayNodesVM : BindableBase, INavigationAware
             await _xrayNodeRepository.UpdateAsync(entity);
 
         };
-        speedService.Listen(()=>_messageService.Show("节点测试完成"));
+        speedService.Listen(() => _messageService.Show("节点测试完成"));
     }
 
     /// <summary>

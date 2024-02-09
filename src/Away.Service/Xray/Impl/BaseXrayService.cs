@@ -28,7 +28,7 @@ public abstract class BaseXrayService : IBaseXrayService
     }
 
     public XrayConfig Config { get; private set; }
-    public bool IsOpened { get; private set; }
+    public bool IsEnable { get; private set; }
 
     public void SaveConfig()
     {
@@ -48,11 +48,11 @@ public abstract class BaseXrayService : IBaseXrayService
     }
 
     private Action? XrayStop;
-    public void XrayStart()
+    public bool XrayStart()
     {
-        if (IsOpened)
+        if (IsEnable)
         {
-            return;
+            return true;
         }
 
         Log.Information("启动代理");
@@ -73,19 +73,21 @@ public abstract class BaseXrayService : IBaseXrayService
             }
             Log.Information(e.Data);
         };
-        IsOpened = xrayProcess.Start();
+        IsEnable = xrayProcess.Start();
         XrayStop = xrayProcess.Kill;
+        return IsEnable;
     }
 
-    public void XrayClose()
+    public bool XrayClose()
     {
-        if (!IsOpened)
+        if (!IsEnable)
         {
-            return;
+            return true;
         }
         Log.Information("关闭代理");
         XrayStop?.Invoke();
-        IsOpened = false;
+        IsEnable = false;
+        return true;
     }
 
     public void XrayRestart()

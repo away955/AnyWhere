@@ -76,7 +76,6 @@ public class LeftMenuVM : BindableBase
         get => _toggle;
         set => SetProperty(ref _toggle, value);
     }
-
 }
 
 public class ItemMenuModel : BindableBase

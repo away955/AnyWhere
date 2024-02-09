@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:c="clr-namespace:Away.Wind.Components"
              xmlns:vm="clr-namespace:Away.Wind.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:SystemProxyViewModel}"           
              mc:Ignorable="d"
@@ -17,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <c:SwitchButton Label="系统代理" IsChecked="{Binding IsEnable}" />
+            <CheckBox Content="系统代理" IsChecked="{Binding IsEnable}" />
             <TextBox materialDesign:HintAssist.Hint="代理地址" Text="{Binding Server}"/>
             <TextBox materialDesign:HintAssist.Hint="白名单" 
                      AcceptsReturn="True"            

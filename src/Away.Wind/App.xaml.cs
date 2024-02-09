@@ -1,5 +1,4 @@
 ﻿using Away.Service.Windows;
-using Away.Service.Xray.Impl;
 
 namespace Away.Wind;
 
@@ -17,10 +16,5 @@ public partial class App : Application
         var bootstrapper = new Bootstrapper();
         bootstrapper.Run();
 
-    }
-    protected override void OnExit(ExitEventArgs e)
-    {
-        base.OnExit(e);
-        XrayService.XraysClose();
     }
 }

@@ -8,7 +8,7 @@ public class XrayDnsSettingsVM : SettingsVMBase
 
     protected override void Init()
     {
-
+        Dns = _xrayService.Config.dns;
     }
 
     protected override void OnCancelCommand()
@@ -19,5 +19,12 @@ public class XrayDnsSettingsVM : SettingsVMBase
     protected override void OnSaveCommand()
     {
 
+    }
+
+    private XrayDns _dns = null!;
+    public XrayDns Dns
+    {
+        get => _dns;
+        set => SetProperty(ref _dns, value);
     }
 }

@@ -1,6 +1,4 @@
-﻿using Away.Service.Xray.Model;
-
-namespace Away.Service.Xray;
+﻿namespace Away.Service.Xray;
 
 /// <summary>
 /// Xray 的配置文件
@@ -18,7 +16,7 @@ public sealed class XrayConfig
     /// <summary>
     /// 内置的 DNS 服务器. 如果没有配置此项，则使用系统的 DNS 设置。
     /// </summary>
-    public XrayDns? dns { get; set; }
+    public XrayDns dns { get; set; } = XrayDns.Default;
     /// <summary>
     /// 路由功能。可以设置规则分流数据从不同的 outbound 发出.
     /// </summary>
@@ -70,13 +68,6 @@ public sealed class XrayConfig
             {
                 listen = "127.0.0.1",
                 port = 1080,
-                protocol = "socks",
-                tag = "socks",
-            },
-            new XrayInbound
-            {
-                listen = "127.0.0.1",
-                port = 1081,
                 protocol = "http",
                 tag = "http",
             }

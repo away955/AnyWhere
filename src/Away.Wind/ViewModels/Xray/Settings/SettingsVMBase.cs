@@ -1,6 +1,6 @@
 ﻿namespace Away.Wind.ViewModels;
 
-public abstract class SettingsVMBase : BindableBase, INavigationAware
+public abstract class SettingsVMBase : BindableBase
 {
     protected readonly IXrayService _xrayService;
     protected readonly IMapper _mapper;
@@ -12,22 +12,7 @@ public abstract class SettingsVMBase : BindableBase, INavigationAware
 
         SaveCommand = new(OnSaveCommand);
         CancelCommand = new(OnCancelCommand);
-    }
-
-
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-    {
         Init();
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext)
-    {
-        Init();
-    }
-
-    public void OnNavigatedTo(NavigationContext navigationContext)
-    {
     }
 
     protected abstract void Init();

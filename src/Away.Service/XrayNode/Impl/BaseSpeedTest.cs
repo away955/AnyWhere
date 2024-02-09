@@ -20,7 +20,11 @@ public class BaseSpeedTest(int port, string configFileName) : BaseXrayService(co
 
     public async Task<SpeedTestResult> TestSpeed(XrayNodeEntity entity)
     {
-        SetTestConfig(entity);
+        var flag = SetTestConfig(entity);
+        if (!flag)
+        {
+            return new SpeedTestResult { Error = "设置代理失败" };
+        }
         XrayStart();
         var speedRes = await TestDownload();
         XrayClose();
@@ -28,7 +32,7 @@ public class BaseSpeedTest(int port, string configFileName) : BaseXrayService(co
         return speedRes;
     }
 
-    private void SetTestConfig(XrayNodeEntity entity)
+    private bool SetTestConfig(XrayNodeEntity entity)
     {
         Config.inbounds.Clear();
         Config.SetInbound(new XrayInbound()
@@ -38,8 +42,14 @@ public class BaseSpeedTest(int port, string configFileName) : BaseXrayService(co
             tag = "node_test",
             protocol = "http",
         });
-        Config.SetOutbound(entity);
+        var flag = Config.SetOutbound(entity);
+        if (!flag)
+        {
+            Log.Warning($"设置代理失败:{entity.Url}");
+            return false;
+        }
         SaveConfig();
+        return true;
     }
 
     private async Task<SpeedTestResult> TestDownload()

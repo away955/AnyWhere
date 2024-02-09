@@ -4,7 +4,6 @@ public class XrayOutboundSettingsVM : SettingsVMBase
 {
     public XrayOutboundSettingsVM(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
     {
-        Init();
     }
 
     private ObservableCollection<XrayOutbound> _outbound = [];

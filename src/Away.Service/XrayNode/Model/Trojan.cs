@@ -31,11 +31,14 @@ public class Trojan : IModelXrayNode
                 return null;
             }
 
-            var trojan = new Trojan();
-            trojan.host = reg.Result("${host}");
-            trojan.port = Convert.ToInt32(reg.Result("${port}"));
-            trojan.password = reg.Result("${password}");
-            trojan.ps = reg.Result("${ps}");
+            var trojan = new Trojan
+            {
+                url = content,
+                host = reg.Result("${host}"),
+                port = Convert.ToInt32(reg.Result("${port}")),
+                password = reg.Result("${password}"),
+                ps = reg.Result("${ps}")
+            };
 
             var query = reg.Result("${query}");
             var items = HttpUtility.ParseQueryString(query);

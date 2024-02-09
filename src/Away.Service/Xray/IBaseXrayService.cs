@@ -2,12 +2,12 @@
 
 public interface IBaseXrayService
 {
-    bool IsOpened { get; }
+    bool IsEnable { get; }
     XrayConfig Config { get; }
     XrayConfig? GetConfig();
     void SetConfig(XrayConfig xrayConfig);
     void SaveConfig();
     void XrayRestart();
-    void XrayStart();
-    void XrayClose();
+    bool XrayStart();
+    bool XrayClose();
 }

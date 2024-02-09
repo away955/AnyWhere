@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:c="clr-namespace:Away.Wind.Components"
              xmlns:viewmodels="clr-namespace:Away.Wind.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewmodels:XrayLogSettingsVM}">
@@ -33,7 +32,7 @@
             <TextBox Text="{Binding Log.error}"
                      materialDesign:HintAssist.Hint="错误日志的文件地址"/>
 
-            <c:SwitchButton Margin="5,10,0,0" Label="DNS查询日志" IsChecked="{Binding Log.dnsLog}"/>
+            <CheckBox Margin="5,10,0,0" Content="DNS查询日志" IsChecked="{Binding Log.dnsLog}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">

@@ -7,12 +7,10 @@
              d:DataContext="{d:DesignInstance Type=vm:XrayOutboundSettingsVM}"
              mc:Ignorable="d" >
 
-    <DataGrid Grid.Row="1" ItemsSource="{Binding Outbound}">
+    <DataGrid ItemsSource="{Binding Outbound}">
         <DataGrid.Columns>
             <DataGridTextColumn Binding="{Binding tag}" Header="标识" />
             <DataGridTextColumn Binding="{Binding protocol}" Header="协议" />
         </DataGrid.Columns>
     </DataGrid>
-
-
 </UserControl>

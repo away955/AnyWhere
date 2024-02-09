@@ -11,19 +11,18 @@
 
     <Grid>
         <StackPanel>
-
             <StackPanel>
-                <TextBlock FontWeight="Light" Text="开启的 API 列表"/>
+                <Label Content="开启的 API 列表"/>
                 <ItemsControl ItemsSource="{Binding XrayApiItems}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Title}"/>
+                            <CheckBox Content="{Binding .}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
 
-            
+
 
             <TextBox materialDesign:HintAssist.Hint="出站代理标识"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"

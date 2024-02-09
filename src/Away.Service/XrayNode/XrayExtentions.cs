@@ -15,23 +15,36 @@ public static class XrayExtentions
         config.inbounds.Insert(0, model);
     }
 
-    public static void SetOutbound(this XrayConfig config, XrayNodeEntity entity)
+    public static bool SetOutbound(this XrayConfig config, XrayNodeEntity entity)
     {
         if ("vmess" == entity.Type)
         {
             var model = Vmess.Parse(entity.Url);
-            config.SetOutbound(model!);
+            if (model == null)
+            {
+                return false;
+            }
+            config.SetOutbound(model);
         }
         else if ("trojan" == entity.Type)
         {
             var model = Trojan.Parse(entity.Url);
-            config.SetOutbound(model!);
+            if (model == null)
+            {
+                return false;
+            }
+            config.SetOutbound(model);
         }
         else if ("shadowsocks" == entity.Type)
         {
             var model = Shadowsocks.Parse(entity.Url);
-            config.SetOutbound(model!);
+            if (model == null)
+            {
+                return false;
+            }
+            config.SetOutbound(model);
         }
+        return true;
     }
 
     public static void SetOutbound<T>(this XrayConfig config, T model) where T : IModelXrayNode

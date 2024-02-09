@@ -9,6 +9,7 @@
         xmlns:views="clr-namespace:Away.Wind.Views"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         mc:Ignorable="d"      
+        Title="哪都通"
         WindowStartupLocation="CenterScreen">
 
     <Window.Style>
@@ -57,7 +58,7 @@
                                 Padding="10" 
                                 Margin="10"
                                 CornerRadius="5">
-                            <ContentControl prism:RegionManager.RegionName="MainBox" />
+                            <ContentControl prism:RegionManager.RegionName="MainBox"/>
                         </Border>
                     </Grid>
                 </DockPanel>

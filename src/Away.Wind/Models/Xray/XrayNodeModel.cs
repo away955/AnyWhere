@@ -11,6 +11,7 @@ public class XrayNodeModel : BindableBase
     private XrayNodeStatus _status;
     private string _remark = string.Empty;
     private bool _isChecked;
+    private DateTime _updated;
 
     public int Id { get => _id; set => SetProperty(ref _id, value); }
 
@@ -53,4 +54,9 @@ public class XrayNodeModel : BindableBase
     /// 是否使用
     /// </summary>
     public bool IsChecked { get => _isChecked; set => SetProperty(ref _isChecked, value); }
+
+    /// <summary>
+    /// 更新时间
+    /// </summary>
+    public DateTime Updated { get => _updated; set => SetProperty(ref _updated, value); }
 }

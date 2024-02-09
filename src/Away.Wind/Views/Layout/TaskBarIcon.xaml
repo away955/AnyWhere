@@ -5,42 +5,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tb="http://www.hardcodet.net/taskbar"
+             xmlns:c="clr-namespace:Away.Wind.Components"
              xmlns:viewmodels="clr-namespace:Away.Wind.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:TaskBarIconVM}"
              mc:Ignorable="d"  >
 
     <UserControl.Resources>
-        <Style x:Key="tar.menu.item" TargetType="MenuItem" BasedOn="{StaticResource MaterialDesignMenuItem}">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="MenuItem">
-                        <Border Margin="10,5" Padding="5">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                                <materialDesign:PackIcon Kind="{TemplateBinding Icon,Converter={StaticResource IconToStringConverter}}"/>
-                                <TextBlock Margin="5,0,0,0" Text="{TemplateBinding  Header}" />
-                            </StackPanel>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="tar.menu" TargetType="ContextMenu" BasedOn="{StaticResource MaterialDesignContextMenu}">
+        <Style x:Key="menu" TargetType="ContextMenu" BasedOn="{StaticResource MaterialDesignContextMenu}">
             <Setter Property="Margin" Value="0,0,0,50" />
             <Setter Property="Width" Value="150"/>
-            <Setter Property="Height" Value="200"/>
-            <Setter Property="ItemContainerStyle" Value="{StaticResource tar.menu.item}"/>
         </Style>
-
+        <Style x:Key="menu.icon" TargetType="materialDesign:PackIcon" BasedOn="{StaticResource icon}">
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        <Style x:Key="menu.item" TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
     </UserControl.Resources>
 
 
-    <tb:TaskbarIcon IconSource="{Binding Icon}" 
-                    LeftClickCommand="{Binding ShowCommand}">
+    <tb:TaskbarIcon IconSource="{Binding Icon}" LeftClickCommand="{Binding ShowCommand}">
         <tb:TaskbarIcon.ContextMenu>
-            <ContextMenu Style="{StaticResource tar.menu}">
-                <MenuItem Header="关闭程序" Icon="Logout" Command="{Binding ShutdownCommand}"/>
+            <ContextMenu Style="{StaticResource menu}">
+                <ContextMenu.Template>
+                    <ControlTemplate>
+                        <Border CornerRadius="5"
+                                Padding="0,10"
+                                Background="{DynamicResource MaterialDesignToolBarBackground}">
+                            <ListView ItemContainerStyle="{StaticResource menu.item}">                               
+                                <ListViewItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Style="{StaticResource menu.icon}" Kind="Power"/>
+                                        <Label Content="退出"  VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ListViewItem.InputBindings>
+                                        <MouseBinding MouseAction="{x:Static MouseAction.LeftClick}"
+                                                      Command="{Binding ShutdownCommand}"/>
+                                    </ListViewItem.InputBindings>
+                                </ListViewItem>
+                            </ListView>
+                        </Border>
+                    </ControlTemplate>
+                </ContextMenu.Template>
             </ContextMenu>
         </tb:TaskbarIcon.ContextMenu>
     </tb:TaskbarIcon>

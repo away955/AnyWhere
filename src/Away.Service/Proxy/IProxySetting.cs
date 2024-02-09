@@ -9,6 +9,6 @@ public interface IProxySetting
     string ProxyOverride { get; set; }
     bool ProxyEnable { get; set; }
 
-    bool SetProxy();
+    bool Save();
     void GetProxy();
 }

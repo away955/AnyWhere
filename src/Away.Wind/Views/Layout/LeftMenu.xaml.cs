@@ -17,7 +17,9 @@ public partial class LeftMenu : UserControl
         {
             return;
         }
+
         vm.PropertyChanged += Vm_PropertyChanged;
+
     }
 
     private void Vm_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -29,6 +31,7 @@ public partial class LeftMenu : UserControl
         if (e.PropertyName == nameof(LeftMenuVM.Toggle))
         {
             ToggleChange(vm.Toggle);
+            return;
         }
     }
 

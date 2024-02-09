@@ -62,7 +62,16 @@ public class XrayNodeService(
         {
             _logger.LogWarning("未知类型\n\r{}", JsonSerializer.Serialize(unknows.ToArray()));
         }
-        var entities = list.Where(o => !o.Alias.StartsWith("更新于")).ToList();
+        var entities = list.Where(o => !o.Alias.StartsWith("更新于"))
+            .Select(o =>
+            {
+                var context = o.Alias.Split('-');
+                if (context.Length > 1)
+                {
+                    o.Alias = context.LastOrDefault()?.Trim() ?? string.Empty;
+                }
+                return o;
+            }).ToList();
         var res = await _xrayNodeRepository.SaveNodes(entities);
         Log.Information($"更新{res}个节点");
     }

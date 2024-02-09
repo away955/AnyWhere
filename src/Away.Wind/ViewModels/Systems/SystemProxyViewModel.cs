@@ -78,7 +78,7 @@ public class SystemProxyViewModel : BindableBase, IDialogAware
         _proxySetting.ProxyServer = _server;
         _proxySetting.ProxyOverride = _whiteList;
         _proxySetting.ProxyEnable = _isEnable;
-        _proxySetting.SetProxy();
+        _proxySetting.Save();
 
         RequestClose.Invoke(new DialogResult(ButtonResult.OK));
     }

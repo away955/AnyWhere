@@ -53,6 +53,12 @@ public class XrayNodeEntity
     public string Remark { get; set; } = string.Empty;
 
     /// <summary>
+    /// 更新时间
+    /// </summary>
+    [SugarColumn(DefaultValue = "datetime('now', 'localtime')")]
+    public DateTime Updated { get; set; } = DateTime.Now;
+
+    /// <summary>
     /// 是否使用
     /// </summary>
     public bool IsChecked { get; set; }

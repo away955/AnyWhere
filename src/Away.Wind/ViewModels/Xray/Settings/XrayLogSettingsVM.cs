@@ -4,6 +4,7 @@ public class XrayLogSettingsVM : SettingsVMBase
 {
     public XrayLogSettingsVM(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
     {
+
     }
 
     private XrayLogModel _log = new();

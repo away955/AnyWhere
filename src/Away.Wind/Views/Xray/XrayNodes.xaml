@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance Type=vm:XrayNodesVM}"
              mc:Ignorable="d">
 
-    <UserControl.Resources>     
+    <UserControl.Resources>
         <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsChecked}" Value="True">
@@ -21,6 +21,36 @@
     </UserControl.Resources>
 
     <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Background="{DynamicResource MaterialDesignToolForeground}" Padding="10" CornerRadius="5">
+            <DockPanel VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Label Content="代理服务："/>
+                    <Label Content="关"/>
+                    <CheckBox Style="{StaticResource MaterialDesignSwitchAccentToggleButton}" IsChecked="{Binding IsEnableXray}"/>
+                    <Label Content="开"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                    <Label  Content="全局代理："/>
+                    <Label Content="关"/>
+                    <CheckBox Style="{StaticResource MaterialDesignSwitchAccentToggleButton}" IsChecked="{Binding IsEnableGlobalProxy}"/>
+                    <Label Content="开"/>
+
+                    <Button Style="{StaticResource MaterialDesignIconForegroundButton}"
+                            ToolTip="网络设置" Width="30" Height="30"
+                            Command="{Binding SettingsCommand}">
+                        <materialDesign:PackIcon Kind="Settings" Width="20" Height="20"/>
+                    </Button>
+                </StackPanel>
+
+            </DockPanel>
+        </Border>
+
         <DataGrid Grid.Row="1" ItemsSource="{Binding XrayNodeItemsSource}">
             <!--快捷键-->
             <DataGrid.InputBindings>
@@ -37,16 +67,10 @@
             <!--右键菜单-->
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem>
-                        <MenuItem.Header>
-                            <c:SwitchButton Label="Xray" IsChecked="{Binding IsOpenXray}" />
-                        </MenuItem.Header>
-                    </MenuItem>
-
                     <MenuItem Header="刷新" Command="{Binding ResetCommand}"/>
                     <MenuItem Header="测试所有节点速度" Command="{Binding SpeedTest}"/>
 
-                    <MenuItem Header="更新节点 F5" Command="{Binding UpdateNodeCommand}"/>
+                    <MenuItem Header="更新订阅节点 F5" Command="{Binding UpdateNodeCommand}"/>
                     <MenuItem Header="复制节点 Ctrl+C"
                               Command="{Binding CopyCommand}"
                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=SelectedItem}"/>
@@ -56,7 +80,8 @@
 
             <!--列表字段-->
             <DataGrid.Columns>
-                <DataGridTextColumn Width="60" Binding="{Binding Id}" Header="编号" />
+                <!--<DataGridTextColumn Width="60" Binding="{Binding Id}" Header="编号" />-->
+                <DataGridTextColumn Binding="{Binding Updated}" Header="更新时间" />
                 <DataGridTemplateColumn Header="状态" SortDirection="Descending" SortMemberPath="Status">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -68,7 +93,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Alias}" Header="节点名称" />                
+                <DataGridTextColumn Binding="{Binding Alias}" Header="节点名称" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

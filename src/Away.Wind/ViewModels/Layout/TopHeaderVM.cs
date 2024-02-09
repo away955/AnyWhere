@@ -17,18 +17,6 @@ public class TopHeaderVM : BindableBase
         MenuItemsSource = [
             new TopMenuModel
             {
-                Icon = "Settings",
-                ToolTip = "系统代理",
-                Command = new DelegateCommand(() => _dialogService.Show("system-proxy")),
-            },
-            new TopMenuModel
-            {
-                Icon = "Palette",
-                ToolTip = "皮肤设置",
-                Command = new DelegateCommand(() => _dialogService.Show("system-theme-settings"))
-            },
-            new TopMenuModel
-            {
                 Icon = "WindowMaximize",
                 ToolTip = "最大化",
                 Command = new DelegateCommand<TopMenuModel?>(OnWindowState),

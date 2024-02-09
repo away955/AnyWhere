@@ -3,9 +3,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:viewmodels="clr-namespace:Away.Wind.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:XrayInboundSettingsVM}"
+             mc:Ignorable="d"  >
     <Grid>
-            
+        <DataGrid ItemsSource="{Binding Inbound}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding tag}" Header="标识" />
+                <DataGridTextColumn Binding="{Binding protocol}" Header="协议" />
+                <DataGridTextColumn Binding="{Binding port}" Header="端口" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

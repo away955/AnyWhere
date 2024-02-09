@@ -4,7 +4,6 @@ using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using System.Globalization;
-using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using Container = DryIoc.Container;
@@ -13,18 +12,20 @@ namespace Away.Wind;
 
 public sealed class Bootstrapper : PrismBootstrapper
 {
-    public static IConfiguration Configuration { get; }
+#if DEBUG
+    private const string DBConn = @"DataSource=d:/away.sqlite";
+#else
+    private const string DBConn = @"DataSource=away.sqlite";
+#endif
 
     static Bootstrapper()
     {
-        Configuration = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-             .AddJsonFile("appsettings.json")
-             .Build();
-
-        Log.Logger = new LoggerConfiguration()
-            .ReadFrom.Configuration(Configuration)
-            .CreateLogger();
+        var logConf = new LoggerConfiguration();
+#if DEBUG
+        logConf.MinimumLevel.Debug();
+        logConf.WriteTo.Console();
+#endif
+        Log.Logger = logConf.CreateLogger();
     }
 
     protected override DependencyObject CreateShell()
@@ -53,15 +54,13 @@ public sealed class Bootstrapper : PrismBootstrapper
 
     private void AddServiceCollections(IServiceCollection services)
     {
-        services.AddSingleton(Configuration);
         services.AddLogging(o => o.AddSerilog());
         services.AddHttpClient("xray")
             .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
             });
-        var connStr = Configuration.GetConnectionString("Sqlite");
-        services.AddSqlSugarClient(connStr!);
+        services.AddSqlSugarClient(DBConn);
         services.AddAwayDI();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }
@@ -115,9 +114,4 @@ public sealed class Bootstrapper : PrismBootstrapper
             return Type.GetType(string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", fullName, arg, fullName2));
         });
     }
-
-    //protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
-    //{
-
-    //}
 }

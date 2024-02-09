@@ -116,14 +116,14 @@
             <TextBlock Style="{StaticResource logo.title}" Text="{Binding LogoTitle}" />
         </Grid>
 
-        <ListView Grid.Row="1" 
+        <ListView Grid.Row="1" Name="LV"
                   Style="{StaticResource menu.listView}"
-                  ItemsSource="{Binding MenuItemSource}"                  >
+                  ItemsSource="{Binding MenuItemSource}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" PassEventArgsToCommand="True"/>
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>            
         </ListView>
 
     </Grid>

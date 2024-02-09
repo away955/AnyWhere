@@ -20,7 +20,7 @@ public class ProxySetting : IProxySetting
         GetProxy();
     }
 
-    public bool SetProxy()
+    public bool Save()
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {

@@ -21,7 +21,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Window">
-                        <Border CornerRadius="10"
+                        <Border CornerRadius="5"
                                 Background="{StaticResource MaterialDesignPaper}" >
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -29,16 +29,19 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <materialDesign:ColorZone Background="{DynamicResource MaterialDesignToolBarBackground}"
-                                                          CornerRadius="10,10,0,0" 
+                                                          CornerRadius="5,5,0,0" 
                                                           Height="40"
                                                           MouseMove="Header_MouseMove">
                                     <DockPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
                                             <TextBlock Text="{Binding Title}" />
                                         </StackPanel>
 
 
-                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0,0,5,0"
+                                                    DockPanel.Dock="Right"
+                                                    HorizontalAlignment="Right">
                                             <Button Style="{StaticResource MaterialDesignIconForegroundButton}"
                                                     ToolTip="关闭" 
                                                     Click="Button_Click"
@@ -48,7 +51,7 @@
                                         </StackPanel>
                                     </DockPanel>
                                 </materialDesign:ColorZone>
-                                <Border Margin="10" Padding="10" Grid.Row="1">
+                                <Border Grid.Row="1">
                                     <ContentPresenter />
                                 </Border>
                             </Grid>

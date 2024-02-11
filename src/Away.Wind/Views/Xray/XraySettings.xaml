@@ -25,25 +25,14 @@
             <TabItem Header="订阅节点">
                 <views:XrayNodeSubSettings DataContext="{Binding NodeSubSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>
-
-            <!--<TabItem Header="日志">
+            <TabItem Header="日志">
                 <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
-            </TabItem>
-            <TabItem Header="接口">
-                <views:XrayApiSettings DataContext="{Binding ApiSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>
             <TabItem Header="DNS">
                 <views:XrayDnsSettings DataContext="{Binding DNSSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>
-
             <TabItem Header="路由">
-                <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
-            </TabItem>
-            <TabItem Header="本地策略">
-                <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
-            </TabItem>
-            <TabItem Header="网络连接">
-                <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
+                <views:XrayRouteSettings DataContext="{Binding RouteSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>
             <TabItem Header="入站配置">
                 <views:XrayInboundSettings DataContext="{Binding InboundSettingsVM}" Style="{StaticResource settings}"/>
@@ -51,6 +40,23 @@
             <TabItem Header="出站配置">
                 <views:XrayOutboundSettings DataContext="{Binding OutboundSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>
+            <TabItem Header="接口">
+                <views:XrayApiSettings DataContext="{Binding ApiSettingsVM}" Style="{StaticResource settings}"/>
+            </TabItem>
+            <!--
+            <TabItem Header="接口">
+                <views:XrayApiSettings DataContext="{Binding ApiSettingsVM}" Style="{StaticResource settings}"/>
+            </TabItem>
+          
+
+            
+            <TabItem Header="本地策略">
+                <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
+            </TabItem>
+            <TabItem Header="网络连接">
+                <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
+            </TabItem>
+         
             <TabItem Header="流量统计">
                 <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>

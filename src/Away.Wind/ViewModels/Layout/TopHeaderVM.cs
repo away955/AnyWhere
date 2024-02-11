@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace Away.Wind.ViewModels;
 
@@ -17,15 +16,29 @@ public class TopHeaderVM : BindableBase
         MenuItemsSource = [
             new TopMenuModel
             {
+                Icon = "WindowMinimize",
+                ToolTip = "最小化",
+                Command = new DelegateCommand(() =>
+                {
+                    WindowState = WindowState.Minimized;
+                    RaisePropertyChanged(nameof(WindowState));
+                }),
+            },
+            new TopMenuModel
+            {
                 Icon = "WindowMaximize",
                 ToolTip = "最大化",
                 Command = new DelegateCommand<TopMenuModel?>(OnWindowState),
             },
             new TopMenuModel
             {
-                Icon = "Close",
+                Icon = "WindowClose",
                 ToolTip = "关闭",
-                Command = new DelegateCommand(() => IsHide = true),
+                Command = new DelegateCommand(() =>
+                {
+                    IsHide = true;
+                    RaisePropertyChanged(nameof(IsHide));
+                }),
             },
         ];
     }
@@ -88,7 +101,6 @@ public class TopHeaderVM : BindableBase
         {
             model.Icon = "WindowRestore";
             model.ToolTip = "还原";
-
             WindowState = WindowState.Maximized;
         }
         else
@@ -97,6 +109,7 @@ public class TopHeaderVM : BindableBase
             model.ToolTip = "最大化";
             WindowState = WindowState.Normal;
         }
+        RaisePropertyChanged(nameof(WindowState));
     }
 }
 

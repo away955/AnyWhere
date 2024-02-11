@@ -3,6 +3,26 @@
 
 public static class XrayExtentions
 {
+    public static void RemoveInbound(this XrayConfig config, string tag)
+    {
+        var index = config.inbounds.FindIndex(o => o.tag == tag);
+        if (index > -1)
+        {
+            config.inbounds.RemoveAt(index);
+        }
+    }
+
+    public static void SetInbound(this XrayConfig config, string tag, string protocol, int port)
+    {
+        XrayInbound inbound = new()
+        {
+            tag = tag,
+            protocol = protocol,
+            port = port
+        };
+        config.SetInbound(inbound);
+    }
+
     public static void SetInbound(this XrayConfig config, XrayInbound model)
     {
         config.inbounds ??= [];

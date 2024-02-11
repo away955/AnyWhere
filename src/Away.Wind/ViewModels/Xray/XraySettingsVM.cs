@@ -5,17 +5,19 @@ public class XraySettingsVM : BindableBase, IDialogAware
     private readonly IXrayNodeSubRepository _nodeSubRepository;
     private readonly IMapper _mapper;
     private readonly IMessageService _messageService;
+    private readonly IXrayService _xrayService;
+
     public XraySettingsVM(
         IXrayNodeSubRepository nodeSubRepository,
         IMapper mapper,
-        IMessageService messageService
+        IMessageService messageService,
+        IXrayService xrayService
         )
     {
         _nodeSubRepository = nodeSubRepository;
         _mapper = mapper;
         _messageService = messageService;
-
-        Init();
+        _xrayService = xrayService;
     }
 
     private XrayNodeSubSettingsVM _nodeSubSettingsVM = null!;
@@ -46,6 +48,13 @@ public class XraySettingsVM : BindableBase, IDialogAware
         set => SetProperty(ref _dnsSettingsVM, value);
     }
 
+    private XrayRouteSettingsVM _routeSettingsVM = null!;
+    public XrayRouteSettingsVM RouteSettingsVM
+    {
+        get => _routeSettingsVM;
+        set => SetProperty(ref _routeSettingsVM, value);
+    }
+
     private XrayInboundSettingsVM _inboundSettingsVM = null!;
     public XrayInboundSettingsVM InboundSettingsVM
     {
@@ -65,6 +74,12 @@ public class XraySettingsVM : BindableBase, IDialogAware
     private void Init()
     {
         NodeSubSettingsVM = new(_nodeSubRepository, _mapper, _messageService);
+        DNSSettingsVM = new(_xrayService, _mapper, _messageService);
+        LogSettingsVM = new(_xrayService, _mapper, _messageService);
+        RouteSettingsVM = new(_xrayService, _mapper, _messageService);
+        OutboundSettingsVM = new(_xrayService, _mapper, _messageService);
+        InboundSettingsVM = new(_xrayService, _mapper, _messageService);
+        ApiSettingsVM = new(_xrayService, _mapper, _messageService);
     }
 
 

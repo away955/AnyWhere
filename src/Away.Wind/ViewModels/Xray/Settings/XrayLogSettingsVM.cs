@@ -1,13 +1,15 @@
-﻿namespace Away.Wind.ViewModels;
+﻿
+namespace Away.Wind.ViewModels;
 
 public class XrayLogSettingsVM : SettingsVMBase
 {
-    public XrayLogSettingsVM(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
+    public XrayLogSettingsVM(IXrayService xrayService, IMapper mapper, IMessageService messageService)
+        : base(xrayService, mapper, messageService)
     {
-
     }
 
     private XrayLogModel _log = new();
+
     public XrayLogModel Log { get => _log; set => SetProperty(ref _log, value); }
 
     protected override void Init()
@@ -19,11 +21,6 @@ public class XrayLogSettingsVM : SettingsVMBase
     protected override void OnSaveCommand()
     {
         _xrayService.Config.log = _mapper.Map<XrayLog>(Log);
-        _xrayService.SaveConfig();
-    }
-
-    protected override void OnCancelCommand()
-    {
-        Init();
+        base.OnSaveCommand();
     }
 }

@@ -8,26 +8,35 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:XrayApiSettingsVM}"
              mc:Ignorable="d" >
 
-
     <Grid>
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <Button Style="{StaticResource btn}" ToolTip="保存" Command="{Binding SaveCommand}">
+                    <materialDesign:PackIcon Style="{StaticResource btn.icon}" Kind="ContentSaveAll"/>
+                </Button>
+            </StackPanel>
+        </DockPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBox materialDesign:HintAssist.Hint="出站代理标识" Text="{Binding tag}"/>
+
             <StackPanel>
-                <Label Content="开启的 API 列表"/>
-                <ItemsControl ItemsSource="{Binding XrayApiItems}">
+                <TextBlock Text="开启的 API 列表" Opacity="0.54"/>
+                <ItemsControl ItemsSource="{Binding Items}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox Content="{Binding .}"/>
+                            <CheckBox Content="{Binding Content}" Margin="5"
+                                      ToolTip="{Binding ToolTip}"
+                                      IsChecked="{Binding IsChecked}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-
-
-
-            <TextBox materialDesign:HintAssist.Hint="出站代理标识"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Text="{Binding XrayConfig.api.tag}"/>
         </StackPanel>
-
     </Grid>
 </UserControl>

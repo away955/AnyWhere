@@ -20,8 +20,6 @@ public class MainWindowViewModel : BindableBase
         set => SetProperty(ref _messageQueue, value);
     }
 
-
-
     public MainWindowViewModel(
         TaskBarIconVM taskBarIconVM,
         TopHeaderVM topHeaderVM,

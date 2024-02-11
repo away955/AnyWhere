@@ -2,11 +2,11 @@
 
 public class XrayInboundModel : BindableBase
 {
-    private int _port;
+    private int? _port;
     private string _protocol = string.Empty;
     private string _tag = string.Empty;
 
-    public int port
+    public int? port
     {
         get => _port;
         set => SetProperty(ref _port, value);

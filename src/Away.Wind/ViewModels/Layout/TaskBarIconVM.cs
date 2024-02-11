@@ -56,6 +56,7 @@ public class TaskBarIconVM : BindableBase
     private void OnShowCommand()
     {
         IsShow = true;
+        RaisePropertyChanged(nameof(IsShow));
     }
 
 }

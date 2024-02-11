@@ -8,21 +8,6 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:XrayNodeSubSettingsVM}"
              mc:Ignorable="d" 
              >
-    <UserControl.Resources>
-        <Style x:Key="input" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
-            <Setter Property="Margin" Value="10,0,0,0"/>
-        </Style>
-
-        <Style x:Key="btn" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconForegroundButton}">
-            <Setter Property="Width"  Value="30"/>
-            <Setter Property="Height" Value="30"/>
-        </Style>
-
-        <Style x:Key="btn.icon" TargetType="materialDesign:PackIcon" BasedOn="{StaticResource icon}">
-            <Setter Property="Width"  Value="20"/>
-            <Setter Property="Height" Value="20"/>
-        </Style>
-    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -48,8 +33,12 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="禁用" IsChecked="{Binding IsDisable}"/>
-                        <TextBox Style="{StaticResource input}" Width="50" Text="{Binding Remark}"/>
-                        <TextBox Style="{StaticResource input}" Width="300" Text="{Binding Url}"/>
+                        <TextBox Style="{StaticResource input}"
+                                 materialDesign:HintAssist.Hint="备注"
+                                 Width="50" Text="{Binding Remark}"/>
+                        <TextBox Style="{StaticResource input}" 
+                                 materialDesign:HintAssist.Hint="订阅URl"
+                                 Width="300" Text="{Binding Url}"/>
                         <Button Style="{StaticResource btn}" 
                                 ToolTip="删除" 
                                 Command="{Binding Path=DataContext.DelCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ItemsControl}}}"

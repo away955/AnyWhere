@@ -46,7 +46,7 @@ public class XrayNodeSubSettingsVM : BindableBase
         Items.Add(new XrayNodeSubModel());
     }
 
-    public void OnDelCommand(XrayNodeSubModel? model)
+    private void OnDelCommand(XrayNodeSubModel? model)
     {
         if (model == null)
         {
@@ -60,7 +60,7 @@ public class XrayNodeSubSettingsVM : BindableBase
         }
     }
 
-    public void OnSaveCommand()
+    private void OnSaveCommand()
     {
         var entitys = Items.Where(o => !string.IsNullOrWhiteSpace(o.Url)).Select(_mapper.Map<XrayNodeSubEntity>).ToList();
         var flag = _repository.InsertOrUpdate(entitys);

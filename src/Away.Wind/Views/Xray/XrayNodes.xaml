@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:c="clr-namespace:Away.Wind.Components"
              xmlns:vm="clr-namespace:Away.Wind.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:XrayNodesVM}"
              mc:Ignorable="d">
@@ -81,7 +80,7 @@
             <!--列表字段-->
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Width="60" Binding="{Binding Id}" Header="编号" />-->
-                <DataGridTextColumn Binding="{Binding Updated}" Header="更新时间" />
+                <!--<DataGridTextColumn Binding="{Binding Updated}" Header="更新时间" />-->
                 <DataGridTemplateColumn Header="状态" SortDirection="Descending" SortMemberPath="Status">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

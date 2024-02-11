@@ -38,20 +38,13 @@ public partial class MainWindow : Window
         }
         if (e.PropertyName == nameof(TaskBarIconVM.IsShow))
         {
-            if (vm.IsShow)
-            {
-                this.Show();
-                this.Activate();
-                vm.IsShow = false;
-            }
+            this.Show();
+            this.Activate();
             return;
         }
         if (e.PropertyName == nameof(TaskBarIconVM.IsClose))
         {
-            Dispatcher.Invoke(() =>
-            {
-                Application.Current.Shutdown();
-            });
+            Dispatcher.Invoke(Application.Current.Shutdown);
             return;
         }
     }
@@ -62,18 +55,14 @@ public partial class MainWindow : Window
         {
             return;
         }
-        if (e.PropertyName == nameof(TopHeaderVM.WindowState))
+        if (e.PropertyName == nameof(TopHeaderVM.WindowState) && WindowState != vm.WindowState)
         {
             WindowState = vm.WindowState;
             return;
         }
         if (e.PropertyName == nameof(TopHeaderVM.IsHide))
         {
-            if (vm.IsHide)
-            {
-                this.Hide();
-                vm.IsHide = false;
-            }
+            this.Hide();
             return;
         }
     }

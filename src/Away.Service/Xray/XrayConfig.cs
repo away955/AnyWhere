@@ -20,7 +20,7 @@ public sealed class XrayConfig
     /// <summary>
     /// 路由功能。可以设置规则分流数据从不同的 outbound 发出.
     /// </summary>
-    public XrayRoute? routing { get; set; }
+    public XrayRoute routing { get; set; } = XrayRoute.Default;
     /// <summary>
     /// 本地策略，可以设置不同的用户等级和对应的策略设置。
     /// </summary>
@@ -61,8 +61,6 @@ public sealed class XrayConfig
         XrayConfig config = new();
         config.log = XrayLog.Default;
         config.api = XrayApi.Default;
-        config.dns = XrayDns.Default;
-        config.routing = XrayRoute.Default;
         config.inbounds = [
             new XrayInbound
             {

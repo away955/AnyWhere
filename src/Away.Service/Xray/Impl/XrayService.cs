@@ -26,7 +26,7 @@ public class XrayService : BaseXrayService, IXrayService
         {
             return false;
         }
-        _proxySetting.ProxyServer = $"{inbound.listen}:{inbound.port}";
+        _proxySetting.ProxyServer = $"{inbound.listen ?? "127.0.0.1"}:{inbound.port}";
         _proxySetting.ProxyEnable = true;
         _proxySetting.Save();
         IsEnableGlobalProxy = true;

@@ -52,7 +52,7 @@ public class XrayNodesVM : BindableBase
     {
         IsEnableXray = _xrayService.IsEnable;
         IsEnableGlobalProxy = _xrayService.IsEnableGlobalProxy;
-        var xraynodes = _xrayNodeRepository.GetList();
+        var xraynodes = _xrayNodeRepository.GetList().OrderByDescending(o => o.Status);
         var items = xraynodes.Select(_mapper.Map<XrayNodeModel>);
         XrayNodeItemsSource = new ObservableCollection<XrayNodeModel>(items);
     }
@@ -123,6 +123,7 @@ public class XrayNodesVM : BindableBase
         var subs = _xrayNodeSubRepository.AsQueryable().Where(o => o.IsDisable == false).ToList();
         foreach (var sub in subs)
         {
+            _messageService.Show($"正在更新订阅{sub.Remark}...");
             await _xrayNodeService.SetXrayNodeByUrl(sub.Url);
         }
         OnResetCommand();
@@ -195,7 +196,11 @@ public class XrayNodesVM : BindableBase
             await _xrayNodeRepository.UpdateAsync(entity);
 
         };
-        speedService.Listen(() => _messageService.Show("节点测试完成"));
+        speedService.Listen(() =>
+        {
+            _messageService.Show("节点测试完成");
+            OnResetCommand();
+        });
     }
 
     /// <summary>

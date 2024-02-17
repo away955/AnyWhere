@@ -2,9 +2,11 @@
 
 public class LeftMenuVM : BindableBase
 {
+    private const string RegionName = "MainBox";
     private readonly IRegionManager _regionManager;
     private readonly ISettingsRepository _settingsRepository;
     private readonly IMenuRepository _menuRepository;
+
 
     public LeftMenuVM(
         IRegionManager regionManager,
@@ -21,7 +23,7 @@ public class LeftMenuVM : BindableBase
         Logo = _settingsRepository.GetValue("Logo");
         LogoTitle = _settingsRepository.GetValue("LogoTitle");
 
-        var menus = _menuRepository.GetList().Select(o => new ItemMenuModel { Icon = o.Icon!, Title = o.Title!, URL = o.Url! });
+        var menus = _menuRepository.GetList().Select(o => new ItemMenuModel { Icon = o.Icon, Title = o.Title, URL = o.Url });
         MenuItemSource = new ObservableCollection<ItemMenuModel>(menus);
     }
 
@@ -64,7 +66,16 @@ public class LeftMenuVM : BindableBase
         {
             return;
         }
-        _regionManager.RequestNavigate("MainBox", model.URL);
+        _regionManager.RequestNavigate(RegionName, model.URL);
+    }
+
+    /// <summary>
+    /// 默认选中
+    /// </summary>
+    public string DefaultUrl { get; set; } = string.Empty;
+    public void SetDefaultMenu()
+    {
+        _regionManager.RequestNavigate(RegionName, DefaultUrl);
     }
 
     private bool _toggle;
@@ -76,6 +87,8 @@ public class LeftMenuVM : BindableBase
         get => _toggle;
         set => SetProperty(ref _toggle, value);
     }
+
+
 }
 
 public class ItemMenuModel : BindableBase

@@ -1,9 +1,11 @@
-﻿using Away.Wind.Views;
+﻿using Away.Service.Windows;
+using Away.Wind.Views;
 using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using Container = DryIoc.Container;
@@ -13,18 +15,19 @@ namespace Away.Wind;
 public sealed class Bootstrapper : PrismBootstrapper
 {
 #if DEBUG
-    private const string DBConn = @"DataSource=d:/away.sqlite";
+    private static string DbPath = Path.Combine(Environment.CurrentDirectory.Split("\\bin")[0], "away.sqlite");
+    private static string DBConnectionString => $"DataSource={DbPath}";
+
 #else
-    private const string DBConn = @"DataSource=away.sqlite";
+    private const string DBConnectionString = @"DataSource=away.sqlite";
 #endif
 
     static Bootstrapper()
     {
+        ConsoleManager.Init();
         var logConf = new LoggerConfiguration();
-#if DEBUG
         logConf.MinimumLevel.Debug();
         logConf.WriteTo.Console();
-#endif
         Log.Logger = logConf.CreateLogger();
     }
 
@@ -60,7 +63,7 @@ public sealed class Bootstrapper : PrismBootstrapper
             {
                 ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
             });
-        services.AddSqlSugarClient(DBConn);
+        services.AddSqlSugarClient(DBConnectionString);
         services.AddAwayDI();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }

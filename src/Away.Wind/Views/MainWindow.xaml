@@ -42,6 +42,9 @@
         </Style>
     </Window.Style>
 
+    <Window.InputBindings>
+        <KeyBinding Gesture="F12" Command="{Binding DebugCommand}"/>
+    </Window.InputBindings>
 
 
     <materialDesign:DialogHost SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">

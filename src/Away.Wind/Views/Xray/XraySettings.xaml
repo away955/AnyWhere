@@ -43,13 +43,7 @@
             <TabItem Header="接口">
                 <views:XrayApiSettings DataContext="{Binding ApiSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>
-            <!--
-            <TabItem Header="接口">
-                <views:XrayApiSettings DataContext="{Binding ApiSettingsVM}" Style="{StaticResource settings}"/>
-            </TabItem>
-          
-
-            
+            <!-- 
             <TabItem Header="本地策略">
                 <views:XrayLogSettings DataContext="{Binding LogSettingsVM}" Style="{StaticResource settings}"/>
             </TabItem>

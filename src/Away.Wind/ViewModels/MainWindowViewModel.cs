@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Away.Service.Windows;
+using MaterialDesignThemes.Wpf;
 
 namespace Away.Wind.ViewModels;
 
@@ -21,26 +22,30 @@ public class MainWindowViewModel : BindableBase
     }
 
     public MainWindowViewModel(
-        TaskBarIconVM taskBarIconVM,
-        TopHeaderVM topHeaderVM,
-        LeftMenuVM leftMenuVM,
-        IMessageService messageService
+        IMessageService messageService,
+        ISettingsRepository settingsRepository,
+        IXrayService xrayService,
+        IDialogService dialogService,
+        IRegionManager regionManager,
+        IMenuRepository menuRepository
         )
     {
 
-        TaskBarIconVM = taskBarIconVM;
-        TopHeaderVM = topHeaderVM;
-        LeftMenuVM = leftMenuVM;
-
-        messageService.Subscribe(ShowMessage);
+        messageService.Subscribe(MessageQueue.Enqueue);
+        TaskBarIconVM = new(settingsRepository, xrayService);
+        TopHeaderVM = new(dialogService);
+        LeftMenuVM = new(regionManager, settingsRepository, menuRepository)
+        {
+            DefaultUrl = "xray-nodes"
+        };
 
         TopHeaderVM.OnToggleButtonChange += (o) => LeftMenuVM.Toggle = o;
+        DebugCommand = new(OnDebugCommand);
     }
 
-    private void ShowMessage(string text)
+    public DelegateCommand DebugCommand { get; private set; }
+    private void OnDebugCommand()
     {
-        MessageQueue.Enqueue(text);
+        ConsoleManager.Toggle();
     }
-
-
 }

@@ -9,7 +9,7 @@
 		<ApplicationIcon>Assets\favicon.ico</ApplicationIcon>
 		<StartupObject>Away.Wind.App</StartupObject>
 		<NoWarn>1701;1702;IDE1006;</NoWarn>
-		<FileVersion>1.0</FileVersion>		
+		<FileVersion>1.0</FileVersion>
 		<Copyright>Away©2024-至今</Copyright>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
@@ -20,6 +20,10 @@
 		<DebuggerSupport>false</DebuggerSupport>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="copy $(ProjectDir)away.sqlite $(TargetDir)away.sqlite" />
+	</Target>
 
 	<ItemGroup>
 		<Resource Include="Assets/**" />
@@ -40,5 +44,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Away.Service\Away.Service.csproj" />
 	</ItemGroup>
+
+
 
 </Project>

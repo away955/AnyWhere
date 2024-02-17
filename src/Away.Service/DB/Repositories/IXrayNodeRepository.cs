@@ -6,4 +6,6 @@
 public interface IXrayNodeRepository : IRepositoryBase<XrayNodeEntity>
 {
     Task<int> SaveNodes(List<XrayNodeEntity> entities);
+
+    bool DeleteNodesByLtTime(DateTime dateTime);
 }

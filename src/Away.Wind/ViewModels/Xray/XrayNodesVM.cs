@@ -187,6 +187,7 @@ public class XrayNodesVM : BindableBase
             {
                 model.Status = entity.Status = XrayNodeStatus.Success;
                 model.Remark = entity.Remark = result.Speed;
+                model.Updated = DateTime.Now;
             }
             else
             {
@@ -198,6 +199,7 @@ public class XrayNodesVM : BindableBase
         };
         speedService.Listen(() =>
         {
+            _xrayNodeRepository.DeleteNodesByLtTime(DateTime.Now.AddDays(-3));
             _messageService.Show("节点测试完成");
             OnResetCommand();
         });

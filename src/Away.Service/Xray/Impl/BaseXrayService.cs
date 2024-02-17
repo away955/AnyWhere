@@ -62,7 +62,7 @@ public abstract class BaseXrayService : IBaseXrayService
             {
                 FileName = _xrayPath,
                 Arguments = $"run -c {_xrayConfigPath}",
-                CreateNoWindow = true
+                //CreateNoWindow = true
             }
         };
         xrayProcess.OutputDataReceived += (sender, e) =>

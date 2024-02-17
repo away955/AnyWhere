@@ -2,7 +2,6 @@
 
 namespace Away.Wind.Views;
 
-[ViewModel(typeof(LeftMenuVM))]
 public partial class LeftMenu : UserControl
 {
     public LeftMenu()
@@ -19,7 +18,8 @@ public partial class LeftMenu : UserControl
         }
 
         vm.PropertyChanged += Vm_PropertyChanged;
-
+        this.LV.SelectedValue = vm.DefaultUrl;
+        vm.SetDefaultMenu();
     }
 
     private void Vm_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	
+	<SolidColorBrush x:Key="AwayValidationErrorBrush" Color="#CF6679" />
+	<SolidColorBrush x:Key="AwayBackground"  Color="#FF212121" />
+	<SolidColorBrush x:Key="AwayPaper"  Color="#FF303030" />
+	<SolidColorBrush x:Key="AwayCardBackground"  Color="#FF424242" />
+	<SolidColorBrush x:Key="AwayToolBarBackground"  Color="#FF303030" />
+	<SolidColorBrush x:Key="AwayBody"  Color="#DDFFFFFF" />
+	<SolidColorBrush x:Key="AwayBodyLight"  Color="#89FFFFFF" />
+	<SolidColorBrush x:Key="AwayColumnHeader"  Color="#BCFFFFFF" />
+	<SolidColorBrush x:Key="AwayCheckBoxOff"  Color="#89FFFFFF" />
+	<SolidColorBrush x:Key="AwayCheckBoxDisabled"  Color="#FF647076" />
+	<SolidColorBrush x:Key="AwayTextBoxBorder"  Color="#89FFFFFF" />
+	<SolidColorBrush x:Key="AwayDivider"  Color="#1FFFFFFF" />
+	<SolidColorBrush x:Key="AwaySelection"  Color="#757575" />
+	<SolidColorBrush x:Key="AwayToolForeground"  Color="#616161" />
+	<SolidColorBrush x:Key="AwayToolBackground"  Color="#e0e0e0" />
+	<SolidColorBrush x:Key="AwayFlatButtonClick"  Color="#19757575" />
+	<SolidColorBrush x:Key="AwayFlatButtonRipple"  Color="#FFB6B6B6" />
+	<SolidColorBrush x:Key="AwayToolTipBackground"  Color="#eeeeee" />
+	<SolidColorBrush x:Key="AwayChipBackground"  Color="#FF2E3C43" />
+	<SolidColorBrush x:Key="AwaySnackbarBackground"  Color="#FFCDCDCD" />
+	<SolidColorBrush x:Key="AwaySnackbarMouseOver"  Color="#FFB9B9BD" />
+	<SolidColorBrush x:Key="AwaySnackbarRipple"  Color="#FF494949" />
+	<SolidColorBrush x:Key="AwayTextFieldBoxBackground"  Color="#1AFFFFFF" />
+	<SolidColorBrush x:Key="AwayTextFieldBoxHoverBackground"  Color="#1FFFFFFF" />
+	<SolidColorBrush x:Key="AwayTextFieldBoxDisabledBackground"  Color="#0DFFFFFF" />
+	<SolidColorBrush x:Key="AwayTextAreaBorder"  Color="#BCFFFFFF" />
+	<SolidColorBrush x:Key="AwayTextAreaInactiveBorder"  Color="#29FFFFFF" />
+	<SolidColorBrush x:Key="AwayDataGridRowHoverBackground"  Color="#14FFFFFF" />
+
+</ResourceDictionary>

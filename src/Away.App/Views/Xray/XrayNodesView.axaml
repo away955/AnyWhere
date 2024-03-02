@@ -1,0 +1,108 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:vm="clr-namespace:Away.App.ViewModels.Xray;assembly=Away.App"
+			 x:DataType="vm:XrayNodesViewModel"
+             x:Class="Away.App.XrayNodesView">
+
+	<UserControl.Styles>
+		<Style Selector="Border.toolbar">
+			<Setter Property="Background" Value="{StaticResource AwayToolBarBackground}"/>
+			<Setter Property="CornerRadius" Value="5"/>
+			<Setter Property="Padding" Value="10"/>
+			<Setter Property="Margin" Value="0,0,0,5"/>
+		</Style>
+		<Style Selector="StackPanel.toolbaritem">
+			<Setter Property="Spacing"  Value="5"/>
+			<Setter Property="Orientation" Value="Horizontal"/>
+			<Style Selector="^ > TextBlock">
+				<Setter Property="VerticalAlignment" Value="Center"/>
+			</Style>
+			<Style Selector="^ > ToggleSwitch">
+				<Setter Property="Margin" Value="0,-5,0,0"/>
+			</Style>
+		</Style>
+		<Style Selector="DataGrid">
+			<Setter Property="IsReadOnly" Value="True"/>
+			<Setter Property="AutoGenerateColumns" Value="False"/>
+			<Setter Property="CornerRadius" Value="5"/>
+			<Setter Property="SelectionMode" Value="Single"/>
+			<Setter Property="Background" Value="{StaticResource AwayPaper}"/>
+		</Style>
+		<Style Selector="DataGridColumnHeader">
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Background" Value="{StaticResource AwayPaper}"/>
+			<Setter Property="CornerRadius" Value="5"/>
+		</Style>
+
+	</UserControl.Styles>
+
+	<Grid Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="50"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+		<Border Classes="toolbar">
+			<DockPanel VerticalAlignment="Center">
+				<StackPanel Classes="toolbaritem" DockPanel.Dock="Left">
+					<TextBlock Text="代理服务"/>
+					<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />
+				</StackPanel>
+
+				<StackPanel Classes="toolbaritem" DockPanel.Dock="Right" HorizontalAlignment="Right">
+					<TextBlock Text="全局代理"/>
+					<ToggleSwitch IsChecked="{Binding IsEnableGlobalProxy}" OffContent="关" OnContent="开" />
+				</StackPanel>
+			</DockPanel>
+		</Border>
+
+		<DataGrid Grid.Row="1" Name="DGXrayNode"
+				  ItemsSource="{Binding XrayNodeItemsSource}"
+				  SelectedItem="{Binding XrayNodeSelectedItem}">
+			<!--快捷键-->
+			<DataGrid.KeyBindings>
+				<KeyBinding Gesture="F1" Command="{Binding SpeedTest}"/>
+				<KeyBinding Gesture="F5" Command="{Binding UpdateNodeCommand}"/>
+				<KeyBinding Gesture="Ctrl+C" Command="{Binding CopyCommand}"/>
+				<KeyBinding Gesture="Ctrl+V" Command="{Binding PasteCommand}"/>
+				<KeyBinding Gesture="Enter" Command="{Binding CheckedCommand}"/>
+				<KeyBinding Gesture="Delete" Command="{Binding DeleteCommand}" />
+			</DataGrid.KeyBindings>
+
+			<!--右键菜单-->
+			<DataGrid.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="刷新" Command="{Binding ResetCommand}"/>
+					<MenuItem Header="测试所有节点速度 F1" Command="{Binding SpeedTest}"/>
+					<MenuItem Header="更新订阅节点 F5" Command="{Binding UpdateNodeCommand}"/>
+					<MenuItem Header="删除节点 Delete" Command="{Binding DeleteCommand}"/>
+					<MenuItem Header="复制 Ctrl+C" Command="{Binding CopyCommand}"/>
+					<MenuItem Header="粘贴 Ctrl+V" Command="{Binding PasteCommand}"/>
+					<MenuItem Header="使用节点 Enter" Command="{Binding CheckedCommand}"/>
+
+				</ContextMenu>
+			</DataGrid.ContextMenu>
+
+			<!--列表字段-->
+			<DataGrid.Columns>
+				<DataGridTextColumn Width="150" Binding="{Binding Updated}" Header="更新时间"/>
+				<DataGridTextColumn Width="120" Binding="{Binding Remark}" Header="状态" />
+				<DataGridTextColumn Width="*" Binding="{Binding Alias}" Header="节点名称" />
+				<DataGridTemplateColumn Width="*" Header="地址" CanUserSort="True" SortMemberPath="Host">
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<TextBlock Text="{Binding Type}"/>
+							<TextBlock Text="://"/>
+							<TextBlock Text="{Binding Host}"/>
+							<TextBlock Text=":"/>
+							<TextBlock Text="{Binding Port}"/>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

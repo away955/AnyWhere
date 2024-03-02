@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App"
+			 xmlns:local="clr-namespace:Away.App.Components.Layout;assembly=Away.App"
+			 x:DataType="local:TopHeaderViewModel"
+             x:Class="Away.App.Components.Layout.TopHeader">
+
+	<UserControl.Styles>
+		<Style Selector="Menu.rightmenu">
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Style Selector="^ > MenuItem">
+				<Setter Property="FontSize" Value="20"/>
+			</Style>
+		</Style>
+	</UserControl.Styles>
+
+	<DockPanel>
+		
+		<Menu Classes="rightmenu" DockPanel.Dock="Right">
+			<MenuItem Header="{icon:Enum Minimal}" Command="{Binding MinimizedCommand}"/>
+			<MenuItem Header="{Binding NormalIcon}" Command="{Binding NormalCommand}"/>
+			<MenuItem Header="{icon:Enum Close}" Command="{Binding CloseCommand}"/>
+		</Menu>
+	</DockPanel>
+</UserControl>

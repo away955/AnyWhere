@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="Away.App.Views.MainWindow"
+		xmlns:layout="clr-namespace:Away.App.Components.Layout;assembly=Away.App"
+		xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
+		x:DataType="vm:MainWindowViewModel">
+
+	<Window.Styles>
+		<Style Selector="Window">
+			<Setter Property="Width" Value="800"/>
+			<Setter Property="Height" Value="600"/>
+			<Setter Property="Icon" Value="/Assets/logo.ico" />
+			<Setter Property="WindowStartupLocation" Value="CenterScreen"/>
+			<Setter Property="Title" Value="{Binding Title}"/>
+			<Setter Property="ExtendClientAreaToDecorationsHint" Value="True"/>
+
+			<Setter Property="Template">
+				<ControlTemplate TargetType="Window">
+					<Border CornerRadius="5" Padding="5" Background="{StaticResource AwayBackground}">
+						<ContentPresenter Content="{TemplateBinding Content}" />
+					</Border>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+	</Window.Styles>
+
+	<Window.KeyBindings>
+		<KeyBinding Gesture="F11" Command="{Binding ConsoleCommand}" />
+	</Window.KeyBindings>
+
+	<Grid>
+		<Border Background="Transparent" PointerPressed="TopHeader_PointerMoved"/>		
+		<DockPanel Grid.Row="1">
+			<layout:LeftMenu />
+			<Grid RowDefinitions="50,*">
+				<layout:TopHeader />
+				<Border Grid.Row="1" Padding="10">
+					<ContentControl Name="MainBox"/>
+				</Border>
+			</Grid>
+		</DockPanel>
+	</Grid>
+
+</Window>

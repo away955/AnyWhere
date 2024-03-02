@@ -1,0 +1,39 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Away.App.App"
+             xmlns:local="using:Away.App"
+			 xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
+			 x:DataType="vm:AppViewModel"
+             RequestedThemeVariant="Dark">
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="/Styles/Theme/Dark.axaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+
+	</Application.Resources>
+
+	<Application.Styles>
+		<FluentTheme />
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+		<StyleInclude Source="/Styles/Base.axaml" />
+	</Application.Styles>
+
+
+	<TrayIcon.Icons>
+		<TrayIcons>
+			<TrayIcon Icon="/Assets/logo.ico"
+					  Command="{Binding ShowCommand}"
+					  ToolTipText="{Binding Title}">
+				<TrayIcon.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="退出" Command="{Binding ExitCommand}" />
+					</NativeMenu>
+				</TrayIcon.Menu>
+			</TrayIcon>
+		</TrayIcons>
+	</TrayIcon.Icons>
+
+</Application>

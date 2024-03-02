@@ -1,0 +1,10 @@
+﻿namespace Away.Domain.Xray.Model;
+
+/// <summary>
+/// FakeDNS 配置。可配合透明代理使用，以获取实际域名。
+/// </summary>
+public class XrayFakedns
+{
+    public string? ipPool { get; set; }
+    public int poolSize { get; set; }
+}

@@ -1,0 +1,15 @@
+﻿global using Away.App.Core.DI;
+global using Away.App.Core.Repository;
+global using Away.App.Core.Utils;
+global using Away.App.Core.Windows.Proxy;
+global using Away.App.Domain.Xray;
+global using Away.App.Domain.XrayNode;
+global using Away.App.Domain.XrayNodeSub;
+global using Away.Domain.Xray;
+global using Away.Domain.Xray.Model;
+global using Away.Domain.XrayNode;
+global using Away.Domain.XrayNode.Model;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using Serilog;
+global using System.Text.Json;

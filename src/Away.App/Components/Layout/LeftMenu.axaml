@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:local="clr-namespace:Away.App.Components.Layout;assembly=Away.App"
+			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App"
+			 x:DataType="local:LeftMenuViewModel"
+             x:Class="Away.App.Components.Layout.LeftMenu">
+
+
+	<UserControl.Styles>
+		<Style Selector="Menu.leftmenu">
+			<Setter Property="Height" Value="{Binding $parent[Grid].Height}"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="ItemsPanel">
+				<ItemsPanelTemplate>
+					<StackPanel />
+				</ItemsPanelTemplate>
+			</Setter>
+
+			<Style Selector="^ > MenuItem">
+				<Setter Property="FontSize" Value="30"/>
+				<Setter Property="Margin" Value="0,10,0,0"/>
+				<Setter Property="HorizontalAlignment" Value="Center"/>
+			</Style>
+		</Style>
+		<Style Selector="MenuItem#logo:selected /template/ Border#PART_LayoutRoot">
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+
+	</UserControl.Styles>
+
+	<Grid>
+		<Menu Classes="leftmenu" Name="Menu_Left" >
+			<MenuItem Margin="0" Name="logo">
+				<MenuItem.Header>
+					<StackPanel>
+						<TextBlock Classes="logo" FontSize="35" HorizontalAlignment="Center" Text="{icon:Enum Logo}"/>
+						<StackPanel Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Center">
+							<TextBlock Text="{Binding Title}" FontSize="10"/>
+							<TextBlock Text="{Binding Version}" FontSize="7"/>
+						</StackPanel>
+					</StackPanel>
+				</MenuItem.Header>
+			</MenuItem>
+			<MenuItem Header="{icon:Enum Home}" Command="{Binding NavCommand}" CommandParameter="home" />
+			<MenuItem Header="{icon:Enum Fly}" Command="{Binding NavCommand}" CommandParameter="xray-node"/>
+			<MenuItem Header="{icon:Enum Settings}" Command="{Binding NavCommand}" CommandParameter="xray-settings"/>
+		</Menu>
+
+	</Grid>
+
+</UserControl>

@@ -3,10 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:local="clr-namespace:Away.App.Components.Layout;assembly=Away.App"
-			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App"
-			 x:DataType="local:LeftMenuViewModel"
-             x:Class="Away.App.Components.Layout.LeftMenu">
+			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App"			 
+			 xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
+			 x:DataType="vm:LeftMenuViewModel"
+             x:Class="Away.App.Views.LeftMenu">
 
 
 	<UserControl.Styles>
@@ -44,7 +44,6 @@
 					</StackPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Header="{icon:Enum Home}" Command="{Binding NavCommand}" CommandParameter="home" />
 			<MenuItem Header="{icon:Enum Fly}" Command="{Binding NavCommand}" CommandParameter="xray-node"/>
 			<MenuItem Header="{icon:Enum Settings}" Command="{Binding NavCommand}" CommandParameter="xray-settings"/>
 		</Menu>

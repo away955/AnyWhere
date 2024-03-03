@@ -32,6 +32,7 @@ public sealed class WindowsProcessOnly : IProcessOnly
 
             var process = processes?.FirstOrDefault(o => o.Id != current.Id)!;
             WinApi.ShowWindow(process.MainWindowHandle, 1);
+            WinApi.ShowWindow(process.MainWindowHandle, 5);
         }
         return true;
     }

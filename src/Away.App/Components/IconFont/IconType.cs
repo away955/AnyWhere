@@ -13,5 +13,8 @@ public enum IconType
     FlySettings,
     Planet,
     Settings,
-    NotFound
+    NotFound,
+    Remove,
+    Save,
+    Add
 }

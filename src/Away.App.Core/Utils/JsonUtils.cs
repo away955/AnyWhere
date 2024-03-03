@@ -1,23 +1,11 @@
-﻿using Away.App.Core.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace Away.App.Core.Utils;
 
 public static class JsonUtils
 {
     private static JsonSerializerOptions? _jsonOptions;
-    private static JsonSerializerOptions JsonOptions
-    {
-        get
-        {
-            if (_jsonOptions == null)
-            {
-                var provider = AppDomain.CurrentDomain.GetServiceProvider();
-                _jsonOptions = provider.GetService<IOptions<JsonSerializerOptions>>()!.Value;
-            }
-            return _jsonOptions;
-        }
-    }
+    private static JsonSerializerOptions JsonOptions => _jsonOptions ??= AwayLocator.ServiceProvider.GetService<IOptions<JsonSerializerOptions>>()!.Value;
 
     public static string Serialize<T>(T t)
     {

@@ -1,6 +1,4 @@
-using Away.App.ViewModels.Xray;
-
-namespace Away.App;
+namespace Away.App.Views;
 
 [View("xray-node")]
 public partial class XrayNodesView : UserControl, IView
@@ -8,7 +6,7 @@ public partial class XrayNodesView : UserControl, IView
     private readonly DataGrid _dataGrid;
     public XrayNodesView()
     {
-        DataContext = App.Current?.Services.GetViewModel<XrayNodesViewModel>();
+        DataContext = AwayLocator.GetViewModel<XrayNodesViewModel>();
         InitializeComponent();
 
         _dataGrid = this.FindControl<DataGrid>("DGXrayNode")!;

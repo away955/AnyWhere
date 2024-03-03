@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:vm="clr-namespace:Away.App.ViewModels.Xray;assembly=Away.App"
+			 xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
 			 x:DataType="vm:XrayNodesViewModel"
-             x:Class="Away.App.XrayNodesView">
+             x:Class="Away.App.Views.XrayNodesView">
 
 	<UserControl.Styles>
 		<Style Selector="Border.toolbar">
@@ -19,11 +19,9 @@
 			<Setter Property="Orientation" Value="Horizontal"/>
 			<Style Selector="^ > TextBlock">
 				<Setter Property="VerticalAlignment" Value="Center"/>
-			</Style>
-			<Style Selector="^ > ToggleSwitch">
-				<Setter Property="Margin" Value="0,-5,0,0"/>
-			</Style>
+			</Style>			
 		</Style>
+		
 		<Style Selector="DataGrid">
 			<Setter Property="IsReadOnly" Value="True"/>
 			<Setter Property="AutoGenerateColumns" Value="False"/>
@@ -41,7 +39,7 @@
 
 	<Grid Margin="10">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="50"/>
+			<RowDefinition Height="60"/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 
@@ -88,7 +86,7 @@
 
 			<!--列表字段-->
 			<DataGrid.Columns>
-				<DataGridTextColumn Width="150" Binding="{Binding Updated}" Header="更新时间"/>
+				<!--<DataGridTextColumn Width="150" Binding="{Binding Updated}" Header="更新时间"/>-->
 				<DataGridTextColumn Width="120" Binding="{Binding Remark}" Header="状态" />
 				<DataGridTextColumn Width="*" Binding="{Binding Alias}" Header="节点名称" />
 				<DataGridTemplateColumn Width="*" Header="地址" CanUserSort="True" SortMemberPath="Host">

@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Away.App.Views.XraySettingsView">
+
+	<UserControl.Styles>
+		<Style Selector="TabControl">
+			<Setter Property="CornerRadius" Value="5"/>
+			<Setter Property="TabStripPlacement" Value="Left"/>
+			<Setter Property="Background" Value="{StaticResource AwayPaper}"/>
+
+			<Style Selector="^>TabItem">
+				<Setter Property="FontSize" Value="12"/>
+			</Style>
+		</Style>
+
+	</UserControl.Styles>
+	<Grid>
+		<ScrollViewer>
+			<TabControl Name="TabSettings" SelectedValue="订阅节点">
+				<TabItem Header="订阅节点" Tag="xray-node-sub"/>
+				<TabItem Header="日志" Tag="xray-setting-log" />
+				<TabItem Header="DNS" Tag="xray-setting-dns"/>
+				<TabItem Header="路由" Tag="xray-setting-route"/>
+				<TabItem Header="入站配置" Tag="xray-setting-inbound"/>
+				<TabItem Header="出站配置" Tag="xray-setting-outbound"/>
+				<!--<TabItem Header="接口"/>
+				<TabItem Header="本地策略"/>
+				<TabItem Header="网络连接"/>
+				<TabItem Header="流量统计"/>
+				<TabItem Header="反向代理"/>
+				<TabItem Header="FakeDNS 配置"/>
+				<TabItem Header="Metrics 配置"/>-->
+			</TabControl>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

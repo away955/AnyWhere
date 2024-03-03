@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
 			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App"
-			 xmlns:local="clr-namespace:Away.App.Components.Layout;assembly=Away.App"
-			 x:DataType="local:TopHeaderViewModel"
-             x:Class="Away.App.Components.Layout.TopHeader">
+			 xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
+			 x:DataType="vm:TopHeaderViewModel"
+             x:Class="Away.App.Views.TopHeader">
 
 	<UserControl.Styles>
 		<Style Selector="Menu.rightmenu">

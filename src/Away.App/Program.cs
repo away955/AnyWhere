@@ -14,23 +14,18 @@ internal sealed class Program
     }
 
     private static void Lifetime_Exit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
-    {
-        if (sender is not IClassicDesktopStyleApplicationLifetime lifetime)
-        {
-            return;
-        }
-        var serviceProvider = lifetime.GetServiceProvider();
-        var _xrayService = serviceProvider.GetService<IXrayService>();
+    {      
+        var _xrayService = AwayLocator.ServiceProvider.GetService<IXrayService>();
         _xrayService?.CloseAll();
     }
 
     public static AppBuilder BuildAvaloniaApp()
     {
         return AppBuilder.Configure<App>()
-            .UserContaierFactory(DI.ConfigureServices)
+            .UseAwayLocator(DI.ConfigureServices)
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
             .UseReactiveUI();
-    }    
+    }
 }

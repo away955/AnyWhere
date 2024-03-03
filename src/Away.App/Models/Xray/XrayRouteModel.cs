@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Models;
 
-public class XrayRouteModel : ViewModelBase
+public sealed class XrayRouteModel : ViewModelBase
 {
     [Reactive]
     public string domainStrategy { get; set; } = "AsIs";
@@ -11,7 +11,7 @@ public class XrayRouteModel : ViewModelBase
     public ObservableCollection<XrayRouteRuleModel> rules { get; set; } = [];
 }
 
-public class XrayRouteRuleModel : ViewModelBase
+public sealed class XrayRouteRuleModel : ViewModelBase
 {
     [Reactive]
     public string type { get; set; } = string.Empty;
@@ -23,9 +23,9 @@ public class XrayRouteRuleModel : ViewModelBase
     public List<string> inboundTag { get; set; } = [];
 
     [Reactive]
-    public string Domain { get; set; } = string.Empty;
+    public string DomainStr { get; set; } = string.Empty;
     [Reactive]
-    public string IP { get; set; } = string.Empty;
+    public string IPStr { get; set; } = string.Empty;
     [Reactive]
-    public string InboundTag { get; set; } = string.Empty;
+    public string InboundTagStr { get; set; } = string.Empty;
 }

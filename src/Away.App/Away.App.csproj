@@ -42,6 +42,12 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>IconFont.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Views\NotFoundView.axaml.cs">
+		  <DependentUpon>NotFoundView.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\Xray\XraySettingsView.axaml.cs">
+		  <DependentUpon>XraySettingsView.axaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 
@@ -50,11 +56,5 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>IconFont.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-
-	<ItemGroup>
-	  <Folder Include="Services\" />
-	  <Folder Include="Views\Xray\Settings\" />
 	</ItemGroup>
 </Project>

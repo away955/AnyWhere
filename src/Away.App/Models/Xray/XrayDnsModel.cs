@@ -1,11 +1,10 @@
 ﻿namespace Away.App.Models;
 
-public class XrayDnsModel : ViewModelBase
+public sealed class XrayDnsModel : ViewModelBase
 {
     /// <summary>
     /// DNS 服务器列表
     /// </summary>
-    [Reactive]
     public List<string> servers { get; set; } = [];
     /// <summary>
     /// 禁用 DNS 缓存
@@ -17,4 +16,7 @@ public class XrayDnsModel : ViewModelBase
     /// </summary>
     [Reactive]
     public bool disableFallback { get; set; }
+
+    [Reactive]
+    public ObservableCollection<StringItem> Items { get; set; } = [];
 }

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
 			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App"
-             x:Class="Away.App.NotFound">
+             x:Class="Away.App.NotFoundView">
 
 	<TextBlock Text="{icon:Enum NotFound}"
 			   FontSize="100"

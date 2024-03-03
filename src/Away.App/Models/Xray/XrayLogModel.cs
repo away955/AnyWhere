@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Models;
 
-public class XrayLogModel : ViewModelBase
+public sealed class XrayLogModel : ViewModelBase
 {
     [Reactive]
     public string access { get; set; } = string.Empty;

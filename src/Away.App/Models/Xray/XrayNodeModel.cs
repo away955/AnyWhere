@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Models;
 
-public class XrayNodeModel : ViewModelBase
+public sealed class XrayNodeModel : ViewModelBase
 {
     /// <summary>
     /// 类型

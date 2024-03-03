@@ -61,6 +61,15 @@ namespace Away.App.Components.IconFont {
         }
         
         /// <summary>
+        ///   查找类似 &amp;#xe660; 的本地化字符串。
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 &amp;#xe646; 的本地化字符串。
         /// </summary>
         internal static string Close {
@@ -156,6 +165,24 @@ namespace Away.App.Components.IconFont {
         internal static string Planet {
             get {
                 return ResourceManager.GetString("Planet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &amp;#xe60c; 的本地化字符串。
+        /// </summary>
+        internal static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &amp;#xe866; 的本地化字符串。
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         

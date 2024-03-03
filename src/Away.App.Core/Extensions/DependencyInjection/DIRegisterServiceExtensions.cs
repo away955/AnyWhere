@@ -1,20 +1,10 @@
-﻿using Away.App.Core.DI;
-using Away.App.Core.Navigation;
+﻿using Away.App.Core.Navigation;
 using System.Reflection;
 
 namespace Away.App.Core.Extensions.DependencyInjection;
 
 public static class DIRegisterServiceExtensions
 {
-    public static IView? GetView(this IServiceProvider provider, string? url)
-    {
-        return provider.GetKeyedService<IView>(url);
-    }
-    public static T GetViewModel<T>(this IServiceProvider provider) where T : notnull
-    {
-        return provider.GetRequiredService<T>();
-    }
-
     public static void AddAutoDI(this IServiceCollection services, params Assembly[] assemblies)
     {
         var types = assemblies.SelectMany(o => o.DefinedTypes).Where(o => o.GetCustomAttribute<DIAttribute>() != null);

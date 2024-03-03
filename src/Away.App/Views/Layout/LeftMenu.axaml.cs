@@ -1,4 +1,4 @@
-namespace Away.App.Components.Layout;
+namespace Away.App.Views;
 
 public partial class LeftMenu : UserControl
 {
@@ -6,7 +6,7 @@ public partial class LeftMenu : UserControl
     private readonly LeftMenuViewModel _vm;
     public LeftMenu()
     {
-        _vm = App.Current?.Services.GetViewModel<LeftMenuViewModel>()!;
+        _vm = AwayLocator.GetViewModel<LeftMenuViewModel>()!;
         this.DataContext = _vm;
         InitializeComponent();
         _menu = this.FindControl<Menu>("Menu_Left")!;

@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Models;
 
-public class CheckBoxGroupModel : ViewModelBase
+public sealed class CheckBoxGroupModel : ViewModelBase
 {
     [Reactive]
     public bool IsChecked { get; set; }

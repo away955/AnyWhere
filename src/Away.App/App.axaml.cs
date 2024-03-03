@@ -1,17 +1,23 @@
 using Avalonia.Controls.ApplicationLifetimes;
+using Away.App.Core.Windows.ProcessOnly;
 using Away.App.Views;
 
 namespace Away.App;
 
 public partial class App : Application
 {
-    public IServiceProvider Services => this.GetServiceProvider();
-    public new static App? Current => Application.Current as App;
 
     public override void Initialize()
-    {       
+    {
+        var processOnly = AwayLocator.GetService<IProcessOnly>();
+        if (processOnly.Show("Away.AnyWhere"))
+        {
+            Environment.Exit(0);
+            return;
+        }
+
+        DataContext = AwayLocator.GetViewModel<AppViewModel>();
         AvaloniaXamlLoader.Load(this);
-        DataContext = Services.GetViewModel<AppViewModel>();
         MessageBus.Current.Subscribe(MessageBusType.Shutdown, args =>
         {
             if (ApplicationLifetime is IControlledApplicationLifetime control)

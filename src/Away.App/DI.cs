@@ -1,6 +1,4 @@
-﻿using Away.App.Core.Extensions.DependencyInjection;
-using Mapster;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -42,9 +40,9 @@ public sealed class DI
         });
         var libs = AppDomain.CurrentDomain.GetAssemblies().Where(o => o.FullName!.StartsWith("Away.App"));
         services.AddAutoDI([.. libs, typeof(XrayConfig).Assembly]);
-        services.AddMapster();
         services.AddFileContext();
         services.AddClipboard();
         services.AddProxySettings();
+        services.AddProcessOnly();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Avalonia.Input.Platform;
 using System.Threading.Tasks;
 
-namespace Away.App.ViewModels.Xray;
+namespace Away.App.ViewModels;
 
 [ViewModel]
 internal class XrayNodesViewModel : ViewModelBase
@@ -122,9 +122,6 @@ internal class XrayNodesViewModel : ViewModelBase
     /// </summary>
     private async void OnUpdateNodeCommand()
     {
-        await _xrayNodeService.SetXrayNodeByUrl("https://proxy.v2gh.com/https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub");
-        //await _xrayNodeService.SetXrayNodeByUrl("https://bulinkbulink.com/freefq/free/master/v2");
-
         var subs = _xrayNodeSubRepository.GetListByEnable();
         foreach (var sub in subs)
         {
@@ -205,7 +202,7 @@ internal class XrayNodesViewModel : ViewModelBase
         {
             _xrayNodeRepository.DeleteByStatusError();
             OnResetCommand();
-            await Task.CompletedTask;
+            await Task.Delay(500);
         };
         speedService.Listen();
     }
@@ -261,12 +258,6 @@ internal class XrayNodesViewModel : ViewModelBase
         }
         _xrayNodeRepository.DeleteByUrl(XrayNodeSelectedItem.Url);
         XrayNodeItemsSource.Remove(XrayNodeSelectedItem);
-    }
-
-    private static void Show(string message, NotificationType notificationType = NotificationType.Information)
-    {
-        Log.Information(message);
-        MessageBus.Current.Nofity(string.Empty, message, notificationType);
     }
 
 }

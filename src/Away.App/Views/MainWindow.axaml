@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         x:Class="Away.App.Views.MainWindow"
-		xmlns:layout="clr-namespace:Away.App.Components.Layout;assembly=Away.App"
+		xmlns:view="clr-namespace:Away.App.Views;assembly=Away.App"
 		xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
 		x:DataType="vm:MainWindowViewModel">
 
@@ -34,10 +34,10 @@
 	<Grid>
 		<Border Background="Transparent" PointerPressed="TopHeader_PointerMoved"/>		
 		<DockPanel Grid.Row="1">
-			<layout:LeftMenu />
+			<view:LeftMenu />
 			<Grid RowDefinitions="50,*">
-				<layout:TopHeader />
-				<Border Grid.Row="1" Padding="10">
+				<view:TopHeader />
+				<Border Grid.Row="1">
 					<ContentControl Name="MainBox"/>
 				</Border>
 			</Grid>

@@ -5,7 +5,7 @@ public partial class MainWindow : Window
     private readonly WindowNotificationManager? _nofityManager;
     public MainWindow()
     {
-        this.DataContext = App.Current?.Services.GetViewModel<MainWindowViewModel>();
+        this.DataContext = AwayLocator.GetViewModel<MainWindowViewModel>();
         this.InitializeComponent();
         _nofityManager = new WindowNotificationManager(this)
         {
@@ -15,9 +15,9 @@ public partial class MainWindow : Window
         MessageBusListen();
     }
 
-    private void ViewChange(string? url = null)
+    private void ViewChange(string? url = null) 
     {
-        var view = App.Current?.Services.GetView(url) ?? App.Current?.Services.GetView("404");
+        var view = AwayLocator.GetView(url) ?? AwayLocator.GetView("404");
         this.MainBox.Content = view;
     }
 

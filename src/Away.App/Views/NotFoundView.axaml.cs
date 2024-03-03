@@ -1,9 +1,9 @@
 namespace Away.App;
 
 [View("404")]
-public partial class NotFound : UserControl, IView
+public partial class NotFoundView : UserControl, IView
 {
-    public NotFound()
+    public NotFoundView()
     {
         InitializeComponent();
     }

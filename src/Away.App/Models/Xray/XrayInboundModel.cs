@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Models;
 
-public class XrayInboundModel : ViewModelBase
+public sealed class XrayInboundModel : ViewModelBase
 {
     [Reactive]
     public int? port { get; set; }

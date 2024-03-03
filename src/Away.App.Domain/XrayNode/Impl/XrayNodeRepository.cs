@@ -12,7 +12,7 @@ public class XrayNodeRepository(IFileContext context)
 
     public void DeleteByStatusError()
     {
-        Items.RemoveAll(o => o.Status == XrayNodeStatus.Error && o.Updated < DateTime.Now.AddDays(-1));
+        Items.RemoveAll(o => o.Status == XrayNodeStatus.Error);
         Save();
     }
 

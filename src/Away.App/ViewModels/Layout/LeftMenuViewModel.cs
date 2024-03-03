@@ -1,7 +1,7 @@
-﻿namespace Away.App.Components.Layout;
+﻿namespace Away.App.ViewModels;
 
 [ViewModel]
-public class LeftMenuViewModel : ReactiveObject
+public sealed class LeftMenuViewModel : ReactiveObject
 {
     public static string Title => AppInfo.Title;
     public static string Version => AppInfo.Version;

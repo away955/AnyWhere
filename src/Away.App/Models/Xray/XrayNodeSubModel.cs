@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Models;
 
-public class XrayNodeSubModel : ViewModelBase
+public sealed class XrayNodeSubModel : ViewModelBase
 {
     [Reactive]
     public int Id { get; set; }

@@ -39,12 +39,6 @@ public class XrayRoute
                     new RouteRule
                     {
                         type = "field",
-                        inboundTag = ["api"],
-                        outboundTag = "api"
-                    },
-                    new RouteRule
-                    {
-                        type = "field",
                         outboundTag = "block",
                         domain = ["geosite:category-ads-all"]
                     },

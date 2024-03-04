@@ -60,7 +60,6 @@ public sealed class XrayConfig
     {
         XrayConfig config = new();
         config.log = XrayLog.Default;
-        config.api = XrayApi.Default;
         config.inbounds = [
             new XrayInbound
             {

@@ -13,6 +13,7 @@
 			<Setter Property="Width" Value="800"/>
 			<Setter Property="Height" Value="600"/>
 			<Setter Property="Icon" Value="/Assets/logo.ico" />
+			<Setter Property="SystemDecorations" Value="None"/>
 			<Setter Property="WindowStartupLocation" Value="CenterScreen"/>
 			<Setter Property="Title" Value="{Binding Title}"/>
 			<Setter Property="ExtendClientAreaToDecorationsHint" Value="True"/>
@@ -32,7 +33,7 @@
 	</Window.KeyBindings>
 
 	<Grid>
-		<Border Background="Transparent" PointerPressed="TopHeader_PointerMoved"/>		
+		<Border Background="Transparent" PointerPressed="TopHeader_PointerMoved"/>
 		<DockPanel Grid.Row="1">
 			<view:LeftMenu />
 			<Grid RowDefinitions="50,*">

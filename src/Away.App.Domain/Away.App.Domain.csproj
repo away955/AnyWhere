@@ -27,6 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CliWrap" Version="3.6.6" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
 	</ItemGroup>
 

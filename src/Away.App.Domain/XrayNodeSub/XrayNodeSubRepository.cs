@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Domain.XrayNodeSub;
 
-[DI(ServiceLifetime.Scoped)]
+[DI(ServiceLifetime.Singleton)]
 public class XrayNodeSubRepository(IFileContext context)
     : RepositoryBase<XrayNodeSubEntity>(context), IXrayNodeSubRepository
 {

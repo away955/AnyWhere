@@ -43,7 +43,10 @@
 							</Grid>
 							<Grid Classes="input" ColumnDefinitions="100,*">
 								<TextBlock Text="订阅地址"/>
-								<TextBox Grid.Column="1" Text="{Binding Url}"/>
+								<TextBox Grid.Column="1"
+										 Text="{Binding Url}"
+										 ToolTip.Tip="支持环境变量：${date:yyyyMMdd}"
+										 />
 							</Grid>
 						</UniformGrid>
 					</Border>

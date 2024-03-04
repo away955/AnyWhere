@@ -6,4 +6,5 @@ public interface IRepositoryBase<T>
     void Delete(T entity);
     void Add(T entity);
     void Save();
+    Task SaveAsync();
 }

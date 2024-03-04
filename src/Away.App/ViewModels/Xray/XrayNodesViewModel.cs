@@ -21,6 +21,15 @@ internal class XrayNodesViewModel : ViewModelBase
     public ICommand PasteCommand { get; }
     public ICommand DeleteCommand { get; }
 
+    [Reactive]
+    public bool IsProgress { get; set; }
+    [Reactive]
+    public int ProgressValue { get; set; }
+    [Reactive]
+    public string ProgressText { get; set; } = string.Empty;
+    public ICommand ProgressCancelCommand { get; }
+    private Action? _progressCancel = null!;
+
     public XrayNodesViewModel(
         IXrayNodeRepository xrayNodeRepository,
         IXrayNodeService xrayNodeService,
@@ -44,7 +53,7 @@ internal class XrayNodesViewModel : ViewModelBase
         CopyCommand = ReactiveCommand.Create(OnCopyCommand);
         PasteCommand = ReactiveCommand.Create(OnPasteCommand);
         DeleteCommand = ReactiveCommand.Create(OnDeleteCommand);
-
+        ProgressCancelCommand = ReactiveCommand.Create(OnProgressCancelCommand);
         OnResetCommand();
         MessageBus.Current.Subscribe(MessageBusType.Event, o => OnCheckedCommand(), "DGXrayNode");
     }
@@ -113,24 +122,11 @@ internal class XrayNodesViewModel : ViewModelBase
     {
         IsEnableXray = _xrayService.IsEnable;
         IsEnableGlobalProxy = _xrayService.IsEnableGlobalProxy;
-        var xraynodes = _xrayNodeRepository.GetList().OrderByDescending(o => o.Status);
+        var xraynodes = _xrayNodeRepository.GetList();
         var items = xraynodes.Select(_mapper.Map<XrayNodeModel>);
         XrayNodeItemsSource = new ObservableCollection<XrayNodeModel>(items);
     }
-    /// <summary>
-    /// 更新订阅
-    /// </summary>
-    private async void OnUpdateNodeCommand()
-    {
-        var subs = _xrayNodeSubRepository.GetListByEnable();
-        foreach (var sub in subs)
-        {
-            Show($"正在更新订阅{sub.Remark}...");
-            await _xrayNodeService.SetXrayNodeByUrl(sub.Url);
-        }
-        OnResetCommand();
-        Show("节点订阅更新完成");
-    }
+
     /// <summary>
     /// 使用节点
     /// </summary>
@@ -158,14 +154,79 @@ internal class XrayNodesViewModel : ViewModelBase
         Show("切换节点成功");
         OnResetCommand();
     }
+
+    /// <summary>
+    /// 更新订阅
+    /// </summary>
+    private async void OnUpdateNodeCommand()
+    {
+        if (IsProgress)
+        {
+            Show($"等待{ProgressText}完成", NotificationType.Warning);
+            return;
+        }
+        var subs = _xrayNodeSubRepository.GetListByEnable();
+        var total = subs.Count * 1d;
+        if (total > 0)
+        {
+            ProgressText = "更新订阅";
+            IsProgress = true;
+        }
+        _progressCancel = () =>
+        {
+            IsProgress = false;
+            ProgressValue = 0;
+        };
+
+
+        for (var i = 0; i < total; i++)
+        {
+            if (!IsProgress)
+            {
+                break;
+            }
+            var sub = subs[i];
+            Show($"正在更新订阅{sub.Remark}...");
+            var url = sub.ParseUrl();
+            await _xrayNodeService.SetXrayNodeByUrl(url);
+            ProgressValue = (int)((i + 1) / total * 100);
+            OnResetCommand();
+        }
+        OnResetCommand();
+        Show("节点订阅更新完成");
+        await Task.Delay(1000);
+        IsProgress = false;
+        ProgressValue = 0;
+    }
+
     /// <summary>
     /// 测试所有节点速度
     /// </summary>
     private void OnSpeedTest()
     {
+        if (IsProgress)
+        {
+            Show($"等待{ProgressText}完成", NotificationType.Warning);
+            return;
+        }
+
         Show("开始测试");
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
+        var total = items.Count * 1d;
+        var currentTotal = 0;
+        if (total > 0)
+        {
+            ProgressText = "检测节点";
+            IsProgress = true;
+        }
         var speedService = new XrayNodeSpeedTest(items, 10, 3000);
+        _progressCancel = speedService.Cancel;
+
+        speedService.OnCancel += () =>
+        {
+            IsProgress = false;
+            ProgressValue = 0;
+        };
         speedService.OnTesting += (entity) =>
         {
             var model = XrayNodeItemsSource.FirstOrDefault(o => o.Url == entity.Url);
@@ -194,18 +255,30 @@ internal class XrayNodesViewModel : ViewModelBase
                 model.Status = entity.Status = XrayNodeStatus.Error;
                 model.Remark = entity.Remark = result.Error;
             }
-            _xrayNodeRepository.Update(entity);
-
+            currentTotal++;
+            ProgressValue = (int)(currentTotal / total * 100);
         };
 
         speedService.OnCompeleted += async () =>
         {
-            _xrayNodeRepository.DeleteByStatusError();
+            _xrayNodeRepository.SaveNodes(items);
+            await _xrayNodeRepository.DeleteByStatusError();
             OnResetCommand();
-            await Task.Delay(500);
+            await Task.Delay(1000);
+            IsProgress = false;
+            ProgressValue = 0;
         };
         speedService.Listen();
     }
+
+    /// <summary>
+    /// 取消任务
+    /// </summary>
+    private void OnProgressCancelCommand()
+    {
+        _progressCancel?.Invoke();
+    }
+
     /// <summary>
     /// 复制节点
     /// </summary>
@@ -222,6 +295,7 @@ internal class XrayNodesViewModel : ViewModelBase
             await _clipboard.SetTextAsync(model.Url);
         }
     }
+
     /// <summary>
     /// 粘贴节点
     /// </summary>
@@ -247,6 +321,7 @@ internal class XrayNodesViewModel : ViewModelBase
         }
         OnResetCommand();
     }
+
     /// <summary>
     /// 删除节点
     /// </summary>

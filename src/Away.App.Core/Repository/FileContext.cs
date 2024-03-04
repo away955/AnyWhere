@@ -5,6 +5,7 @@ public interface IFileContext
     public FileContextOptions Options { get; }
     List<T> AsQueryable<T>() where T : class;
     void Save<T>(IEnumerable<T> data) where T : class;
+    Task SaveAsync<T>(IEnumerable<T> data) where T : class;
 }
 
 public sealed class FileContextOptions
@@ -15,6 +16,7 @@ public sealed class FileContextOptions
 
 public sealed class FileContext(FileContextOptions options) : IFileContext
 {
+    private static object _lock = new();
     public FileContextOptions Options => options;
 
     public List<T> AsQueryable<T>() where T : class
@@ -39,6 +41,15 @@ public sealed class FileContext(FileContextOptions options) : IFileContext
         var filepath = GetFilePath<T>();
         var bytes = JsonSerializer.SerializeToUtf8Bytes(data);
         File.WriteAllBytes(filepath, bytes);
+    }
+    public Task SaveAsync<T>(IEnumerable<T> data) where T : class
+    {
+        lock (_lock)
+        {
+            var filepath = GetFilePath<T>();
+            var bytes = JsonSerializer.SerializeToUtf8Bytes(data);
+            return File.WriteAllBytesAsync(filepath, bytes);
+        }
     }
 
     private string GetFilePath<T>()

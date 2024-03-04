@@ -18,9 +18,6 @@
 		<None Condition="'$(RuntimeIdentifier)'=='osx-64'" Include="Xray\v2ray">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>-->
-		<None Update="Data\v2ray.exe">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Update="Data\geoip.dat">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

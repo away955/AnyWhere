@@ -14,11 +14,13 @@ public static class ProcessOnlyServiceExtensions
         }
         if (OperatingSystem.IsMacOS())
         {
+            services.AddTransient<IProcessOnly, MacOSProcessOnly>();
             return services;
         }
 
         if (OperatingSystem.IsLinux())
         {
+            services.AddTransient<IProcessOnly, LinuxProcessOnly>();
             return services;
         }
         return services;

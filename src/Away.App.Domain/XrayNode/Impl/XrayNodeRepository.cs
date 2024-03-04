@@ -1,6 +1,6 @@
 ﻿namespace Away.App.Domain.XrayNode.Impl;
 
-[DI(ServiceLifetime.Scoped)]
+[DI(ServiceLifetime.Singleton)]
 public class XrayNodeRepository(IFileContext context)
     : RepositoryBase<XrayNodeEntity>(context), IXrayNodeRepository
 {
@@ -10,10 +10,10 @@ public class XrayNodeRepository(IFileContext context)
         Save();
     }
 
-    public void DeleteByStatusError()
+    public Task DeleteByStatusError()
     {
         Items.RemoveAll(o => o.Status == XrayNodeStatus.Error);
-        Save();
+        return SaveAsync();
     }
 
     public void SaveNodes(List<XrayNodeEntity> entities)
@@ -31,14 +31,14 @@ public class XrayNodeRepository(IFileContext context)
         Save();
     }
 
-    public void Update(XrayNodeEntity entity)
+    public Task Update(XrayNodeEntity entity)
     {
         var index = Items.FindIndex(o => o.Url == entity.Url);
         if (index == -1)
         {
-            return;
+            return Task.CompletedTask;
         }
         Items[index] = entity;
-        Save();
+        return SaveAsync();
     }
 }

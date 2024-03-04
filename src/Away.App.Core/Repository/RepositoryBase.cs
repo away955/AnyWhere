@@ -27,4 +27,9 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         _context.Save(Items);
     }
+
+    public Task SaveAsync()
+    {
+        return _context.SaveAsync(Items);
+    }
 }

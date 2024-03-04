@@ -1,6 +1,6 @@
 ﻿namespace Away.Domain.XrayNode.Impl;
 
-[DI(ServiceLifetime.Scoped)]
+[DI(ServiceLifetime.Singleton)]
 public class XrayNodeService(
     ILogger<XrayNodeService> logger,
     IHttpClientFactory httpClientFactory,

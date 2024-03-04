@@ -45,7 +45,12 @@ public sealed class XrayNodeSpeedTest
     /// <summary>
     /// 全部完成
     /// </summary>
-    public event Func<Task>? OnCompeleted;
+    public event Action? OnCompeleted;
+
+    /// <summary>
+    /// 取消
+    /// </summary>
+    public event Action? OnCancel;
 
     /// <summary>
     /// 并发数
@@ -71,7 +76,11 @@ public sealed class XrayNodeSpeedTest
     /// </summary>
     private int _count;
 
-    public void Cancel() => _cts.Cancel();
+    public void Cancel()
+    {
+        OnCancel?.Invoke();
+        _cts.Cancel();
+    }
 
     public void Listen()
     {
@@ -80,47 +89,59 @@ public sealed class XrayNodeSpeedTest
             while (!_cts.IsCancellationRequested)
             {
                 _semaphore.WaitOne();
+                _ = RunOne();
                 if (_count == _total)
                 {
                     Log.Information("节点测试完成");
                     if (OnCompeleted != null)
                     {
-                        await OnCompeleted.Invoke();
+                        OnCompeleted.Invoke();
+                        await Task.Delay(500);
                     }
                     break;
                 }
-                _ = RunOne();
             }
         });
     }
 
     public async Task RunOne()
     {
-        var entity = await _queue.Reader.ReadAsync(_cts.Token);
-        if (entity == null)
-        {
-            return;
-        }
-
-        // 获取未使用的端口、并修改端口状态
         var port = Ports.Where(o => o.Value == false).FirstOrDefault().Key;
-        if (port == 0)
-        {
-            await _queue.Writer.WriteAsync(entity, _cts.Token);
-            return;
-        }
-
         Ports.TryUpdate(port, true, false);
-        var service = new BaseSpeedTest(port, $"speed_test_{port}.json");
-        var result = await service.TestSpeed(entity);
-        OnTested?.Invoke(new SpeedTestResultEventArgs
+
+        try
         {
-            Data = result,
-            XrayNode = entity
-        });
-        Ports.TryUpdate(port, false, true);
-        _count++;
-        _semaphore.Release();
+            var entity = await _queue.Reader.ReadAsync(_cts.Token);
+            if (entity == null)
+            {
+                return;
+            }
+
+
+            if (port == 0)
+            {
+                await _queue.Writer.WriteAsync(entity, _cts.Token);
+                return;
+            }
+
+            var service = new BaseSpeedTest(port, $"speed_test_{port}.json");
+            var result = await service.TestSpeed(entity);
+            OnTested?.Invoke(new SpeedTestResultEventArgs
+            {
+                Data = result,
+                XrayNode = entity
+            });
+            Ports.TryUpdate(port, false, true);
+            _count++;
+            _semaphore.Release();
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex.ToString());
+            Ports.TryUpdate(port, false, true);
+            _count++;
+            _semaphore.Release();
+        }
     }
 }
 

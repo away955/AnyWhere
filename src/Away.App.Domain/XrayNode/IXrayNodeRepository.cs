@@ -6,7 +6,7 @@
 public interface IXrayNodeRepository : IRepositoryBase<XrayNodeEntity>
 {
     void DeleteByUrl(string url);
-    void DeleteByStatusError();
-    void Update(XrayNodeEntity entity);
+    Task DeleteByStatusError();
+    Task Update(XrayNodeEntity entity);
     void SaveNodes(List<XrayNodeEntity> entities);
 }

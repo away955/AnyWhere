@@ -1,34 +1,47 @@
 ﻿using Away.Domain.Xray.Impl;
 using System.Diagnostics;
 using System.Net;
+using System.Text.RegularExpressions;
 
-namespace Away.Domain.XrayNode.Impl;
+namespace Away.Domain.XrayNode;
 
-public class BaseSpeedTest(int port, string configFileName) : BaseXrayService(configFileName)
+public sealed class SpeedTest(int port, string configFileName) : BaseXrayService(configFileName)
 {
-    protected const string Host = "127.0.0.1";
+    private const string Host = "127.0.0.1";
     /// <summary>
     /// 测试地址
     /// </summary>
-    protected const string TestUrl = "http://hel1-speed.hetzner.com/100MB.bin";
+    private const string TestUrl = "http://hel1-speed.hetzner.com/100MB.bin";
     /// <summary>
     /// 测试时间
     /// </summary>
-    protected const int TestSeconds = 10;
-    protected int _port = port;
+    private const int TestSeconds = 10;
+    private int _port = port;
 
-    public async Task<SpeedTestResult> TestSpeed(XrayNodeEntity entity)
+    public event Action<SpeedTestResult>? OnResult;
+
+    protected override async void OnMessage(object sender, DataReceivedEventArgs e)
+    {       
+        var msg = e.Data;
+        var reg = Regex.Match(msg,"V2Ray.*.started");
+        if(reg.Success)
+        {        
+            var speedRes = await TestDownload();
+            OnResult?.Invoke(speedRes);
+            XrayClose();
+        }     
+        base.OnMessage(sender,e);
+    }
+
+    public void TestSpeed(XrayNodeEntity entity)
     {
         var flag = SetTestConfig(entity);
         if (!flag)
         {
-            return new SpeedTestResult { Error = "设置代理失败" };
-        }
+            OnResult?.Invoke(new SpeedTestResult { Error = "设置代理失败" });
+            return;
+        }     
         XrayStart();
-        var speedRes = await TestDownload();
-        XrayClose();
-
-        return speedRes;
     }
 
     private bool SetTestConfig(XrayNodeEntity entity)

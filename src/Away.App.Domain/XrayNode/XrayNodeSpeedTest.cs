@@ -89,7 +89,8 @@ public sealed class XrayNodeSpeedTest
             while (!_cts.IsCancellationRequested)
             {
                 _semaphore.WaitOne();
-                _ = RunOne();
+                // _ = RunOne();
+                await RunOne();
                 if (_count == _total)
                 {
                     Log.Information("节点测试完成");
@@ -117,23 +118,26 @@ public sealed class XrayNodeSpeedTest
                 return;
             }
 
-
             if (port == 0)
             {
                 await _queue.Writer.WriteAsync(entity, _cts.Token);
                 return;
             }
 
-            var service = new BaseSpeedTest(port, $"speed_test_{port}.json");
-            var result = await service.TestSpeed(entity);
-            OnTested?.Invoke(new SpeedTestResultEventArgs
+            var service = new SpeedTest(port, $"speed_test_{port}.json");
+            service.OnResult += (result) =>
             {
-                Data = result,
-                XrayNode = entity
-            });
-            Ports.TryUpdate(port, false, true);
-            _count++;
-            _semaphore.Release();
+                OnTested?.Invoke(new SpeedTestResultEventArgs
+                {
+                    Data = result,
+                    XrayNode = entity
+                });
+                Ports.TryUpdate(port, false, true);
+                _count++;
+                _semaphore.Release();
+            };
+            service.TestSpeed(entity);            
+            
         }
         catch (Exception ex)
         {

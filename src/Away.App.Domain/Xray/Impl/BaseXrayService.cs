@@ -61,17 +61,25 @@ public abstract class BaseXrayService : IBaseXrayService
                 Arguments = $"run -c {_xrayConfigPath}",
             }
         };
-        xrayProcess.OutputDataReceived += (sender, e) =>
-        {
-            if (string.IsNullOrWhiteSpace(e.Data))
-            {
-                return;
-            }
-            Log.Information(e.Data);
-        };
+        // xrayProcess.OutputDataReceived += (sender, e) =>
+        // {
+        //     if (string.IsNullOrWhiteSpace(e.Data))
+        //     {
+        //         return;
+        //     }
+        //     OnMessage?.Invoke(e.Data);  
+        //     OnMessage2(e.Data);          
+        //     Log.Information(e.Data);
+        // };
+        xrayProcess.OutputDataReceived+=OnMessage;
         IsEnable = xrayProcess.Start();
         XrayStop = xrayProcess.Kill;
         return IsEnable;
+    }
+
+    protected virtual void OnMessage(object sender, DataReceivedEventArgs e)
+    {
+        Log.Information(e.Data);
     }
 
     public bool XrayClose()

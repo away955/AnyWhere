@@ -1,5 +1,4 @@
-﻿using Away.Domain.XrayNode.Impl;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Threading.Channels;
 
 namespace Away.Domain.XrayNode;
@@ -40,7 +39,7 @@ public sealed class XrayNodeSpeedTest
     /// <summary>
     /// 检测完成
     /// </summary>
-    public event Action<SpeedTestResultEventArgs>? OnTested;
+    public event Action<SpeedTestResult>? OnTested;
 
     /// <summary>
     /// 全部完成
@@ -89,8 +88,6 @@ public sealed class XrayNodeSpeedTest
             while (!_cts.IsCancellationRequested)
             {
                 _semaphore.WaitOne();
-                // _ = RunOne();
-                await RunOne();
                 if (_count == _total)
                 {
                     Log.Information("节点测试完成");
@@ -101,6 +98,7 @@ public sealed class XrayNodeSpeedTest
                     }
                     break;
                 }
+                _ = RunOne();
             }
         });
     }
@@ -124,20 +122,17 @@ public sealed class XrayNodeSpeedTest
                 return;
             }
 
-            var service = new SpeedTest(port, $"speed_test_{port}.json");
-            service.OnResult += (result) =>
+            var service = new SpeedTest(entity, port, $"speed_test_{port}.json", 40);
+            Action<SpeedTestResult> Tested = (result) =>
             {
-                OnTested?.Invoke(new SpeedTestResultEventArgs
-                {
-                    Data = result,
-                    XrayNode = entity
-                });
+                OnTested?.Invoke(result);
                 Ports.TryUpdate(port, false, true);
                 _count++;
                 _semaphore.Release();
             };
-            service.TestSpeed(entity);            
-            
+
+            service.OnResult += (result) => Tested(result);
+            service.TestSpeed();
         }
         catch (Exception ex)
         {
@@ -147,10 +142,4 @@ public sealed class XrayNodeSpeedTest
             _semaphore.Release();
         }
     }
-}
-
-public sealed class SpeedTestResultEventArgs : EventArgs
-{
-    public required SpeedTestResult Data { get; set; }
-    public required XrayNodeEntity XrayNode { get; set; }
 }

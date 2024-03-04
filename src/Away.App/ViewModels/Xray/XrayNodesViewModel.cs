@@ -238,11 +238,14 @@ internal class XrayNodesViewModel : ViewModelBase
             model.Remark = "检测中...";
         };
 
-        speedService.OnTested += (e) =>
+        speedService.OnTested += (result) =>
         {
-            var result = e.Data;
-            var entity = e.XrayNode;
-            var model = XrayNodeItemsSource.FirstOrDefault(o => o.Url == entity.Url)!;
+            var entity = result.Entity;
+            var model = XrayNodeItemsSource.FirstOrDefault(o => o.Url == entity.Url);
+            if (model == null)
+            {
+                return;
+            }
 
             if (result.IsSuccess)
             {
@@ -253,7 +256,7 @@ internal class XrayNodesViewModel : ViewModelBase
             else
             {
                 model.Status = entity.Status = XrayNodeStatus.Error;
-                model.Remark = entity.Remark = result.Error;
+                model.Remark = entity.Remark = "不可用";
             }
             currentTotal++;
             ProgressValue = (int)(currentTotal / total * 100);

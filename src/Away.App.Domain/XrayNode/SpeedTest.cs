@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Away.Domain.XrayNode;
 
-public sealed class SpeedTest(int port, string configFileName) : BaseXrayService(configFileName)
+public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFileName, int timeout) : BaseXrayService(configFileName)
 {
     private const string Host = "127.0.0.1";
     /// <summary>
@@ -16,41 +16,69 @@ public sealed class SpeedTest(int port, string configFileName) : BaseXrayService
     /// 测试时间
     /// </summary>
     private const int TestSeconds = 10;
-    private int _port = port;
 
     public event Action<SpeedTestResult>? OnResult;
 
-    protected override async void OnMessage(object sender, DataReceivedEventArgs e)
-    {       
-        var msg = e.Data;
-        var reg = Regex.Match(msg,"V2Ray.*.started");
-        if(reg.Success)
-        {        
-            var speedRes = await TestDownload();
-            OnResult?.Invoke(speedRes);
-            XrayClose();
-        }     
-        base.OnMessage(sender,e);
+    protected override void OnMessage(string msg)
+    {
+        if (string.IsNullOrWhiteSpace(msg))
+        {
+            return;
+        }
+        base.OnMessage(msg);
+        // v2ray 启动成功
+        var reg = Regex.Match(msg, "V2Ray.*.started");
+        if (reg.Success)
+        {
+            Task.Run(async () =>
+            {
+                var speedRes = await TestDownload();
+                OnResult?.Invoke(speedRes);
+                XrayClose();
+            });
+        }
     }
 
-    public void TestSpeed(XrayNodeEntity entity)
+    public void TestSpeed()
     {
-        var flag = SetTestConfig(entity);
+        var flag = SetTestConfig();
         if (!flag)
         {
-            OnResult?.Invoke(new SpeedTestResult { Error = "设置代理失败" });
+            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "设置代理失败" });
             return;
-        }     
+        }
         XrayStart();
+        Task.Run(() =>
+        {
+            var stopwatch = Stopwatch.StartNew();
+            while (true)
+            {
+                if (!IsEnable)
+                {
+                    break;
+                }
+                if (stopwatch.ElapsedMilliseconds / 1000d >= timeout)
+                {
+                    break;
+                }
+            }
+            stopwatch.Stop();
+            if (IsEnable)
+            {
+                OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "测试超时" });
+                XrayClose();
+            }
+        });
+
     }
 
-    private bool SetTestConfig(XrayNodeEntity entity)
+    private bool SetTestConfig()
     {
         Config.inbounds.Clear();
         Config.SetInbound(new XrayInbound()
         {
             listen = Host,
-            port = _port,
+            port = port,
             tag = "node_test",
             protocol = "http",
         });
@@ -70,7 +98,7 @@ public sealed class SpeedTest(int port, string configFileName) : BaseXrayService
         {
             using var httpclient = new HttpClient(new HttpClientHandler
             {
-                Proxy = new WebProxy(Host, _port),
+                Proxy = new WebProxy(Host, port),
             })
             {
                 Timeout = TimeSpan.FromSeconds(5)
@@ -104,6 +132,7 @@ public sealed class SpeedTest(int port, string configFileName) : BaseXrayService
             };
             return new SpeedTestResult
             {
+                Entity = entity,
                 IsSuccess = true,
                 Speed = speed,
             };
@@ -111,7 +140,7 @@ public sealed class SpeedTest(int port, string configFileName) : BaseXrayService
         catch (Exception ex)
         {
             Log.Information($"测试节点速度失败:{ex.Message}");
-            return new SpeedTestResult { Error = "不可用" };
+            return new SpeedTestResult { Entity = entity, Error = ex.Message };
         }
     }
 }

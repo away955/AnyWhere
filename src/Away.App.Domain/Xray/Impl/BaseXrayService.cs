@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using CliWrap.EventStream;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Away.Domain.Xray.Impl;
 
@@ -53,33 +55,37 @@ public abstract class BaseXrayService : IBaseXrayService
         }
 
         Log.Information("启动代理");
-        Process xrayProcess = new()
+        Task.Run(async () =>
         {
-            StartInfo = new ProcessStartInfo
+            var cli = CliWrap.Cli.Wrap(_xrayPath)
+                .WithArguments($"run -c {_xrayConfigPath}");
+
+            await foreach (var cmdEvent in cli.ListenAsync())
             {
-                FileName = _xrayPath,
-                Arguments = $"run -c {_xrayConfigPath}",
+                switch (cmdEvent)
+                {
+                    case StartedCommandEvent started:
+                        XrayStop = Process.GetProcessById(started.ProcessId).Kill;
+                        break;
+                    case StandardOutputCommandEvent stdOut:
+                        OnMessage(stdOut.Text);
+                        break;
+                    case StandardErrorCommandEvent stdErr:
+                        OnMessage(stdErr.Text);
+                        break;
+                    case ExitedCommandEvent exited:
+                        break;
+                }
             }
-        };
-        // xrayProcess.OutputDataReceived += (sender, e) =>
-        // {
-        //     if (string.IsNullOrWhiteSpace(e.Data))
-        //     {
-        //         return;
-        //     }
-        //     OnMessage?.Invoke(e.Data);  
-        //     OnMessage2(e.Data);          
-        //     Log.Information(e.Data);
-        // };
-        xrayProcess.OutputDataReceived+=OnMessage;
-        IsEnable = xrayProcess.Start();
-        XrayStop = xrayProcess.Kill;
+        });
+        IsEnable = true;
         return IsEnable;
     }
 
-    protected virtual void OnMessage(object sender, DataReceivedEventArgs e)
+
+    protected virtual void OnMessage(string msg)
     {
-        Log.Information(e.Data);
+        Log.Information(Regex.Replace(msg, ".*.\\[.*.\\]", string.Empty).Trim());
     }
 
     public bool XrayClose()

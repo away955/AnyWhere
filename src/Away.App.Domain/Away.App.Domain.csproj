@@ -9,15 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!--<None Condition="'$(RuntimeIdentifier)'=='win-x64'" Include="Xray\v2ray.exe">
+		<None Condition="'$(OS)'=='Windows_NT'" Include="Data\v2ray.exe">
+			<Link>$(RecursiveDir)Data\v2ray.exe</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Condition="'$(RuntimeIdentifier)'=='linux-x64'" Include="Xray\v2ray">
+		<None Condition="'$(OS)'=='Linux'" Include="Data\linux_v2ray">
+			<Link>$(RecursiveDir)Data\v2ray</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Condition="'$(RuntimeIdentifier)'=='osx-64'" Include="Xray\v2ray">
+		<None Condition="'$(OS)'=='OSX'" Include="Data\macos_v2ray">
+			<Link>$(RecursiveDir)Data\v2ray</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>-->
+		</None>
 		<None Update="Data\geoip.dat">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -27,10 +30,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CliWrap" Version="3.6.6" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
 	</ItemGroup>
-
 
 	<ItemGroup>
 		<ProjectReference Include="..\Away.App.Core\Away.App.Core.csproj" />

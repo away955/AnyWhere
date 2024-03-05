@@ -27,10 +27,14 @@ public sealed class WindowsProcessOnly : IProcessOnly
             var processes = Process.GetProcessesByName(current.ProcessName);
             if (processes?.Length == 0)
             {
-                return false;
+                return true;
             }
 
             var process = processes?.FirstOrDefault(o => o.Id != current.Id)!;
+            if (process == null)
+            {
+                return true;
+            }
             WinApi.ShowWindow(process.MainWindowHandle, 1);
             WinApi.ShowWindow(process.MainWindowHandle, 5);
         }

@@ -1,9 +1,6 @@
-﻿using System.Text.RegularExpressions;
-using System.Web;
+﻿namespace Away.Domain.XrayNode.Model;
 
-namespace Away.Domain.XrayNode.Model;
-
-public class Trojan : IModelXrayNode
+public sealed class Trojan : IModelXrayNode
 {
     public string host { get; set; } = string.Empty;
     public int port { get; set; }

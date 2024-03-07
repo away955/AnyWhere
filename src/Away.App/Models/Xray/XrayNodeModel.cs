@@ -39,6 +39,12 @@ public sealed class XrayNodeModel : ViewModelBase
     public XrayNodeStatus Status { get; set; }
 
     /// <summary>
+    /// 下载速度 b/s
+    /// </summary>
+    [Reactive]
+    public double Speed { get; set; }
+
+    /// <summary>
     /// 备注
     /// </summary>
     [Reactive]

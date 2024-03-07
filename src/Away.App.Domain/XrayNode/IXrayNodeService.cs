@@ -5,7 +5,5 @@
 /// </summary>
 public interface IXrayNodeService
 {
-    Task SetXrayNodeByUrl(string url);
-    void SetXrayNodeByBase64String(string text);
-    void SaveXrayNodeByList(List<string> nodes);
+    void SaveNodes(List<string> nodes);
 }

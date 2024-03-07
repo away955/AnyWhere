@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input.Platform;
+using Away.App.Domain.Xray;
 using System.Threading.Tasks;
 
 namespace Away.App.ViewModels;
@@ -6,6 +7,7 @@ namespace Away.App.ViewModels;
 [ViewModel]
 internal class XrayNodesViewModel : ViewModelBase
 {
+    private readonly IXrayNodeSubService _subService;
     private readonly IXrayNodeRepository _xrayNodeRepository;
     private readonly IXrayNodeService _xrayNodeService;
     private readonly IXrayNodeSubRepository _xrayNodeSubRepository;
@@ -30,7 +32,9 @@ internal class XrayNodesViewModel : ViewModelBase
     public ICommand ProgressCancelCommand { get; }
     private Action? _progressCancel = null!;
 
+
     public XrayNodesViewModel(
+        IXrayNodeSubService subService,
         IXrayNodeRepository xrayNodeRepository,
         IXrayNodeService xrayNodeService,
         IXrayNodeSubRepository xrayNodeSubRepository,
@@ -39,6 +43,7 @@ internal class XrayNodesViewModel : ViewModelBase
         IClipboard clipboard
         )
     {
+        _subService = subService;
         _mapper = mapper;
         _xrayNodeRepository = xrayNodeRepository;
         _xrayNodeService = xrayNodeService;
@@ -122,7 +127,7 @@ internal class XrayNodesViewModel : ViewModelBase
     {
         IsEnableXray = _xrayService.IsEnable;
         IsEnableGlobalProxy = _xrayService.IsEnableGlobalProxy;
-        var xraynodes = _xrayNodeRepository.GetList();
+        var xraynodes = _xrayNodeRepository.GetList().OrderByDescending(o => o.Speed);
         var items = xraynodes.Select(_mapper.Map<XrayNodeModel>);
         XrayNodeItemsSource = new ObservableCollection<XrayNodeModel>(items);
     }
@@ -176,6 +181,7 @@ internal class XrayNodesViewModel : ViewModelBase
         {
             IsProgress = false;
             ProgressValue = 0;
+            _subService.Cancel();
         };
 
 
@@ -188,7 +194,12 @@ internal class XrayNodesViewModel : ViewModelBase
             var sub = subs[i];
             Show($"正在更新订阅{sub.Remark}...");
             var url = sub.ParseUrl();
-            await _xrayNodeService.SetXrayNodeByUrl(url);
+            var nodes = await _subService.GetXrayNode(url);
+            if (!nodes.Any())
+            {
+                continue;
+            }
+            _xrayNodeService.SaveNodes(nodes);
             ProgressValue = (int)((i + 1) / total * 100);
             OnResetCommand();
         }
@@ -250,13 +261,15 @@ internal class XrayNodesViewModel : ViewModelBase
             if (result.IsSuccess)
             {
                 model.Status = entity.Status = XrayNodeStatus.Success;
-                model.Remark = entity.Remark = result.Speed;
+                model.Remark = entity.Remark = result.Remark;
+                model.Speed = entity.Speed = result.Speed;
                 model.Updated = DateTime.Now;
             }
             else
             {
                 model.Status = entity.Status = XrayNodeStatus.Error;
                 model.Remark = entity.Remark = "不可用";
+                model.Speed = entity.Speed = 0;
             }
             currentTotal++;
             ProgressValue = (int)(currentTotal / total * 100);
@@ -315,11 +328,13 @@ internal class XrayNodesViewModel : ViewModelBase
             var base64Pattern = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$";
             if (System.Text.RegularExpressions.Regex.IsMatch(item, base64Pattern))
             {
-                _xrayNodeService.SetXrayNodeByBase64String(item);
+                var content = XrayUtils.Base64Decode(item);
+                var nodes = content.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToList();
+                _xrayNodeService.SaveNodes(nodes);
             }
             else
             {
-                _xrayNodeService.SaveXrayNodeByList([item]);
+                _xrayNodeService.SaveNodes([item]);
             }
         }
         OnResetCommand();

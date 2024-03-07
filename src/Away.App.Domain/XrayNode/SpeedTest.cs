@@ -1,11 +1,10 @@
 ﻿using Away.Domain.Xray.Impl;
 using System.Diagnostics;
 using System.Net;
-using System.Text.RegularExpressions;
 
 namespace Away.Domain.XrayNode;
 
-public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFileName, int timeout) : BaseXrayService(configFileName)
+public sealed class SpeedTest : BaseXrayService, IDisposable
 {
     private const string Host = "127.0.0.1";
     /// <summary>
@@ -18,6 +17,36 @@ public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFile
     private const int TestSeconds = 10;
 
     public event Action<SpeedTestResult>? OnResult;
+    private readonly CancellationTokenSource _cts;
+    private readonly XrayNodeEntity entity;
+    private readonly int port;
+    public SpeedTest(XrayNodeEntity entity, int port, string configFileName, int timeout) : base(configFileName)
+    {
+        this.entity = entity;
+        this.port = port;
+        this._cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+        _cts.Token.Register(() =>
+        {
+            if (!IsEnable)
+            {
+                return;
+            }
+            Log.Warning("v2ray 测速超时取消");
+            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "测试超时" });
+            XrayClose();
+        });
+    }
+
+    public void Dispose()
+    {
+        XrayClose();
+        _cts.Dispose();
+    }
+    public override bool XrayClose()
+    {
+        _cts.Dispose();
+        return base.XrayClose();
+    }
 
     protected override void OnMessage(string msg)
     {
@@ -27,15 +56,22 @@ public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFile
         }
         base.OnMessage(msg);
         // v2ray 启动成功
-        var reg = Regex.Match(msg, "V2Ray.*.started");
-        if (reg.Success)
+        var regStartUp = Regex.Match(msg, "V2Ray.*.started");
+        if (regStartUp.Success)
         {
             Task.Run(async () =>
             {
                 var speedRes = await TestDownload();
-                OnResult?.Invoke(speedRes);
                 XrayClose();
+                OnResult?.Invoke(speedRes);              
             });
+        }
+        // v2ray 启动失败
+        var regStartFailed = Regex.Match(msg, "Failed to start");
+        if (regStartFailed.Success)
+        {
+            XrayClose();
+            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "启动失败" });           
         }
     }
 
@@ -48,28 +84,6 @@ public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFile
             return;
         }
         XrayStart();
-        Task.Run(() =>
-        {
-            var stopwatch = Stopwatch.StartNew();
-            while (true)
-            {
-                if (!IsEnable)
-                {
-                    break;
-                }
-                if (stopwatch.ElapsedMilliseconds / 1000d >= timeout)
-                {
-                    break;
-                }
-            }
-            stopwatch.Stop();
-            if (IsEnable)
-            {
-                OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "测试超时" });
-                XrayClose();
-            }
-        });
-
     }
 
     private bool SetTestConfig()
@@ -104,7 +118,7 @@ public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFile
                 Timeout = TimeSpan.FromSeconds(5)
             };
 
-            using var stream = await httpclient.GetStreamAsync(TestUrl);
+            using var stream = await httpclient.GetStreamAsync(TestUrl, _cts.Token);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
             var count = 0;
@@ -122,12 +136,12 @@ public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFile
             var sec = stopwatch.ElapsedMilliseconds / 1000d;
 
             // 下载速度 b/s
-            var ps = count / sec;
-            var speed = ps switch
+            var speed = count / sec;
+            var remark = speed switch
             {
-                var i when 0 < i && i < 1024 => $"{Math.Round(ps, 2)} b/s",
-                var i when 1024 < i && i < 1024 * 1024 => $"{Math.Round(ps / 1024, 2)} kb/s",
-                var i when 1024 * 1024 < i => $"{Math.Round(ps / 1024 / 1024, 2)} m/s",
+                var i when 0 < i && i < 1024 => $"{Math.Round(speed, 2)} b/s",
+                var i when 1024 < i && i < 1024 * 1024 => $"{Math.Round(speed / 1024, 2)} kb/s",
+                var i when 1024 * 1024 < i => $"{Math.Round(speed / 1024 / 1024, 2)} m/s",
                 _ => string.Empty
             };
             return new SpeedTestResult
@@ -135,6 +149,7 @@ public sealed class SpeedTest(XrayNodeEntity entity, int port, string configFile
                 Entity = entity,
                 IsSuccess = true,
                 Speed = speed,
+                Remark = remark,
             };
         }
         catch (Exception ex)

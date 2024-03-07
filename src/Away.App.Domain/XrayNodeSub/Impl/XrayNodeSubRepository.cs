@@ -1,4 +1,4 @@
-﻿namespace Away.App.Domain.XrayNodeSub;
+﻿namespace Away.App.Domain.XrayNodeSub.Impl;
 
 [DI(ServiceLifetime.Singleton)]
 public class XrayNodeSubRepository(IFileContext context)

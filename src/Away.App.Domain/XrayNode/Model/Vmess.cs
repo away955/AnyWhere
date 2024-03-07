@@ -1,8 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿namespace Away.Domain.XrayNode.Model;
 
-namespace Away.Domain.XrayNode.Model;
-
-public class Vmess : IModelXrayNode
+public sealed class Vmess : IModelXrayNode
 {
     public string v { get; set; } = string.Empty;
     public string ps { get; set; } = string.Empty;

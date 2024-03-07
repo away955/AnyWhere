@@ -1,9 +1,6 @@
-﻿using Away.Domain.Xray.Model;
-using System.Text.RegularExpressions;
+﻿namespace Away.Domain.XrayNode.Model;
 
-namespace Away.Domain.XrayNode.Model;
-
-public class Shadowsocks : IModelXrayNode
+public sealed class Shadowsocks : IModelXrayNode
 {
     public string ps { get; set; } = string.Empty;
     public int port { get; set; }
@@ -16,7 +13,7 @@ public class Shadowsocks : IModelXrayNode
     {
         try
         {
-            var pattern = "^ss://(?<password>.*)@(?<host>.*):(?<port>.*)#(?<ps>.*)";
+            var pattern = "^ss://(?<password>.*)@(?<host>.*):(?<port>\\d+)(?<query>.*)#(?<ps>.*)";
             var reg = Regex.Match(content, pattern);
             if (!reg.Success)
             {

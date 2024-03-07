@@ -93,8 +93,8 @@ public sealed class XrayNodeSpeedTest
                     Log.Information("节点测试完成");
                     if (OnCompeleted != null)
                     {
+                        //await Task.Delay(500);
                         OnCompeleted.Invoke();
-                        await Task.Delay(500);
                     }
                     break;
                 }
@@ -122,23 +122,27 @@ public sealed class XrayNodeSpeedTest
                 return;
             }
 
-            var service = new SpeedTest(entity, port, $"speed_test_{port}.json", 40);
-            Action<SpeedTestResult> Tested = (result) =>
+            var service = new SpeedTest(entity, port, $"speed_test_{port}.json", 15);
+            service.OnResult += Tested;
+            service.TestSpeed();
+            void Tested(SpeedTestResult result)
             {
+                Log.Information($"{result.Remark} {result.Error}");
                 OnTested?.Invoke(result);
                 Ports.TryUpdate(port, false, true);
                 _count++;
                 _semaphore.Release();
-            };
-
-            service.OnResult += (result) => Tested(result);
-            service.TestSpeed();
+            }
         }
         catch (Exception ex)
         {
             Log.Error(ex.ToString());
             Ports.TryUpdate(port, false, true);
             _count++;
+            _semaphore.Release();
+        }
+        finally
+        {
             _semaphore.Release();
         }
     }

@@ -1,34 +1,29 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading.Channels;
 
 namespace Away.Domain.XrayNode;
 
 public sealed class XrayNodeSpeedTest
 {
     private readonly CancellationTokenSource _cts = new();
-    private readonly Channel<XrayNodeEntity> _queue;
     private readonly Semaphore _semaphore;
+    private readonly List<XrayNodeEntity> _nodes;
+
     public XrayNodeSpeedTest(List<XrayNodeEntity> entities, int concurrency, int startPort)
     {
         Concurrency = concurrency;
         StartPort = startPort;
         _semaphore = new(concurrency, concurrency);
-        _queue = Channel.CreateBounded<XrayNodeEntity>(Concurrency);
-
         foreach (var port in Enumerable.Range(startPort, Concurrency))
         {
             Ports.TryAdd(port, false);
         }
 
+        _nodes = entities;
         _total = entities.Count;
-        foreach (var entity in entities)
+        _cts.Token.Register(() =>
         {
-            Task.Run(async () =>
-            {
-                await _queue.Writer.WriteAsync(entity, _cts.Token);
-                OnTesting?.Invoke(entity);
-            });
-        }
+            OnCancel?.Invoke();
+        });
     }
 
     /// <summary>
@@ -47,6 +42,11 @@ public sealed class XrayNodeSpeedTest
     public event Action? OnCompeleted;
 
     /// <summary>
+    /// 测试进度
+    /// </summary>
+    public event Action<int>? OnProgress;
+
+    /// <summary>
     /// 取消
     /// </summary>
     public event Action? OnCancel;
@@ -60,12 +60,10 @@ public sealed class XrayNodeSpeedTest
     /// </summary>
     public int StartPort { get; private set; }
 
-
     /// <summary>
     /// 可用端口，true：使用中，false：未使用
     /// </summary>
     private readonly ConcurrentDictionary<int, bool> Ports = new();
-
     /// <summary>
     /// 总节点数
     /// </summary>
@@ -73,77 +71,75 @@ public sealed class XrayNodeSpeedTest
     /// <summary>
     /// 已检测的节点数
     /// </summary>
-    private int _count;
+    private int _count = 1;
 
     public void Cancel()
     {
-        OnCancel?.Invoke();
         _cts.Cancel();
     }
 
     public void Listen()
     {
-        Task.Run(async () =>
+        Task.Run(() =>
         {
-            while (!_cts.IsCancellationRequested)
+            foreach (var entity in _nodes)
             {
-                _semaphore.WaitOne();
-                if (_count == _total)
+                if (_cts.IsCancellationRequested)
                 {
-                    Log.Information("节点测试完成");
-                    if (OnCompeleted != null)
-                    {
-                        //await Task.Delay(500);
-                        OnCompeleted.Invoke();
-                    }
                     break;
                 }
-                _ = RunOne();
+                _semaphore.WaitOne();
+                Task.Delay(200).Wait();
+                var port = Ports.Where(o => o.Value == false).FirstOrDefault().Key;
+                if (port == 0)
+                {
+                    continue;
+                }
+                Ports.TryUpdate(port, true, false);
+                RunOne(entity, port);
             }
+            Log.Information("测试结束，退出循环");
         });
     }
 
-    public async Task RunOne()
+    private void RunOne(XrayNodeEntity entity, int port)
     {
-        var port = Ports.Where(o => o.Value == false).FirstOrDefault().Key;
-        Ports.TryUpdate(port, true, false);
-
         try
         {
-            var entity = await _queue.Reader.ReadAsync(_cts.Token);
-            if (entity == null)
-            {
-                return;
-            }
-
-            if (port == 0)
-            {
-                await _queue.Writer.WriteAsync(entity, _cts.Token);
-                return;
-            }
-
-            var service = new SpeedTest(entity, port, $"speed_test_{port}.json", 15);
+            var service = new SpeedTest(entity, port, $"speed_test_{port}.json", 30);
             service.OnResult += Tested;
             service.TestSpeed();
             void Tested(SpeedTestResult result)
-            {
-                Log.Information($"{result.Remark} {result.Error}");
+            {               
+                Log.Information($"进度：{_count}/{_total} 结果：{result.Remark} {result.Error}");
+                if (_cts.IsCancellationRequested)
+                {
+                    return;
+                }
                 OnTested?.Invoke(result);
-                Ports.TryUpdate(port, false, true);
-                _count++;
-                _semaphore.Release();
+                Release(port);
             }
         }
         catch (Exception ex)
         {
             Log.Error(ex.ToString());
-            Ports.TryUpdate(port, false, true);
-            _count++;
-            _semaphore.Release();
-        }
-        finally
-        {
-            _semaphore.Release();
+            Release(port);
         }
     }
+
+    private void Release(int port)
+    {
+        Ports.TryUpdate(port, false, true);
+        _count++;
+        var progressValue = (int)(_count * 1d / _total * 100);
+        OnProgress?.Invoke(progressValue);
+        if (progressValue == 100)
+        {
+            Log.Information("节点测试完成");
+            OnCompeleted?.Invoke();
+        }
+        _semaphore.Release();
+    }
+
+
 }

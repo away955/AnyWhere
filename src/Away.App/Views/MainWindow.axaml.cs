@@ -1,24 +1,26 @@
+using Avalonia.Controls.Primitives;
+
 namespace Away.App.Views;
 
 public partial class MainWindow : Window
 {
-    private readonly WindowNotificationManager? _nofityManager;
+    private WindowNotificationManager? _nofityManager;
+
     public MainWindow()
     {
         this.DataContext = AwayLocator.GetViewModel<MainWindowViewModel>();
         this.InitializeComponent();
-        _nofityManager = new WindowNotificationManager(this)
-        {
-            Position = NotificationPosition.TopRight,
-            MaxItems = 5
-        };
         MessageBusListen();
     }
 
-    private void ViewChange(string? url = null) 
-    {
-        var view = AwayLocator.GetView(url) ?? AwayLocator.GetView("404");
-        this.MainBox.Content = view;
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {       
+        _nofityManager = new WindowNotificationManager(this)
+        {
+            Position = NotificationPosition.TopRight,
+            MaxItems = 3,
+        };
+        base.OnApplyTemplate(e);
     }
 
     public void TopHeader_PointerMoved(object sender, PointerPressedEventArgs e)
@@ -35,7 +37,8 @@ public partial class MainWindow : Window
             {
                 return;
             }
-            ViewChange(url);
+            var view = AwayLocator.GetView(url) ?? AwayLocator.GetView("404");
+            this.MainBox.Content = view;
         });
 
         // 窗口状态切换
@@ -72,7 +75,7 @@ public partial class MainWindow : Window
             }
         });
 
-        // 系统通知
+        //系统通知
         MessageBus.Current.Subscribe(MessageBusType.Notification, args =>
         {
             _nofityManager?.Show(args);

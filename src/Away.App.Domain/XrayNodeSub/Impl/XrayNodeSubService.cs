@@ -1,11 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net.Http;
 
 namespace Away.App.Domain.XrayNodeSub.Impl;
 
 [DI]
 public sealed class XrayNodeSubService(IHttpClientFactory httpClientFactory) : IXrayNodeSubService
 {
-    private readonly HttpClient _httpClient = httpClientFactory.CreateClient("xray");
     private CancellationTokenSource _cts = new();
 
     public void Cancel()
@@ -54,6 +53,8 @@ public sealed class XrayNodeSubService(IHttpClientFactory httpClientFactory) : I
 
     private Task<string> Request(string url)
     {
-        return _httpClient.GetStringAsync(url, _cts.Token);
+        var client = httpClientFactory.CreateClient("xray");
+        client.Timeout = TimeSpan.FromSeconds(10);
+        return client.GetStringAsync(url, _cts.Token);
     }
 }

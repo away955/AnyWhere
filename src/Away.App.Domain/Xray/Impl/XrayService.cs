@@ -10,6 +10,12 @@ public class XrayService : BaseXrayService, IXrayService
     {
         _proxySetting = proxySetting;
         IsEnableGlobalProxy = _proxySetting.ProxyEnable;
+        var process = Process.GetProcessesByName(ExeFileName)?.FirstOrDefault();
+        IsEnable = process != null;
+        if (process != null)
+        {
+            XrayStop = process.Kill;
+        }
     }
 
     public bool IsEnableGlobalProxy { get; private set; }

@@ -32,8 +32,8 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
                 return;
             }
             Log.Warning("v2ray 测速超时取消");
-            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "测试超时" });
             XrayClose();
+            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "测试超时" });            
         });
     }
 
@@ -41,11 +41,6 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
     {
         XrayClose();
         _cts.Dispose();
-    }
-    public override bool XrayClose()
-    {
-        _cts.Dispose();
-        return base.XrayClose();
     }
 
     protected override void OnMessage(string msg)

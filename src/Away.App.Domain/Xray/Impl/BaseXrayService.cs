@@ -1,6 +1,5 @@
 ﻿using CliWrap.EventStream;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace Away.Domain.Xray.Impl;
 
@@ -27,7 +26,7 @@ public abstract class BaseXrayService : IBaseXrayService
     }
 
     public XrayConfig Config { get; private set; }
-    public bool IsEnable { get; private set; }
+    public bool IsEnable { get; protected set; }
 
     public void SaveConfig()
     {
@@ -46,7 +45,7 @@ public abstract class BaseXrayService : IBaseXrayService
         return Config;
     }
 
-    private Action? XrayStop;
+    protected Action? XrayStop { get; set; }
     public bool XrayStart()
     {
         if (IsEnable)

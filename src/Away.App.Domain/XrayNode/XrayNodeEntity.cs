@@ -42,6 +42,11 @@ public class XrayNodeEntity
     public string Remark { get; set; } = string.Empty;
 
     /// <summary>
+    /// 下载速度 b/s
+    /// </summary>
+    public double Speed { get; set; }
+
+    /// <summary>
     /// 更新时间
     /// </summary>
     public DateTime Updated { get; set; } = DateTime.Now;

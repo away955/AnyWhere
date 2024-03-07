@@ -102,7 +102,7 @@
 			<!--列表字段-->
 			<DataGrid.Columns>
 				<!--<DataGridTextColumn Width="150" Binding="{Binding Updated}" Header="更新时间"/>-->
-				<DataGridTextColumn Width="120" Binding="{Binding Remark}" Header="状态" />
+				<DataGridTextColumn Width="120" Binding="{Binding Remark}" SortMemberPath="Speed" Header="状态" />
 				<DataGridTextColumn Width="*" Binding="{Binding Alias}" Header="节点名称" />
 				<DataGridTemplateColumn Width="*" Header="地址" CanUserSort="True" SortMemberPath="Host">
 					<DataTemplate>

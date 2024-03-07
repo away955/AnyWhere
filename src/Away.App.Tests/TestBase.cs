@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Away.App.Core.DI;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Away.App.Tests;
 
@@ -8,7 +9,7 @@ public abstract class TestBase
 
     public TestBase()
     {
-        var services = new ServiceCollection();
+        var services = AwayLocator.Services;
         ConfigureServices(services);
         ServiceProvider = services.BuildServiceProvider();
     }

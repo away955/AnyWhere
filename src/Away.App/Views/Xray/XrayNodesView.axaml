@@ -45,7 +45,7 @@
 
 	</UserControl.Styles>
 
-	<Grid Margin="10">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition MinHeight="60" Height="Auto"/>
 			<RowDefinition/>

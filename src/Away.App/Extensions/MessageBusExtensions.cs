@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls.Notifications;
-
-namespace Away.App.Extensions;
+﻿namespace Away.App.Extensions;
 
 public static class MessageBusExtensions
 {

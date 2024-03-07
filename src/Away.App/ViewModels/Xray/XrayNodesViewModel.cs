@@ -161,7 +161,7 @@ internal class XrayNodesViewModel : ViewModelBase
         }
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
         _xrayNodeRepository.SaveNodes(items);
-        Show("切换节点成功");
+        Success("切换节点成功");
         OnResetCommand();
     }
 
@@ -172,7 +172,7 @@ internal class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            Show($"等待{ProgressText}完成", NotificationType.Warning);
+            Warning("更新订阅被取消", $"等待{ProgressText}完成后再试");
             return;
         }
         var subs = _xrayNodeSubRepository.GetListByEnable();
@@ -189,7 +189,7 @@ internal class XrayNodesViewModel : ViewModelBase
             _subService.Cancel();
         };
 
-
+        var nodeTotal = 0;
         for (var i = 0; i < total; i++)
         {
             if (!IsProgress)
@@ -197,19 +197,20 @@ internal class XrayNodesViewModel : ViewModelBase
                 break;
             }
             var sub = subs[i];
-            Show($"正在更新订阅{sub.Remark}...");
             var url = sub.ParseUrl();
             var nodes = await _subService.GetXrayNode(url);
+            Success("更新订阅", $"{sub.Remark}更新了{nodes.Count}个节点");
             if (nodes.Count == 0)
             {
                 continue;
             }
+            nodeTotal += nodes.Count;
             _xrayNodeService.SaveNodes(nodes);
             ProgressValue = (int)((i + 1) / total * 100);
             OnResetCommand();
         }
         OnResetCommand();
-        Show("节点订阅更新完成");
+        Success("节点订阅更新完成", $"共更新了{nodeTotal}个节点");
         await Task.Delay(1000);
         ClearProgress();
     }
@@ -221,11 +222,10 @@ internal class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            Show($"等待{ProgressText}完成", NotificationType.Warning);
+            Warning("测速被取消", $"等待{ProgressText}完成后再试");
             return;
         }
 
-        Show("开始测试");
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
         var total = items.Count * 1d;
         if (total > 0)
@@ -238,17 +238,6 @@ internal class XrayNodesViewModel : ViewModelBase
         _progressCancel = speedService.Cancel;
         speedService.OnProgress += (value) => ProgressValue = value;
         speedService.OnCancel += ClearProgress;
-        speedService.OnTesting += (entity) =>
-        {
-            var model = XrayNodeItemsSource.FirstOrDefault(o => o.Url == entity.Url);
-            if (model == null)
-            {
-                return;
-            }
-            model.Status = XrayNodeStatus.Default;
-            model.Remark = "检测中...";
-        };
-
         speedService.OnTested += (result) =>
         {
             var entity = result.Entity;
@@ -280,6 +269,7 @@ internal class XrayNodesViewModel : ViewModelBase
             OnResetCommand();
             await Task.Delay(1000);
             ClearProgress();
+            Success("节点检测完成");
         };
         speedService.Listen();
     }

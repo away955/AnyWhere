@@ -17,6 +17,7 @@
 		</Style>
 
 	</UserControl.Styles>
+	
 	<Grid>
 		<ScrollViewer>
 			<TabControl Name="TabSettings" SelectedValue="订阅节点">

@@ -27,11 +27,6 @@ public sealed class XrayNodeSpeedTest
     }
 
     /// <summary>
-    /// 检测中
-    /// </summary>
-    public event Action<XrayNodeEntity>? OnTesting;
-
-    /// <summary>
     /// 检测完成
     /// </summary>
     public event Action<SpeedTestResult>? OnTested;
@@ -135,11 +130,8 @@ public sealed class XrayNodeSpeedTest
         OnProgress?.Invoke(progressValue);
         if (progressValue == 100)
         {
-            Log.Information("节点测试完成");
             OnCompeleted?.Invoke();
         }
         _semaphore.Release();
     }
-
-
 }

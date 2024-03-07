@@ -48,7 +48,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
         if (model.Id > 0)
         {
             _repository.DeleteByUrl(model.Url);
-            Show("删除成功");
+            Success("删除成功");
         }
     }
 
@@ -56,7 +56,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
     {
         var entitys = Items.Where(o => !string.IsNullOrWhiteSpace(o.Url)).Select(_mapper.Map<XrayNodeSubEntity>).ToList();
         _repository.Save(entitys);
-        Show("保存成功");
+        Success("保存成功");
         Init();
     }
 

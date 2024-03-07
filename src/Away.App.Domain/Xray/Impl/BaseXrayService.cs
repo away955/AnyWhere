@@ -85,10 +85,10 @@ public abstract class BaseXrayService : IBaseXrayService
 
     protected virtual void OnMessage(string msg)
     {
-        Log.Information(Regex.Replace(msg, ".*.\\[.*.\\]", string.Empty).Trim());
+        Log.Information(Regex.Replace(msg, @"^\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}", string.Empty).Trim());
     }
 
-    public bool XrayClose()
+    public virtual bool XrayClose()
     {
         if (!IsEnable)
         {

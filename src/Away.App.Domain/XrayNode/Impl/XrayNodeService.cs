@@ -1,35 +1,11 @@
 ﻿namespace Away.Domain.XrayNode.Impl;
 
 [DI(ServiceLifetime.Singleton)]
-public class XrayNodeService(
-    ILogger<XrayNodeService> logger,
-    IHttpClientFactory httpClientFactory,
-    IXrayNodeRepository xrayNodeRepository) : IXrayNodeService
+public class XrayNodeService(IXrayNodeRepository xrayNodeRepository) : IXrayNodeService
 {
-    private readonly ILogger<XrayNodeService> _logger = logger;
-    private readonly HttpClient _httpClient = httpClientFactory.CreateClient("xray");
     private readonly IXrayNodeRepository _xrayNodeRepository = xrayNodeRepository;
 
-    public async Task SetXrayNodeByUrl(string url)
-    {
-        try
-        {
-            var response = await _httpClient.GetStringAsync(url);
-            SetXrayNodeByBase64String(response);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogInformation("{}", ex.Message);
-        }
-    }
-
-    public void SetXrayNodeByBase64String(string text)
-    {
-        var items = XrayUtils.Base64Decode(text).Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
-        SaveXrayNodeByList(items);
-    }
-
-    public void SaveXrayNodeByList(List<string> nodes)
+    public void SaveNodes(List<string> nodes)
     {
         var unknows = new HashSet<string>();
         var list = new List<XrayNodeEntity>();
@@ -60,7 +36,7 @@ public class XrayNodeService(
         }
         if (unknows.Count > 0)
         {
-            _logger.LogWarning("未知类型\n\r{}", JsonSerializer.Serialize(unknows.ToArray()));
+            Log.Warning($"未知类型\n\r{JsonUtils.Serialize(unknows.ToArray())}");
         }
         var entities = list.Where(o => !o.Alias.StartsWith("更新于"))
             .Select(o =>

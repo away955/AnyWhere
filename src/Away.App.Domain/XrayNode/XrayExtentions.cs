@@ -1,9 +1,4 @@
-﻿using Away.App.Domain.XrayNode;
-using Away.Domain.Xray;
-using Away.Domain.Xray.Model;
-using Away.Domain.XrayNode.Model;
-
-namespace Away.Domain.XrayNode;
+﻿namespace Away.Domain.XrayNode;
 
 
 public static class XrayExtentions

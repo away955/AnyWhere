@@ -35,7 +35,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
 
     public void OnAddCommand()
     {
-        Items.Add(new XrayNodeSubModel());
+        Items.Insert(0, new XrayNodeSubModel());
     }
 
     private void OnDelCommand(XrayNodeSubModel? model)

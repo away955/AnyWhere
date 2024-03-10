@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App"
+			 xmlns:icon="clr-namespace:Away.App.Components.IconFont;assembly=Away.App.Core"
 			 xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
 			 x:DataType="vm:XrayLogViewModel"
              x:Class="Away.App.Views.XrayLogView">

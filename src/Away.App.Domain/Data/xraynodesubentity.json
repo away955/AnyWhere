@@ -1,1 +1,37 @@
-[{"Id":0,"Url":"https://proxy.v2gh.com/https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub","IsDisable":false,"Remark":"Pawdroid"},{"Id":0,"Url":"https://proxy.v2gh.com/https://raw.githubusercontent.com/freefq/free/master/v2","IsDisable":false,"Remark":"freefq"},{"Id":0,"Url":"https://clashgithub.com/wp-content/uploads/rss/${date:yyyyMMdd}.txt","IsDisable":false,"Remark":"rss"},{"Id":0,"Url":"https://proxy.v2gh.com/https://raw.githubusercontent.com/mksshare/mksshare.github.io/main/README.md","IsDisable":false,"Remark":"mksshare"},{"Id":0,"Url":"https://www.xrayvip.com/free.txt","IsDisable":false,"Remark":"xrayvip"},{"Id":0,"Url":"https://raw.githubusercontent.com/ssrsub/ssr/master/ssrsub","IsDisable":false,"Remark":"ssrsub"},{"Id":0,"Url":"https://proxy.v2gh.com/https://raw.githubusercontent.com/tolinkshare/freenode/main/README.md","IsDisable":false,"Remark":"tolinkshare"}]
+[
+  {
+    "Url": "https://proxy.v2gh.com/https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub",
+    "IsDisable": false,
+    "Remark": "Pawdroid"
+  },
+  {
+    "Url": "https://proxy.v2gh.com/https://raw.githubusercontent.com/freefq/free/master/v2",
+    "IsDisable": false,
+    "Remark": "freefq"
+  },
+  {
+    "Url": "https://clashgithub.com/wp-content/uploads/rss/${date:yyyyMMdd}.txt",
+    "IsDisable": false,
+    "Remark": "rss"
+  },
+  {
+    "Url": "https://proxy.v2gh.com/https://raw.githubusercontent.com/mksshare/mksshare.github.io/main/README.md",
+    "IsDisable": false,
+    "Remark": "mksshare"
+  },
+  {
+    "Url": "https://www.xrayvip.com/free.txt",
+    "IsDisable": false,
+    "Remark": "xrayvip"
+  },
+  {
+    "Url": "https://proxy.v2gh.com/https://raw.githubusercontent.com/ssrsub/ssr/master/ssrsub",
+    "IsDisable": false,
+    "Remark": "ssrsub"
+  },
+  {
+    "Url": "https://proxy.v2gh.com/https://raw.githubusercontent.com/tolinkshare/freenode/main/README.md",
+    "IsDisable": false,
+    "Remark": "tolinkshare"
+  }
+]

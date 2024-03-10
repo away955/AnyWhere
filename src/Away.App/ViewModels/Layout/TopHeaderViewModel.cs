@@ -3,33 +3,37 @@
 [ViewModel]
 public sealed class TopHeaderViewModel : ReactiveObject
 {
+    private static readonly string Maximum = IconData.Current["Maximum"].ToUnicode();
+    private static readonly string Normal = IconData.Current["Normal"].ToUnicode();
+
     public ICommand CloseCommand { get; }
     public ICommand NormalCommand { get; }
     public ICommand MinimizedCommand { get; }
 
+
+
     [Reactive]
-    public string NormalIcon { get; set; } = Icon.Maximum.ToUnicode();
+    public string NormalIcon { get; set; } = Maximum;
 
     public TopHeaderViewModel()
     {
         CloseCommand = ReactiveCommand.Create(() => OnCommand(WindowStateCommandType.Hide));
         MinimizedCommand = ReactiveCommand.Create(() => OnCommand(WindowStateCommandType.Minimized));
         NormalCommand = ReactiveCommand.Create(OnNomalCommand);
-
     }
 
 
     private void OnNomalCommand()
     {
-        if (NormalIcon == Icon.Maximum.ToUnicode())
+        if (NormalIcon == Maximum)
         {
             OnCommand(WindowStateCommandType.Maximized);
-            NormalIcon = Icon.Normal.ToUnicode();
+            NormalIcon = Normal;
         }
         else
         {
             OnCommand(WindowStateCommandType.Normal);
-            NormalIcon = Icon.Maximum.ToUnicode();
+            NormalIcon = Maximum;
         }
     }
 

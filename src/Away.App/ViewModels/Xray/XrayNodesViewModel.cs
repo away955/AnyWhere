@@ -161,7 +161,6 @@ internal class XrayNodesViewModel : ViewModelBase
         }
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
         _xrayNodeRepository.SaveNodes(items);
-        Success("切换节点成功");
         OnResetCommand();
     }
 

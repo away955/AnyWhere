@@ -1,9 +1,7 @@
-﻿using System.Net.Http;
-
-namespace Away.App.Domain.XrayNodeSub.Impl;
+﻿namespace Away.App.Domain.XrayNodeSub.Impl;
 
 [DI]
-public sealed class XrayNodeSubService(IHttpClientFactory httpClientFactory) : IXrayNodeSubService
+public sealed partial class XrayNodeSubService(IHttpClientFactory httpClientFactory) : IXrayNodeSubService
 {
     private CancellationTokenSource _cts = new();
 
@@ -42,7 +40,7 @@ public sealed class XrayNodeSubService(IHttpClientFactory httpClientFactory) : I
         {
             return nodes;
         }
-        var reg = Regex.Match(content, "```(?<nodes>[^`]+)```");
+        var reg = NodesRegex().Match(content);
         if (!reg.Success)
         {
             return nodes;
@@ -57,4 +55,7 @@ public sealed class XrayNodeSubService(IHttpClientFactory httpClientFactory) : I
         client.Timeout = TimeSpan.FromSeconds(10);
         return client.GetStringAsync(url, _cts.Token);
     }
+
+    [GeneratedRegex("```(?<nodes>[^`]+)```")]
+    private static partial Regex NodesRegex();
 }

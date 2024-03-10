@@ -1,4 +1,4 @@
-﻿namespace Away.App.Models;
+﻿namespace Away.App.Core.MessageBus;
 
 public enum WindowStateCommandType
 {

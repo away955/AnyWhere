@@ -1,4 +1,4 @@
-﻿namespace Away.App.Models;
+﻿namespace Away.App;
 
 public sealed class AppInfo
 {

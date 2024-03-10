@@ -1,4 +1,8 @@
-﻿namespace Away.App.Extensions;
+﻿using Avalonia.Controls.Notifications;
+using ReactiveUI;
+using System.Reactive.Linq;
+
+namespace Away.App.Core.MessageBus;
 
 public static class MessageBusExtensions
 {

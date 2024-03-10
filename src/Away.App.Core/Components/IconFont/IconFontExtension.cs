@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Avalonia.Markup.Xaml;
+using System.Text.RegularExpressions;
 
 namespace Away.App.Components.IconFont;
 
@@ -12,7 +13,10 @@ public class KeyExtension(string key) : MarkupExtension
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        var text = IconFont.ResourceManager.GetString(Key) ?? string.Empty;
+        if (!IconData.Current.TryGetValue(Key, out var text))
+        {
+            return string.Empty;
+        }
         return text.ToUnicode();
     }
 }

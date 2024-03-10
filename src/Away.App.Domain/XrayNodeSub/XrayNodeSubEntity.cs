@@ -6,11 +6,6 @@
 public class XrayNodeSubEntity
 {
     /// <summary>
-    /// 编号
-    /// </summary>
-    public int Id { get; set; }
-
-    /// <summary>
     /// 订阅地址
     /// </summary>
     public string Url { get; set; } = string.Empty;

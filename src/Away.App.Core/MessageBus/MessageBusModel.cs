@@ -1,4 +1,4 @@
-﻿namespace Away.App.Models;
+﻿namespace Away.App.Core.MessageBus;
 
 public enum MessageBusType
 {
@@ -9,7 +9,7 @@ public enum MessageBusType
     Event
 }
 
-public class MessageBusModel(MessageBusType messageType, object args)
+public sealed class MessageBusModel(MessageBusType messageType, object args)
 {
     public MessageBusType MessageType { get; set; } = messageType;
     public object Args { get; set; } = args;

@@ -6,7 +6,6 @@ namespace Away.App;
 
 public partial class App : Application
 {
-
     public override void Initialize()
     {
         var processOnly = AwayLocator.GetService<IProcessOnly>();

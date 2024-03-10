@@ -21,6 +21,7 @@ public abstract class TestBase
 
     protected virtual void ConfigureServices(IServiceCollection Services)
     {
-        DI.ConfigureServices(Services);
+        Program.ConfigureServices(Services);
+        Update.Program.ConfigureServices(Services);
     }
 }

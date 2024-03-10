@@ -1,6 +1,4 @@
-﻿using Away.App.Core.DI;
-
-namespace Away.App.Core.Extensions.DependencyInjection;
+﻿namespace Away.App.Core.Extensions.DependencyInjection;
 
 public static class AppBuilderServiceExtensions
 {

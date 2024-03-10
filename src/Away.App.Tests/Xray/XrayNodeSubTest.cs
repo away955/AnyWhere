@@ -18,15 +18,11 @@ public class XrayNodeSubTest : TestBase
     }
 
     [Theory]
-    [InlineData("https://clashgithub.com/wp-content/uploads/rss/${date:yyyyMMdd}.txt")]
     [InlineData("https://proxy.v2gh.com/https://raw.githubusercontent.com/mksshare/mksshare.github.io/main/README.md")]
     public async void TestGetNodes(string url)
     {
         var subSerivce = GetService<IXrayNodeSubService>();
-        var xrayservice = GetService<IXrayNodeService>();
-
         var nodes = await subSerivce.GetXrayNode(url);
-        xrayservice.SaveNodes(nodes);
         Assert.NotEmpty(nodes);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
+using Away.App.Core.IPC;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Away.App;
 
@@ -10,6 +12,15 @@ public sealed class Program
     [STAThread]
     public static void Main(string[] args)
     {
+
+#if DEBUG
+        var logConf = new LoggerConfiguration();
+        logConf.MinimumLevel.Information();
+        logConf.WriteTo.Console();
+        Log.Logger = logConf.CreateLogger();
+#endif
+
+        CheckOnlyProcess();
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, lifetime =>
         {
             lifetime.Exit += Lifetime_Exit;
@@ -36,11 +47,6 @@ public sealed class Program
     {
 
 #if DEBUG
-        var logConf = new LoggerConfiguration();
-        logConf.MinimumLevel.Information();
-        logConf.WriteTo.Console();
-        Log.Logger = logConf.CreateLogger();
-
         Log.Information("注册服务");
         services.AddLogging(o => o.AddSerilog());
 #endif
@@ -63,8 +69,49 @@ public sealed class Program
         services.AddFileContext();
         services.AddClipboard();
         services.AddProxySettings();
-        services.AddProcessOnly();
         services.AddScoped<IVersionService, VersionService>();
         services.AddScoped<IUpdateService, UpdateService>();
     }
+
+    private static async void CheckOnlyProcess()
+    {
+        const string pipeName = "onlyProcess";
+        try
+        {
+            using IPCClient ipcClient = new(".", pipeName);
+            ipcClient.OnReceive += (cmd) =>
+            {
+                Environment.Exit(0);
+            };
+            ipcClient.Connect(TimeSpan.FromSeconds(1));
+            await ipcClient.CommandAsync(WindowStateCommandType.ShowActivate);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "IPC Client Connecting Error");
+        }
+        _ = IPCListen(pipeName);
+
+    }
+
+    private static async Task IPCListen(string pipeName)
+    {
+        try
+        {
+            while (true)
+            {
+                using IPCServer ipcServer = new(pipeName);
+                ipcServer.OnReceive += (cmd) =>
+                {
+                    MessageBus.Current.Publish(MessageBusType.WindowState, cmd);
+                };
+                await ipcServer.Listen();
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Information(ex, "IPC Server Starting Error");
+        }
+    }
+
 }

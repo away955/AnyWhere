@@ -2,4 +2,5 @@
 global using Away.App.Core.DI;
 global using Away.App.Core.Utils;
 global using Microsoft.Extensions.DependencyInjection;
+global using Serilog;
 global using System.Text.Json;

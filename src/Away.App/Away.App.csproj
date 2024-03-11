@@ -34,7 +34,6 @@
 		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
 	</ItemGroup>
 
-
 	<ItemGroup>
 		<ProjectReference Include="..\Away.App.Domain\Away.App.Domain.csproj" />
 	</ItemGroup>

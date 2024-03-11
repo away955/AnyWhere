@@ -14,7 +14,7 @@ public partial class MainWindow : Window
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-    {       
+    {
         _nofityManager = new WindowNotificationManager(this)
         {
             Position = NotificationPosition.TopRight,
@@ -49,30 +49,40 @@ public partial class MainWindow : Window
                 return;
             }
 
-            switch (cmdType)
+            Dispatcher.UIThread.Post(() =>
             {
-                case WindowStateCommandType.Normal:
-                    WindowState = WindowState.Normal;
-                    break;
-                case WindowStateCommandType.Minimized:
-                    WindowState = WindowState.Minimized;
-                    break;
-                case WindowStateCommandType.Maximized:
-                    WindowState = WindowState.Maximized;
-                    break;
-                case WindowStateCommandType.FullScreen:
-                    WindowState = WindowState.FullScreen;
-                    break;
-                case WindowStateCommandType.Close:
-                    Close();
-                    break;
-                case WindowStateCommandType.Hide:
-                    Hide();
-                    break;
-                case WindowStateCommandType.Show:
-                    Show();
-                    break;
-            }
+                switch (cmdType)
+                {
+                    case WindowStateCommandType.Normal:
+                        WindowState = WindowState.Normal;
+                        break;
+                    case WindowStateCommandType.Minimized:
+                        WindowState = WindowState.Minimized;
+                        break;
+                    case WindowStateCommandType.Maximized:
+                        WindowState = WindowState.Maximized;
+                        break;
+                    case WindowStateCommandType.FullScreen:
+                        WindowState = WindowState.FullScreen;
+                        break;
+                    case WindowStateCommandType.Close:
+                        Close();
+                        break;
+                    case WindowStateCommandType.Hide:
+                        Hide();
+                        break;
+                    case WindowStateCommandType.Show:
+                        Show();
+                        break;
+                    case WindowStateCommandType.Activate:
+                        Activate();
+                        break;
+                    case WindowStateCommandType.ShowActivate:
+                        Show();
+                        Activate();
+                        break;
+                }
+            });
         });
 
         //ϵͳ֪ͨ

@@ -20,6 +20,6 @@ public class AppViewModel : ViewModelBase
 
     private static void OnShowCommand()
     {
-        MessageBus.Current.Publish(MessageBusType.WindowState, WindowStateCommandType.Show);
+        MessageBus.Current.Publish(MessageBusType.WindowState, WindowStateCommandType.ShowActivate);
     }
 }

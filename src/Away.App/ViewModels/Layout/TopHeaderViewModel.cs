@@ -30,7 +30,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
     public string UpdateHeader { get; set; } = string.Empty;
 
     [Reactive]
-    public bool IsEnabled { get; set; } = true;
+    public bool IsEnabled { get; set; }
 
     public TopHeaderViewModel(IVersionService versionService)
     {
@@ -42,10 +42,10 @@ public sealed class TopHeaderViewModel : ViewModelBase
         UpdateCommand = ReactiveCommand.Create(OnUpdateCommand);
         InfoCommand = ReactiveCommand.Create(OnInfoCommand);
 
-        _ = Task.Run(Init);
+        _ = Init();
     }
 
-    private async void Init()
+    private async Task Init()
     {
         var info = await _versionService.GetVersionInfo(AppInfoUrl);
         if (string.IsNullOrWhiteSpace(info.Version))
@@ -55,7 +55,13 @@ public sealed class TopHeaderViewModel : ViewModelBase
         var hasNewVersion = info.HasNewVersion(CurrentVersion.Replace("v", string.Empty));
         if (hasNewVersion)
         {
+            IsEnabled = true;
             UpdateHeader = $"{Update} 检查更新(v{info.Version})";
+        }
+        else
+        {
+            IsEnabled = false;
+            UpdateHeader = $"{Update} 检查更新";
         }
     }
 

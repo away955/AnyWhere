@@ -12,14 +12,14 @@ public enum IconType
     [IconText("&#xe621;")] Minimal,
     [IconText("&#xe6b7;")] Normal,
     [IconText("&#xe619;")] Fly,
-    [IconText("&#xe686;")] FlyNet,
-    [IconText("&#xe64a;")] FlySettings,
-    [IconText("&#xe645;")] Planet,
     [IconText("&#xe638;")] Settings,
     [IconText("&#xe65b;")] NotFound,
     [IconText("&#xe60c;")] Remove,
     [IconText("&#xe866;")] Save,
-    [IconText("&#xe660;")] Add
+    [IconText("&#xe660;")] Add,
+    [IconText("&#xe63c;")] Expander,
+    [IconText("&#xe67b;")] Update,
+    [IconText("&#xe6de;")] Info
 }
 
 [AttributeUsage(AttributeTargets.Field)]

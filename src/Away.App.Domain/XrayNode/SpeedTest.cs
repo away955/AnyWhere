@@ -1,6 +1,8 @@
 ﻿using Away.Domain.Xray.Impl;
+using System;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 
 namespace Away.Domain.XrayNode;
 
@@ -113,8 +115,9 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
                 Timeout = TimeSpan.FromSeconds(5)
             };
 
-            using var stream = await httpclient.GetStreamAsync(TestUrl, _cts.Token);
-
+            using var resp = await httpclient.GetAsync(TestUrl, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
+            resp.EnsureSuccessStatusCode();
+            using var stream = await resp.Content.ReadAsStreamAsync();
             Stopwatch stopwatch = Stopwatch.StartNew();
             var count = 0;
             var len = 0;

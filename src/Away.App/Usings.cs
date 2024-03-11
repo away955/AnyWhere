@@ -14,6 +14,8 @@ global using Away.App.Core.Navigation;
 global using Away.App.Domain.XrayNode;
 global using Away.App.Domain.XrayNodeSub;
 global using Away.App.Models;
+global using Away.App.Update.Services;
+global using Away.App.Update.Services.Impl;
 global using Away.App.ViewModels;
 global using Away.Domain.Xray;
 global using Away.Domain.Xray.Model;

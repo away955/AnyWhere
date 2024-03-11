@@ -14,6 +14,9 @@
 
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
+		<Compile Include="../Away.App.Update/Services/**/*.cs">
+			<Link>Services/%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>

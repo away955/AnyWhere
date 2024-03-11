@@ -1,17 +1,17 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Away.App.Update.Services.Impl;
 
 public sealed class VersionService(IHttpClientFactory httpClientFactory) : IVersionService
 {
-    private const string VersionUrl = "";
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("xray");
 
-    public async Task<VersionInfo> GetVersionInfo()
+    public async Task<VersionInfo> GetVersionInfo(string url)
     {
-        var text = await _httpClient.GetStringAsync(VersionUrl);
-        var pattern = @"^# 哪都通 \((?<updated>\d{4}-\d{2}-\d{2})\)\r\n## 更新功能 v(?<version>.*.)\r\n";
+        var text = await _httpClient.GetStringAsync(url);
+        var pattern = @"^# 哪都通 \((?<updated>\d{4}-\d{2}-\d{2})\)\n## 更新功能 v(?<version>.*.)\n";
         var reg = Regex.Match(text, pattern);
         if (!reg.Success)
         {
@@ -42,25 +42,30 @@ public sealed class VersionInfo
         {
             if (_versionNumber == 0)
             {
-                _versionNumber = ParseVersion();
+                _versionNumber = ParseVersion(Version);
             }
             return _versionNumber;
         }
     }
 
-    private int ParseVersion()
+    public bool HasNewVersion(string currentVersion)
     {
-        if (string.IsNullOrWhiteSpace(Version))
+        return VersionNumber > ParseVersion(currentVersion);
+    }
+
+    private int ParseVersion(string ver)
+    {
+        if (string.IsNullOrWhiteSpace(ver))
         {
             return 0;
         }
-        var arr = Version.Split('.', StringSplitOptions.TrimEntries);
+        var arr = ver.Split('.', StringSplitOptions.TrimEntries);
         if (arr.Length != 3)
         {
             return 0;
         }
-        return Convert.ToInt32(arr[0]) * 1000000
-            + Convert.ToInt32(arr[1]) * 10000
-            + Convert.ToInt32(arr[2]) * 100;
+        return Convert.ToInt32(arr[0]) * 100000
+            + Convert.ToInt32(arr[1]) * 1000
+            + Convert.ToInt32(arr[2]) * 10;
     }
 }

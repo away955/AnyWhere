@@ -5,5 +5,5 @@ namespace Away.App.Update.Services;
 
 public interface IVersionService
 {
-    Task<VersionInfo> GetVersionInfo();
+    Task<VersionInfo> GetVersionInfo(string url);
 }

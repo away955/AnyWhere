@@ -64,5 +64,7 @@ public sealed class Program
         services.AddClipboard();
         services.AddProxySettings();
         services.AddProcessOnly();
+        services.AddScoped<IVersionService, VersionService>();
+        services.AddScoped<IUpdateService, UpdateService>();
     }
 }

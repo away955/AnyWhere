@@ -9,11 +9,15 @@ public interface IUpdateService
     /// 下载进度
     /// </summary>
     public event Action<UpdatelEventArgs>? OnDownloadProgress;
-
     /// <summary>
     /// 安装进度
     /// </summary>
     public event Action<UpdatelEventArgs>? OnInstallProgress;
-    Task Start();
+    /// <summary>
+    /// 更新错误
+    /// </summary>
+    public event Action<string>? OnError;
+
+    Task Start(string url);
     void Cancel();
 }

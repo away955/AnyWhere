@@ -1,6 +1,4 @@
-﻿using Away.Domain.Xray.Model;
-
-namespace Away.Domain.XrayNode;
+﻿namespace Away.Domain.XrayNode;
 
 public interface IModelXrayNode
 {

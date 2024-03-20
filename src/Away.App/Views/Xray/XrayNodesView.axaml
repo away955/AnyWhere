@@ -3,7 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
+			 xmlns:vm="using:Away.App.ViewModels"
+			 xmlns:icon="using:Away.App.Components.IconFont"
 			 x:DataType="vm:XrayNodesViewModel"
              x:Class="Away.App.Views.XrayNodesView">
 
@@ -19,6 +20,7 @@
 			<Setter Property="Orientation" Value="Horizontal"/>
 			<Style Selector="^ > TextBlock">
 				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="FontSize" Value="25"/>
 			</Style>
 		</Style>
 		<Style Selector="Button.cancel">
@@ -53,17 +55,21 @@
 
 		<Border Classes="toolbar">
 			<StackPanel Spacing="5">
-				<DockPanel VerticalAlignment="Center">
-					<StackPanel Classes="toolbaritem" DockPanel.Dock="Left">
-						<TextBlock Text="代理服务"/>
+				<StackPanel Spacing="10" Orientation="Horizontal">
+					<StackPanel Classes="toolbaritem">
+						<TextBlock ToolTip.Tip="代理服务" Text="{icon:Enum Server}"/>
 						<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />
 					</StackPanel>
+					<StackPanel Classes="toolbaritem">
+						<TextBlock ToolTip.Tip="健康检查，自动切换节点" Text="{icon:Enum ServerAuto}"/>
+						<ToggleSwitch IsChecked="{Binding IsHealthCheck}" OffContent="关" OnContent="开" />
+					</StackPanel>
 
-					<StackPanel Classes="toolbaritem" DockPanel.Dock="Right" HorizontalAlignment="Right">
-						<TextBlock Text="全局代理"/>
+					<StackPanel Classes="toolbaritem">
+						<TextBlock ToolTip.Tip="系统全局代理" Text="{icon:Enum SystemProxy}"/>
 						<ToggleSwitch IsChecked="{Binding IsEnableGlobalProxy}" OffContent="关" OnContent="开" />
 					</StackPanel>
-				</DockPanel>
+				</StackPanel>
 				<Grid ColumnDefinitions="60,*,40" IsVisible="{Binding IsProgress}">
 					<TextBlock Text="{Binding ProgressText}"/>
 					<ProgressBar Grid.Column="1" Value="{Binding ProgressValue}" ShowProgressText="True" />
@@ -101,14 +107,12 @@
 
 			<!--列表字段-->
 			<DataGrid.Columns>
-				<!--<DataGridTextColumn Width="150" Binding="{Binding Updated}" Header="更新时间"/>-->
 				<DataGridTextColumn Width="120" Binding="{Binding Remark}" SortMemberPath="Speed" Header="状态" />
 				<DataGridTextColumn Width="*" Binding="{Binding Alias}" Header="节点名称" />
+				<DataGridTextColumn Width="100" Binding="{Binding Type}" Header="协议" />
 				<DataGridTemplateColumn Width="*" Header="地址" CanUserSort="True" SortMemberPath="Host">
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-							<TextBlock Text="{Binding Type}"/>
-							<TextBlock Text="://"/>
 							<TextBlock Text="{Binding Host}"/>
 							<TextBlock Text=":"/>
 							<TextBlock Text="{Binding Port}"/>

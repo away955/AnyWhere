@@ -19,7 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Away.App.Update\Away.App.Update.csproj" />
 		<ProjectReference Include="..\Away.App\Away.App.csproj" />
 	</ItemGroup>
 

@@ -12,7 +12,7 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
     /// <summary>
     /// 测试地址
     /// </summary>
-    private const string TestUrl = "http://hel1-speed.hetzner.com/100MB.bin";
+    private const string TestUrl = "http://ipv4.download.thinkbroadband.com/100MB.zip";
     /// <summary>
     /// 测试时间
     /// </summary>
@@ -35,7 +35,7 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
             }
             Log.Warning("v2ray 测速超时取消");
             XrayClose();
-            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "测试超时" });            
+            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "测试超时" });
         });
     }
 
@@ -45,30 +45,27 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
         _cts.Dispose();
     }
 
-    protected override void OnMessage(string msg)
+    protected override void OnMessage(string msg, V2rayState state)
     {
         if (string.IsNullOrWhiteSpace(msg))
         {
             return;
         }
-        base.OnMessage(msg);
         // v2ray 启动成功
-        var regStartUp = Regex.Match(msg, "V2Ray.*.started");
-        if (regStartUp.Success)
+        if (state == V2rayState.Started)
         {
             Task.Run(async () =>
             {
                 var speedRes = await TestDownload();
                 XrayClose();
-                OnResult?.Invoke(speedRes);              
+                OnResult?.Invoke(speedRes);
             });
         }
         // v2ray 启动失败
-        var regStartFailed = Regex.Match(msg, "Failed to start");
-        if (regStartFailed.Success)
+        if (state == V2rayState.FailedStart)
         {
             XrayClose();
-            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "启动失败" });           
+            OnResult?.Invoke(new SpeedTestResult { Entity = entity, Error = "启动失败" });
         }
     }
 
@@ -114,6 +111,7 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
             {
                 Timeout = TimeSpan.FromSeconds(5)
             };
+            httpclient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0");
 
             using var resp = await httpclient.GetAsync(TestUrl, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
             resp.EnsureSuccessStatusCode();

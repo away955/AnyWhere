@@ -20,4 +20,10 @@ public interface IXrayService : IBaseXrayService
     /// 关闭xray和全局代理
     /// </summary>
     void CloseAll();
+    /// <summary>
+    /// 健康检查，自动切换节点
+    /// </summary>
+    public bool IsHealthCheck { get; set; }
+
+    event Action? OnChangeNode;
 }

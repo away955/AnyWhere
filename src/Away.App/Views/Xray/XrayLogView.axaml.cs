@@ -1,11 +1,11 @@
 namespace Away.App.Views;
 
 [View("xray-setting-log")]
-public partial class XrayLogView : UserControl, IView
+public partial class XrayLogView : ReactiveUserControl<XrayLogViewModel>, IView
 {
     public XrayLogView()
     {
-        DataContext = AwayLocator.GetViewModel<XrayLogViewModel>();
+        ViewModel = AwayLocator.GetViewModel<XrayLogViewModel>();
         InitializeComponent();
     }
 }

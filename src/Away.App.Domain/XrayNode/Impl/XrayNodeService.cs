@@ -18,10 +18,24 @@ public class XrayNodeService(IXrayNodeRepository xrayNodeRepository) : IXrayNode
                 continue;
             }
 
-            var shadowsocks = Shadowsocks.Parse(item);
-            if (shadowsocks != null)
+            var vless = Vless.Parse(item);
+            if (vless != null)
             {
-                list.Add(shadowsocks.ToEntity());
+                list.Add(vless.ToEntity());
+                continue;
+            }
+
+            //var shadowsocks = Shadowsocks.Parse(item);
+            //if (shadowsocks != null)
+            //{
+            //    list.Add(shadowsocks.ToEntity());
+            //    continue;
+            //}
+
+            var shadowsocksR = ShadowsocksR.Parse(item);
+            if (shadowsocksR != null)
+            {
+                list.Add(shadowsocksR.ToEntity());
                 continue;
             }
 
@@ -38,17 +52,8 @@ public class XrayNodeService(IXrayNodeRepository xrayNodeRepository) : IXrayNode
         {
             Log.Warning($"未知类型\n\r{JsonUtils.Serialize(unknows.ToArray())}");
         }
-        var entities = list.Where(o => !o.Alias.StartsWith("更新于"))
-            .Select(o =>
-            {
-                var context = o.Alias.Split('-');
-                if (context.Length > 1)
-                {
-                    o.Alias = context.LastOrDefault()?.Trim() ?? string.Empty;
-                }
-                return o;
-            }).ToList();
-        _xrayNodeRepository.SaveNodes(entities);
-        Log.Information($"更新{entities.Count}个节点");
+
+        _xrayNodeRepository.SaveNodes(list);
+        Log.Information($"更新{list.Count}个节点");
     }
 }

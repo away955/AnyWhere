@@ -2,13 +2,13 @@ using Avalonia.Controls.Primitives;
 
 namespace Away.App.Views;
 
-public partial class MainWindow : Window
+public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 {
     private WindowNotificationManager? _nofityManager;
 
     public MainWindow()
     {
-        this.DataContext = AwayLocator.GetViewModel<MainWindowViewModel>();
+        ViewModel = AwayLocator.GetViewModel<MainWindowViewModel>();
         this.InitializeComponent();
         MessageBusListen();
     }

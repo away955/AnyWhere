@@ -31,6 +31,15 @@ public class XrayNodeRepository(IFileContext context)
         Save();
     }
 
+    public void SetChecked(XrayNodeEntity entity)
+    {
+        foreach (var item in Items)
+        {
+            item.IsChecked = item.Url == entity.Url;
+        }
+        Save();
+    }
+
     public Task Update(XrayNodeEntity entity)
     {
         var index = Items.FindIndex(o => o.Url == entity.Url);

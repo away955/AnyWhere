@@ -15,7 +15,7 @@ public class XrayOutbound
     /// </summary>
     public required string tag { get; set; }
 
-    public Dictionary<string, object>? settings { get; set; }
+    public object? settings { get; set; }
     public OutboundStreamSettings? streamSettings { get; set; }
     public OutboundProxySettings? proxySettings { get; set; }
     /// <summary>

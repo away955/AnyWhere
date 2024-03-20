@@ -66,7 +66,7 @@ public sealed class XrayNodeSpeedTest
     /// <summary>
     /// 已检测的节点数
     /// </summary>
-    private int _count = 1;
+    private int _count;
 
     public void Cancel()
     {
@@ -105,7 +105,7 @@ public sealed class XrayNodeSpeedTest
             service.OnResult += Tested;
             service.TestSpeed();
             void Tested(SpeedTestResult result)
-            {               
+            {
                 Log.Information($"进度：{_count}/{_total} 结果：{result.Remark} {result.Error}");
                 if (_cts.IsCancellationRequested)
                 {
@@ -113,6 +113,7 @@ public sealed class XrayNodeSpeedTest
                 }
                 OnTested?.Invoke(result);
                 Release(port);
+                service.OnResult -= Tested;
             }
         }
         catch (Exception ex)
@@ -128,7 +129,7 @@ public sealed class XrayNodeSpeedTest
         _count++;
         var progressValue = (int)(_count * 1d / _total * 100);
         OnProgress?.Invoke(progressValue);
-        if (progressValue == 100)
+        if (_count == _total)
         {
             OnCompeleted?.Invoke();
         }

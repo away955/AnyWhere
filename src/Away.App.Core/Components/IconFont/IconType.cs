@@ -19,7 +19,11 @@ public enum IconType
     [IconText("&#xe660;")] Add,
     [IconText("&#xe63c;")] Expander,
     [IconText("&#xe67b;")] Update,
-    [IconText("&#xe6de;")] Info
+    [IconText("&#xe6de;")] Info,
+    [IconText("&#xeace;")] ServerAuto,
+    [IconText("&#xeb25;")] SystemProxy,
+    [IconText("&#xe98e;")] Server,
+    [IconText("&#xe600;")] Net
 }
 
 [AttributeUsage(AttributeTargets.Field)]

@@ -50,7 +50,7 @@ public sealed class Shadowsocks : IModelXrayNode
         return new XrayNodeEntity
         {
             Url = url,
-            Type = "shadowsocks",
+            Type = "ss",
             Alias = ps,
             Host = host,
             Port = port

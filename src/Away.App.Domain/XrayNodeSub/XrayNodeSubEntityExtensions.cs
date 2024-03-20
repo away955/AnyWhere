@@ -1,20 +1,24 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Away.App.Domain.XrayNodeSub;
+﻿namespace Away.App.Domain.XrayNodeSub;
 
 public static class XrayNodeSubEntityExtensions
 {
     public static string ParseUrl(this XrayNodeSubEntity entity)
     {
-        var pattern = "[$]{(?<date>.*):(?<format>.*)}";
-        var reg = Regex.Match(entity.Url, pattern);
+        var (_, url) = ParseDateTime(entity.Url);
+        return url;
+    }
+
+    private static (bool, string) ParseDateTime(string url)
+    {
+        var pattern = @"\${(?<date>\w+):(?<format>[-/\w]+)}";
+        var reg = Regex.Match(url, pattern);
         if (!reg.Success)
         {
-            return entity.Url;
+            return (false, url);
         }
         var format = reg.Result("${format}");
         var date = DateTime.Now.ToString(format);
-        return Regex.Replace(entity.Url, "[$]{.*}", date);
-
+        var newUrl = url.Replace(reg.Value, date);
+        return ParseDateTime(newUrl);
     }
 }

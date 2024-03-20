@@ -1,11 +1,11 @@
 namespace Away.App.Views;
 
 [View("xray-setting-outbound")]
-public partial class XrayOutboundView : UserControl, IView
+public partial class XrayOutboundView : ReactiveUserControl<XrayOutboundViewModel>, IView
 {
     public XrayOutboundView()
     {
-        DataContext = AwayLocator.GetViewModel<XrayOutboundViewModel>();
+        ViewModel = AwayLocator.GetViewModel<XrayOutboundViewModel>();
         InitializeComponent();
     }
 }

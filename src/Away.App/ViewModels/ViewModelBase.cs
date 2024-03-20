@@ -1,7 +1,32 @@
-﻿namespace Away.App.ViewModels;
+﻿using System.Reactive.Disposables;
 
-public abstract class ViewModelBase : ReactiveObject
+namespace Away.App.ViewModels;
+
+public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel
 {
+    public ViewModelActivator Activator { get; }
+
+    public ViewModelBase()
+    {
+        Activator = new ViewModelActivator();
+        this.WhenActivated(disposables =>
+        {
+            OnActivation();
+            Disposable.Create(OnDeactivation).DisposeWith(disposables);
+        });
+    }
+
+    protected virtual void OnActivation()
+    {
+
+    }
+
+    protected virtual void OnDeactivation()
+    {
+
+    }
+
+
     protected static void Success(string title, string? message = "")
     {
         Show(title, message, NotificationType.Success);

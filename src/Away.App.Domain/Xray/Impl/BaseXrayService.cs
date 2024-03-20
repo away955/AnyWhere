@@ -3,11 +3,13 @@ using System.Diagnostics;
 
 namespace Away.Domain.Xray.Impl;
 
-public abstract class BaseXrayService : IBaseXrayService
+public abstract partial class BaseXrayService : IBaseXrayService
 {
     protected const string ExeFileName = "v2ray";
     protected readonly string _xrayConfigPath;
     protected readonly string _xrayPath;
+
+    public XrayNodeEntity? CurrentNode { get; private set; }
 
     public BaseXrayService(string ConfigFileName)
     {
@@ -36,6 +38,12 @@ public abstract class BaseXrayService : IBaseXrayService
     public void SetConfig(XrayConfig xrayConfig)
     {
         File.WriteAllText(_xrayConfigPath, JsonUtils.Serialize(xrayConfig));
+    }
+
+    public void SetNode(XrayNodeEntity node)
+    {
+        CurrentNode = node;
+        Config.SetOutbound(node);
     }
 
     public XrayConfig GetConfig()
@@ -81,10 +89,30 @@ public abstract class BaseXrayService : IBaseXrayService
         return IsEnable;
     }
 
-
-    protected virtual void OnMessage(string msg)
+    private void OnMessage(string msg)
     {
-        Log.Information(Regex.Replace(msg, @"^\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}", string.Empty).Trim());
+        Log.Information(V2rayLogRegex().Replace(msg, string.Empty).Trim());
+        // v2ray 启动成功
+        var regStartUp = V2rayStartedRegex().Match(msg);
+        if (regStartUp.Success)
+        {
+            OnMessage(msg, V2rayState.Started);
+        }
+        // v2ray 启动失败
+        var regStartFailed = V2rayFailedStartRegex().Match(msg);
+        if (regStartFailed.Success)
+        {
+            OnMessage(msg, V2rayState.FailedStart);
+        }
+        // 网络异常
+        if (msg.Contains("all retry attempts failed"))
+        {
+            OnMessage(msg, V2rayState.FailedRetry);
+        }
+    }
+
+    protected virtual void OnMessage(string msg, V2rayState state)
+    {
     }
 
     public virtual bool XrayClose()
@@ -104,4 +132,11 @@ public abstract class BaseXrayService : IBaseXrayService
         XrayClose();
         XrayStart();
     }
+
+    [GeneratedRegex(@"^\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}")]
+    private static partial Regex V2rayLogRegex();
+    [GeneratedRegex("V2Ray.*.started")]
+    private static partial Regex V2rayStartedRegex();
+    [GeneratedRegex("Failed to start")]
+    private static partial Regex V2rayFailedStartRegex();
 }

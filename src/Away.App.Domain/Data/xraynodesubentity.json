@@ -1,5 +1,10 @@
 [
   {
+    "Url": "https://node.nodecat.org/${date:yyyy}/${date:MM}/${date:yyyyMMdd}.txt",
+    "IsDisable": false,
+    "Remark": "nodecat"
+  },
+  {
     "Url": "https://proxy.v2gh.com/https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub",
     "IsDisable": false,
     "Remark": "Pawdroid"

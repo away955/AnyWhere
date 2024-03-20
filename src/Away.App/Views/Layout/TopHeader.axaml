@@ -10,6 +10,7 @@
 
 	<UserControl.Styles>
 		<Style Selector="Menu.rightmenu">
+			<Setter Property="VerticalAlignment" Value="Top"/>
 			<Setter Property="HorizontalAlignment" Value="Right"/>
 			<Style Selector="^ > MenuItem">
 				<Setter Property="FontSize" Value="20"/>
@@ -17,16 +18,13 @@
 		</Style>
 	</UserControl.Styles>
 
-	<DockPanel>
-
-		<Menu Classes="rightmenu" DockPanel.Dock="Right">
-			<MenuItem Header="{icon:Enum Expander}" >
-				<MenuItem Header="{Binding UpdateHeader}" IsEnabled="{Binding IsEnabled}" Command="{Binding UpdateCommand}"/>
-				<MenuItem Header="&#xe6de; 关于我们" Command="{Binding InfoCommand}"/>
-			</MenuItem>
-			<MenuItem Header="{icon:Enum Minimal}" Command="{Binding MinimizedCommand}"/>
-			<MenuItem Header="{Binding NormalIcon}" Command="{Binding NormalCommand}"/>
-			<MenuItem Header="{icon:Enum Close}" Command="{Binding CloseCommand}"/>
-		</Menu>
-	</DockPanel>
+	<Menu Classes="rightmenu">
+		<MenuItem Header="{icon:Enum Expander}" >
+			<MenuItem Header="{Binding UpdateHeader}" IsEnabled="{Binding IsEnabled}" Command="{Binding UpdateCommand}"/>
+			<MenuItem Header="&#xe6de; 关于我们" Command="{Binding InfoCommand}"/>
+		</MenuItem>
+		<MenuItem Header="{icon:Enum Minimal}" Command="{Binding MinimizedCommand}"/>
+		<MenuItem Header="{Binding NormalIcon}" Command="{Binding NormalCommand}"/>
+		<MenuItem Header="{icon:Enum Close}" Command="{Binding CloseCommand}"/>
+	</Menu>
 </UserControl>

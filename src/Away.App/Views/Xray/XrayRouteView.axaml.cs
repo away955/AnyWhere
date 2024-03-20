@@ -1,11 +1,11 @@
 namespace Away.App.Views;
 
 [View("xray-setting-route")]
-public partial class XrayRouteView : UserControl, IView
+public partial class XrayRouteView : ReactiveUserControl<XrayRouteViewModel>, IView
 {
     public XrayRouteView()
     {
-        DataContext = AwayLocator.GetViewModel<XrayRouteViewModel>();
+        ViewModel = AwayLocator.GetViewModel<XrayRouteViewModel>();
         InitializeComponent();
     }
 }

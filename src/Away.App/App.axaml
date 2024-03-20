@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Away.App.App"
              xmlns:local="using:Away.App"
-			 xmlns:vm="clr-namespace:Away.App.ViewModels;assembly=Away.App"
+			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:AppViewModel"
              RequestedThemeVariant="Dark">
-
+	
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

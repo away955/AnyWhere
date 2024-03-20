@@ -32,4 +32,10 @@ public abstract class ViewModelXrayBase : ViewModelBase
         _xrayService.GetConfig();
         Init();
     }
+
+    protected override void OnActivation()
+    {
+        _xrayService.GetConfig();
+        Init();
+    }
 }

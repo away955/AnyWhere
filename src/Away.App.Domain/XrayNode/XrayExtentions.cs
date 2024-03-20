@@ -46,6 +46,15 @@ public static class XrayExtentions
             }
             config.SetOutbound(model);
         }
+        else if ("vless" == entity.Type)
+        {
+            var model = Vless.Parse(entity.Url);
+            if (model == null)
+            {
+                return false;
+            }
+            config.SetOutbound(model);
+        }
         else if ("trojan" == entity.Type)
         {
             var model = Trojan.Parse(entity.Url);
@@ -55,9 +64,18 @@ public static class XrayExtentions
             }
             config.SetOutbound(model);
         }
-        else if ("shadowsocks" == entity.Type)
+        else if ("ss" == entity.Type)
         {
             var model = Shadowsocks.Parse(entity.Url);
+            if (model == null)
+            {
+                return false;
+            }
+            config.SetOutbound(model);
+        }
+        else if ("ssr" == entity.Type)
+        {
+            var model = ShadowsocksR.Parse(entity.Url);
             if (model == null)
             {
                 return false;

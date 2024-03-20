@@ -52,6 +52,7 @@ public sealed partial class XrayNodeSubService(IHttpClientFactory httpClientFact
     private Task<string> Request(string url)
     {
         var client = httpClientFactory.CreateClient("xray");
+        
         client.Timeout = TimeSpan.FromSeconds(10);
         return client.GetStringAsync(url, _cts.Token);
     }

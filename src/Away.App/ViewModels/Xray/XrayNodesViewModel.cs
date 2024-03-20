@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Away.App.ViewModels;
 
 [ViewModel]
-internal class XrayNodesViewModel : ViewModelBase
+public sealed class XrayNodesViewModel : ViewModelBase
 {
     private readonly IXrayNodeSubService _subService;
     private readonly IXrayNodeRepository _xrayNodeRepository;
@@ -66,6 +66,8 @@ internal class XrayNodesViewModel : ViewModelBase
         ProgressCancelCommand = ReactiveCommand.Create(OnProgressCancelCommand);
         OnResetCommand();
         MessageBus.Current.Subscribe(MessageBusType.Event, o => OnCheckedCommand(), "DGXrayNode");
+
+        _xrayService.OnChangeNode += OnResetCommand;
     }
 
 
@@ -82,16 +84,25 @@ internal class XrayNodesViewModel : ViewModelBase
             if (_isEnableXray)
             {
                 _xrayService.XrayStart();
-                var inbound = _xrayService.Config.inbounds.FirstOrDefault();
-                if (inbound == null)
-                {
-                    return;
-                }
             }
             else
             {
                 _xrayService.XrayClose();
             }
+        }
+    }
+
+    private bool _isHealthCheck;
+    /// <summary>
+    /// 健康检查
+    /// </summary>
+    public bool IsHealthCheck
+    {
+        get => _isHealthCheck;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isHealthCheck, value);
+            _xrayService.IsHealthCheck = value;
         }
     }
 
@@ -132,6 +143,7 @@ internal class XrayNodesViewModel : ViewModelBase
     {
         IsEnableXray = _xrayService.IsEnable;
         IsEnableGlobalProxy = _xrayService.IsEnableGlobalProxy;
+        IsHealthCheck = _xrayService.IsHealthCheck;
         var xraynodes = _xrayNodeRepository.GetList().OrderByDescending(o => o.Speed);
         var items = xraynodes.Select(_mapper.Map<XrayNodeModel>);
         XrayNodeItemsSource = new ObservableCollection<XrayNodeModel>(items);
@@ -149,19 +161,11 @@ internal class XrayNodesViewModel : ViewModelBase
         }
 
         var entity = _mapper.Map<XrayNodeEntity>(model);
-        _xrayService.Config.SetOutbound(entity);
+        _xrayService.SetNode(entity);
         _xrayService.SaveConfig();
         _xrayService.XrayRestart();
         IsEnableXray = _xrayService.IsEnable;
-
-        // 设置选中节点
-        foreach (var item in XrayNodeItemsSource)
-        {
-            item.IsChecked = item.Url == model.Url;
-        }
-        var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
-        _xrayNodeRepository.SaveNodes(items);
-        OnResetCommand();
+        _xrayNodeRepository.SetChecked(entity);
     }
 
     /// <summary>

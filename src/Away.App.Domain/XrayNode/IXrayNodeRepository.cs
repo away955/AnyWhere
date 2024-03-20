@@ -9,4 +9,5 @@ public interface IXrayNodeRepository : IRepositoryBase<XrayNodeEntity>
     Task DeleteByStatusError();
     Task Update(XrayNodeEntity entity);
     void SaveNodes(List<XrayNodeEntity> entities);
+    void SetChecked(XrayNodeEntity entity);
 }

@@ -1,12 +1,12 @@
 namespace Away.App.Views;
 
 [View("xray-node")]
-public partial class XrayNodesView : UserControl, IView
+public partial class XrayNodesView : ReactiveUserControl<XrayNodesViewModel>, IView
 {
     private readonly DataGrid _dataGrid;
     public XrayNodesView()
     {
-        DataContext = AwayLocator.GetViewModel<XrayNodesViewModel>();
+        ViewModel = AwayLocator.GetViewModel<XrayNodesViewModel>();
         InitializeComponent();
 
         _dataGrid = this.FindControl<DataGrid>("DGXrayNode")!;

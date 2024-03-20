@@ -1,56 +1,55 @@
 ﻿namespace Away.Domain.XrayNode.Model;
 
-public sealed class Trojan : IModelXrayNode
+public sealed class Vless : IModelXrayNode
 {
+    public string password { get; set; } = string.Empty;
     public string host { get; set; } = string.Empty;
     public int port { get; set; }
-    public string password { get; set; } = string.Empty;
-    public string security { get; set; } = string.Empty;
-    public string sni { get; set; } = string.Empty;
-    public string alpn { set; get; } = string.Empty;
     public string type { get; set; } = string.Empty;
-    public string headerType { get; set; } = string.Empty;
+    public string path { get; set; } = string.Empty;
+    public string encryption { get; set; } = string.Empty;
+    public string security { get; set; } = string.Empty;
+    public string headerType { set; get; } = string.Empty;
     public string ps { get; set; } = string.Empty;
-
     public string url { get; set; } = string.Empty;
 
-    public static Trojan? Parse(string content)
+    public static Vless? Parse(string content)
     {
         try
         {
-            var pattern = @"^trojan://(?<password>.*)@(?<host>.*):(?<port>\d+)(?<query>.*)#(?<ps>.*)";
-            var reg = Regex.Match(XrayUtils.UrlDecode(content), pattern);
+            var pattern = "^vless://(?<password>.*)@(?<host>.*):(?<port>\\d+)?(?<query>.*)#(?<ps>.*)";
+            var reg = Regex.Match(content, pattern);
             if (!reg.Success)
             {
                 return null;
             }
 
-            var trojan = new Trojan
+            var model = new Vless
             {
                 url = content,
                 host = reg.Result("${host}"),
                 port = Convert.ToInt32(reg.Result("${port}")),
                 password = reg.Result("${password}"),
-                ps = reg.Result("${ps}")
+                ps = XrayUtils.UrlDecode(reg.Result("${ps}"))
             };
 
             var query = reg.Result("${query}");
             var items = HttpUtility.ParseQueryString(query);
             if (items != null)
             {
-                trojan.security = items.Get("security") ?? string.Empty;
-                trojan.sni = items.Get("sni") ?? string.Empty;
-                trojan.alpn = items.Get("alpn") ?? string.Empty;
-                trojan.type = items.Get("type") ?? string.Empty;
-                trojan.headerType = items.Get("headerType") ?? string.Empty;
+                model.encryption = items.Get("encryption") ?? string.Empty;
+                model.security = items.Get("security") ?? string.Empty;
+                model.path = items.Get("path") ?? string.Empty;
+                model.type = items.Get("type") ?? string.Empty;
+                model.headerType = items.Get("headerType") ?? string.Empty;
             }
 
-
-            return trojan;
+            model.url = content;
+            return model;
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "trojan解析错误：{content}", content);
+            Log.Logger.Error(ex, "vless解析错误：{content}", content);
             return null;
         }
     }
@@ -60,10 +59,10 @@ public sealed class Trojan : IModelXrayNode
         return new XrayNodeEntity
         {
             Url = url,
-            Type = "trojan",
+            Type = "vless",
             Alias = ps,
             Host = host,
-            Port = port,
+            Port = port
         };
     }
 
@@ -72,35 +71,29 @@ public sealed class Trojan : IModelXrayNode
         var model = new XrayOutbound()
         {
             tag = "proxy",
-            protocol = "trojan",
+            protocol = "vless",
         };
 
         // settings 配置
         var settings = new Dictionary<string, object>();
+        var user = new
+        {
+            id = Guid.NewGuid().ToString(),
+            encryption = encryption
+        };
         var item = new
         {
             address = host,
-            method = "chacha20",
-            ota = false,
-            password = password,
             port = port,
-            level = 1
+            users = new[] { user }
         };
-        settings.Add("servers", new object[] { item });
+        settings.Add("vnext", new object[] { item });
         model.settings = settings;
 
         // streamSettings 配置
         model.streamSettings = new OutboundStreamSettings()
         {
-            network = type,
-            security = security,
-            tcpSettings = new
-            {
-                allowInsecure = false,
-                serverName = sni,
-                alpn = new List<string> { alpn },
-                show = false
-            }
+            network = type
         };
 
         // mux 
@@ -111,4 +104,5 @@ public sealed class Trojan : IModelXrayNode
 
         return model;
     }
+
 }

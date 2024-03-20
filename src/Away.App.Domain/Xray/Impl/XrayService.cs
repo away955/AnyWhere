@@ -5,10 +5,19 @@ namespace Away.Domain.Xray.Impl;
 [DI(ServiceLifetime.Singleton)]
 public class XrayService : BaseXrayService, IXrayService
 {
+    private const int FailedTotal = 6;
+    private int _failedCount;
+    public bool IsHealthCheck { get; set; }
+    public bool IsEnableGlobalProxy { get; private set; }
+
+    public event Action? OnChangeNode;
+
     private readonly IProxySetting _proxySetting;
-    public XrayService(IProxySetting proxySetting) : base("config.json")
+    private readonly IXrayNodeRepository _nodeRepository;
+    public XrayService(IProxySetting proxySetting, IXrayNodeRepository nodeRepository) : base("config.json")
     {
         _proxySetting = proxySetting;
+        _nodeRepository = nodeRepository;
         IsEnableGlobalProxy = _proxySetting.ProxyEnable;
         var process = Process.GetProcessesByName(ExeFileName)?.FirstOrDefault();
         IsEnable = process != null;
@@ -18,7 +27,6 @@ public class XrayService : BaseXrayService, IXrayService
         }
     }
 
-    public bool IsEnableGlobalProxy { get; private set; }
 
     public bool OpenGlobalProxy()
     {
@@ -57,6 +65,40 @@ public class XrayService : BaseXrayService, IXrayService
         foreach (var xray in xrays)
         {
             xray.Kill();
+        }
+    }
+
+
+
+    protected override void OnMessage(string msg, V2rayState state)
+    {
+        if (IsHealthCheck && state == V2rayState.FailedRetry && ++_failedCount == FailedTotal)
+        {
+            ChangedNode();
+        }
+    }
+
+    private void ChangedNode()
+    {
+        Log.Information("正在自动切换节点...");
+        XrayClose();
+        if (CurrentNode != null)
+        {
+            Log.Information($"旧节点：{CurrentNode!.Host}:{CurrentNode.Port}");
+            _nodeRepository.DeleteByUrl(CurrentNode.Url);
+        }
+
+        var newNode = _nodeRepository.GetList().OrderByDescending(o => o.Speed).FirstOrDefault();
+        if (newNode != null)
+        {
+            SetNode(newNode);
+            _nodeRepository.SetChecked(newNode);
+            Log.Information($"新节点：{newNode.Host}:{newNode.Port}");
+            XrayStart();
+            Log.Information($"自动切换节点成功");
+            _failedCount = 0;
+            OnChangeNode?.Invoke();
+            return;
         }
     }
 }

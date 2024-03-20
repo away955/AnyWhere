@@ -1,11 +1,11 @@
 namespace Away.App.Views;
 
 [View("xray-node-sub")]
-public partial class XrayNodeSubView : UserControl, IView
+public partial class XrayNodeSubView : ReactiveUserControl<XrayNodeSubViewModel>, IView
 {
     public XrayNodeSubView()
     {
-        DataContext = AwayLocator.GetViewModel<XrayNodeSubViewModel>();
+        ViewModel = AwayLocator.GetViewModel<XrayNodeSubViewModel>();
         InitializeComponent();
     }
 }

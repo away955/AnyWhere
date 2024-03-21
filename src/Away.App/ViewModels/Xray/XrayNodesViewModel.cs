@@ -166,6 +166,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
         _xrayService.XrayRestart();
         IsEnableXray = _xrayService.IsEnable;
         _xrayNodeRepository.SetChecked(entity);
+        OnResetCommand();
     }
 
     /// <summary>

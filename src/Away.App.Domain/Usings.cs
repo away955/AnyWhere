@@ -1,5 +1,4 @@
 ﻿global using Away.App.Core.DI;
-global using Away.App.Core.Repository;
 global using Away.App.Core.Utils;
 global using Away.App.Core.Windows.Proxy;
 global using Away.App.Domain.Xray;

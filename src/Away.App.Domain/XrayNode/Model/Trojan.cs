@@ -1,4 +1,6 @@
-﻿namespace Away.Domain.XrayNode.Model;
+﻿using Away.App.Domain.XrayNode.Entities;
+
+namespace Away.Domain.XrayNode.Model;
 
 public sealed class Trojan : IModelXrayNode
 {

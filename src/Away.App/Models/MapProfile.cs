@@ -1,4 +1,5 @@
 ﻿using Away.App.Core.Utils;
+using Away.App.Domain.XrayNode.Entities;
 
 namespace Away.App.Models;
 

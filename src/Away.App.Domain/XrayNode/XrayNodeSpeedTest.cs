@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using Away.App.Domain.XrayNode.Entities;
 
 namespace Away.Domain.XrayNode;
 

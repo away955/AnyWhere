@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
 using Away.App.Core.IPC;
+using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -47,6 +48,11 @@ public sealed class Program
         Log.Information("注册服务");
 #if DEBUG
         services.AddLogging(o => o.AddSerilog());
+        var pathRoot = Environment.CurrentDirectory.Replace("\\bin\\Debug\\net8.0", string.Empty);
+        var conn = Path.Combine(pathRoot, "Data", "away.sqlite");
+        services.AddSqlSugarClient($"DataSource={conn}");
+#else
+        services.AddSqlSugarClient("DataSource=./Data/away.sqlite");
 #endif
         services.AddHttpClient("xray")
           .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -64,7 +70,6 @@ public sealed class Program
         });
         var libs = AppDomain.CurrentDomain.GetAssemblies().Where(o => o.FullName!.StartsWith("Away.App"));
         services.AddAutoDI([.. libs, typeof(XrayConfig).Assembly]);
-        services.AddFileContext();
         services.AddClipboard();
         services.AddProxySettings();
         services.AddScoped<IVersionService, VersionService>();

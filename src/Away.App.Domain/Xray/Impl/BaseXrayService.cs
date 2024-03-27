@@ -1,4 +1,5 @@
-﻿using CliWrap.EventStream;
+﻿using Away.App.Domain.XrayNode.Entities;
+using CliWrap.EventStream;
 using System.Diagnostics;
 
 namespace Away.Domain.Xray.Impl;

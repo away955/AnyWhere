@@ -1,4 +1,4 @@
-﻿using Away.App.Domain.XrayNodeSub;
+﻿using Away.App.Domain.XrayNode;
 using Away.Domain.XrayNode;
 
 namespace Away.App.Tests.Xray;

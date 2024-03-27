@@ -1,8 +1,7 @@
-﻿using Away.Domain.Xray.Impl;
-using System;
+﻿using Away.App.Domain.XrayNode.Entities;
+using Away.Domain.Xray.Impl;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 
 namespace Away.Domain.XrayNode;
 
@@ -12,7 +11,8 @@ public sealed class SpeedTest : BaseXrayService, IDisposable
     /// <summary>
     /// 测试地址
     /// </summary>
-    private const string TestUrl = "http://ipv4.download.thinkbroadband.com/100MB.zip";
+    private const string TestUrl = "https://speed.cloudflare.com/__down?during=download&bytes=104857600";
+    //private const string TestUrl = "http://hkg.download.datapacket.com/100mb.bin";
     /// <summary>
     /// 测试时间
     /// </summary>

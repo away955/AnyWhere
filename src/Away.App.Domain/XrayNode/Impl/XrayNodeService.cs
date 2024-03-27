@@ -1,4 +1,6 @@
-﻿namespace Away.Domain.XrayNode.Impl;
+﻿using Away.App.Domain.XrayNode.Entities;
+
+namespace Away.Domain.XrayNode.Impl;
 
 [DI(ServiceLifetime.Singleton)]
 public class XrayNodeService(IXrayNodeRepository xrayNodeRepository) : IXrayNodeService

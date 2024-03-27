@@ -5,7 +5,7 @@ namespace Away.Domain.Xray.Impl;
 [DI(ServiceLifetime.Singleton)]
 public class XrayService : BaseXrayService, IXrayService
 {
-    private const int FailedTotal = 6;
+    private const int FailedTotal = 3;
     private int _failedCount;
     public bool IsHealthCheck { get; set; }
     public bool IsEnableGlobalProxy { get; private set; }
@@ -85,7 +85,7 @@ public class XrayService : BaseXrayService, IXrayService
         if (CurrentNode != null)
         {
             Log.Information($"旧节点：{CurrentNode!.Host}:{CurrentNode.Port}");
-            _nodeRepository.DeleteByUrl(CurrentNode.Url);
+            _nodeRepository.DeleteById(CurrentNode.Id);
         }
 
         var newNode = _nodeRepository.GetList().OrderByDescending(o => o.Speed).FirstOrDefault();

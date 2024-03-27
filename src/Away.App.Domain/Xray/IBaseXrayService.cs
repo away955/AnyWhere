@@ -1,4 +1,6 @@
-﻿namespace Away.Domain.Xray;
+﻿using Away.App.Domain.XrayNode.Entities;
+
+namespace Away.Domain.Xray;
 
 public interface IBaseXrayService
 {

@@ -9,37 +9,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Condition="'$(OS)'=='Windows_NT'" Include="Data\v2ray.exe">
-			<Link>$(RecursiveDir)Data\v2ray.exe</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Condition="'$(OS)'=='Linux'" Include="Data\linux_v2ray">
-			<Link>$(RecursiveDir)Data\v2ray</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Condition="'$(OS)'=='OSX'" Include="Data\macos_v2ray">
-			<Link>$(RecursiveDir)Data\v2ray</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Update="Data\geoip.dat">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Update="Data\geosite.dat">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Update="Data\xraynodesubentity.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="YoutubeExplode" Version="6.3.2" />
+		<PackageReference Include="YoutubeExplode.Converter" Version="6.3.2" />
 	</ItemGroup>
 
 	<ItemGroup>

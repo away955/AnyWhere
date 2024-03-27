@@ -1,4 +1,6 @@
-﻿namespace Away.App.ViewModels;
+﻿using Away.App.Domain.XrayNode.Entities;
+
+namespace Away.App.ViewModels;
 
 [ViewModel]
 public sealed class XrayNodeSubViewModel : ViewModelBase
@@ -29,7 +31,9 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
 
     private void Init()
     {
-        var nodeSubItems = _repository.GetList().Select(_mapper.Map<XrayNodeSubModel>);
+        var nodeSubItems = _repository.GetList()
+            .Select(_mapper.Map<XrayNodeSubModel>)
+            .OrderByDescending(o => o.Id);
         Items = new ObservableCollection<XrayNodeSubModel>(nodeSubItems);
     }
 
@@ -47,15 +51,18 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
         Items.Remove(model);
         if (model.Id > 0)
         {
-            _repository.DeleteByUrl(model.Url);
+            _repository.DeleteById(model.Id);
             Success("删除成功");
         }
     }
 
     private void OnSaveCommand()
     {
-        var entitys = Items.Where(o => !string.IsNullOrWhiteSpace(o.Url)).Select(_mapper.Map<XrayNodeSubEntity>).ToList();
-        _repository.Save(entitys);
+        var entitys = Items.Where(o => !string.IsNullOrWhiteSpace(o.Url))
+            .Select(_mapper.Map<XrayNodeSubEntity>)
+            .ToList();
+
+        _repository.InsertOrUpdate(entitys);
         Success("保存成功");
         Init();
     }

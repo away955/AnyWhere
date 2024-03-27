@@ -1,5 +1,6 @@
 ﻿using Avalonia.Input.Platform;
 using Away.App.Domain.Xray;
+using Away.App.Domain.XrayNode.Entities;
 using System.Threading.Tasks;
 
 namespace Away.App.ViewModels;
@@ -340,7 +341,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
         {
             return;
         }
-        _xrayNodeRepository.DeleteByUrl(XrayNodeSelectedItem.Url);
+        _xrayNodeRepository.DeleteById(XrayNodeSelectedItem.Id);
         XrayNodeItemsSource.Remove(XrayNodeSelectedItem);
     }
 

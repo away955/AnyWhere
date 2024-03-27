@@ -1,7 +1,11 @@
-﻿namespace Away.App.Models;
+﻿using Away.App.Domain.XrayNode.Entities;
+
+namespace Away.App.Models;
 
 public sealed class XrayNodeModel : ViewModelBase
 {
+    [Reactive]
+    public int Id { get; set; }
     /// <summary>
     /// 类型
     /// </summary>

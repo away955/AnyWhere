@@ -23,7 +23,6 @@
 	</Style>
 
 	<Style Selector="Border.box">
-		<Setter Property="BorderBrush" Value="{StaticResource AwayDataGridRowHoverBackground}"/>
 		<Setter Property="BorderThickness" Value="0.5"/>
 		<Setter Property="Margin" Value="0,0,0,10"/>
 		<Setter Property="Padding" Value="5"/>

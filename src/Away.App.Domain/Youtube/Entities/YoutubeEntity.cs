@@ -1,6 +1,4 @@
-﻿using SqlSugar;
-
-namespace Away.App.Domain.Youtube.Entities;
+﻿namespace Away.App.Domain.Youtube.Entities;
 
 [SugarTable("video_youtube")]
 public sealed class YoutubeEntity

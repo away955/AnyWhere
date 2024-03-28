@@ -1,6 +1,6 @@
 ﻿namespace Away.Domain.Xray;
 
-public interface IXrayService : IBaseXrayService
+public interface IXrayService : IXrayServiceBase
 {
     /// <summary>
     /// 是否启动全局代理

@@ -1,6 +1,5 @@
 ﻿using Away.App.Domain.Xray;
-using Away.Domain.XrayNode;
-using Away.Domain.XrayNode.Model;
+using Away.App.Domain.Xray.Models;
 
 namespace Away.App.Tests.Xray;
 

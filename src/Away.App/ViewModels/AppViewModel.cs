@@ -1,7 +1,7 @@
 ﻿namespace Away.App.ViewModels;
 
 [ViewModel]
-public class AppViewModel : ViewModelBase
+public sealed class AppViewModel : ViewModelBase
 {
     public static string Title => $"{AppInfo.Title} {AppInfo.Version}";
 

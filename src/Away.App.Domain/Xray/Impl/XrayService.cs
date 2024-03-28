@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
+using Away.App.Domain.Xray.Models;
 
 namespace Away.Domain.Xray.Impl;
 
 [DI(ServiceLifetime.Singleton)]
-public class XrayService : BaseXrayService, IXrayService
+public sealed class XrayService : XrayServiceBase, IXrayService
 {
     private const int FailedTotal = 3;
     private int _failedCount;

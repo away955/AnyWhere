@@ -2,7 +2,6 @@
 
 namespace Away.App.Domain.Xray;
 
-
 public static class XrayUtils
 {
     public static string Base64Decode(string content)

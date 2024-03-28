@@ -1,6 +1,7 @@
 ﻿using Avalonia.Input.Platform;
 using Away.App.Domain.Xray;
-using Away.App.Domain.XrayNode.Entities;
+using Away.App.Domain.Xray.Entities;
+using Away.App.Domain.Xray.Extentions;
 using System.Threading.Tasks;
 
 namespace Away.App.ViewModels;
@@ -177,7 +178,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            Warning("更新订阅被取消", $"等待{ProgressText}完成后再试");
+            Message.Warning("更新订阅被取消", $"等待{ProgressText}完成后再试");
             return;
         }
         var subs = _xrayNodeSubRepository.GetListByEnable();
@@ -204,7 +205,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
             var sub = subs[i];
             var url = sub.ParseUrl();
             var nodes = await _subService.GetXrayNode(url);
-            Success("更新订阅", $"{sub.Remark}更新了{nodes.Count}个节点");
+            Message.Success("更新订阅", $"{sub.Remark}更新了{nodes.Count}个节点");
             if (nodes.Count == 0)
             {
                 continue;
@@ -215,7 +216,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
             OnResetCommand();
         }
         OnResetCommand();
-        Success("节点订阅更新完成", $"共更新了{nodeTotal}个节点");
+        Message.Success("节点订阅更新完成", $"共更新了{nodeTotal}个节点");
         await Task.Delay(1000);
         ClearProgress();
     }
@@ -227,7 +228,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            Warning("测速被取消", $"等待{ProgressText}完成后再试");
+            Message.Warning("测速被取消", $"等待{ProgressText}完成后再试");
             return;
         }
 
@@ -239,7 +240,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
             ProgressText = "检测节点";
             IsProgress = true;
         }
-        var speedService = new XrayNodeSpeedTest(items, 10, 3000);
+        var speedService = new SpeedTestMore(items, 10, 3000);
         _progressCancel = speedService.Cancel;
         speedService.OnProgress += (value) => ProgressValue = value;
         speedService.OnCancel += ClearProgress;
@@ -274,7 +275,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
             OnResetCommand();
             await Task.Delay(1000);
             ClearProgress();
-            Success("节点检测完成");
+            Message.Success("节点检测完成");
         };
         speedService.Listen();
     }

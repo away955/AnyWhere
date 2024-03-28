@@ -1,6 +1,4 @@
-﻿using Away.App.Core.Database;
-using Away.App.Domain.Youtube.Entities;
-using SqlSugar;
+﻿using Away.App.Domain.Youtube.Entities;
 
 namespace Away.App.Domain.Youtube.Impl;
 

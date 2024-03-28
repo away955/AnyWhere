@@ -1,5 +1,6 @@
 ﻿using Away.App.Core.Utils;
-using Away.App.Domain.XrayNode.Entities;
+using Away.App.Domain.Xray.Entities;
+using Away.App.Domain.Youtube.Entities;
 
 namespace Away.App.Models;
 
@@ -7,6 +8,17 @@ namespace Away.App.Models;
 public sealed class MapProfile : Mapper, IMapper
 {
     public MapProfile()
+    {
+        YoutubeProfile();
+        XrayProfile();
+    }
+
+    private void YoutubeProfile()
+    {
+        Config.ForType<YoutubeEntity, YoutubeModel>();
+    }
+
+    private void XrayProfile()
     {
         Config.ForType<XrayNodeEntity, XrayNodeModel>();
         Config.ForType<XrayNodeModel, XrayNodeEntity>();
@@ -42,7 +54,6 @@ public sealed class MapProfile : Mapper, IMapper
         Config.ForType<XrayOutbound, XrayOutboundModel>()
             .Map(d => d.SettingStr, s => s.settings == null ? string.Empty : JsonUtils.Serialize(s.settings));
     }
-
 
 }
 

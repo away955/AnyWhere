@@ -1,4 +1,6 @@
-﻿namespace Away.App.ViewModels;
+﻿using Away.App.Domain.Xray.Extentions;
+
+namespace Away.App.ViewModels;
 
 [ViewModel]
 public sealed class XrayInboundViewModel : ViewModelXrayBase

@@ -24,7 +24,7 @@ public abstract class ViewModelXrayBase : ViewModelBase
     protected virtual void OnSaveCommand()
     {
         _xrayService.SaveConfig();
-        Success("保存成功");
+        Message.Success("保存成功");
     }
 
     protected void OnCancelCommand()

@@ -55,8 +55,8 @@ public class XrayNodeService(IXrayNodeRepository xrayNodeRepository) : IXrayNode
         {
             Log.Warning($"未知类型\n\r{JsonUtils.Serialize(unknows.ToArray())}");
         }
-
-        _xrayNodeRepository.SaveNodes(list);
+        var items = list.DistinctBy(o => new { o.Host, o.Port }).ToList();
+        _xrayNodeRepository.SaveNodes(items);
         Log.Information($"更新{list.Count}个节点");
     }
 }

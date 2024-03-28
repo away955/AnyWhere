@@ -2,29 +2,28 @@ namespace Away.App.Views;
 
 public partial class LeftMenu : UserControl
 {
-    private readonly Menu _menu;
     private readonly LeftMenuViewModel _vm;
     public LeftMenu()
     {
         _vm = AwayLocator.GetViewModel<LeftMenuViewModel>()!;
         this.DataContext = _vm;
         InitializeComponent();
-        _menu = this.FindControl<Menu>("Menu_Left")!;
-        _menu.Tapped += Menu_Tapped;
+
+        Menu_Left.Tapped += Menu_Tapped;
         InitDefaultMenu();
     }
 
     private void InitDefaultMenu()
     {
         var url = _vm!.DefaultMenu;
-        foreach (var item in _menu.Items.Cast<MenuItem>())
+        foreach (var item in Menu_Left.Items.Cast<MenuItem>())
         {
             if (item.Name == "logo")
             {
                 continue;
             }
             var constUrl = Convert.ToString(item.CommandParameter);
-            item.Foreground = constUrl == url ? Brush.Parse("#0532ff") : Brush.Parse("#fff");
+            ChangeMenuHeaderForeground(item, constUrl == url);
         }
         Dispatcher.UIThread.Post(() =>
         {
@@ -34,7 +33,7 @@ public partial class LeftMenu : UserControl
 
     private void Menu_Tapped(object? sender, TappedEventArgs e)
     {
-        foreach (var item in _menu.Items.Cast<MenuItem>())
+        foreach (var item in Menu_Left.Items.Cast<MenuItem>())
         {
             if (item.Name == "logo")
             {
@@ -44,8 +43,13 @@ public partial class LeftMenu : UserControl
                 }
                 continue;
             }
-            item.Foreground = item.IsSelected ? Brush.Parse("#0532ff") : Brush.Parse("#fff");
+            ChangeMenuHeaderForeground(item, item.IsSelected);
         }
+    }
+
+    private static void ChangeMenuHeaderForeground(MenuItem item, bool flag)
+    {
+        item.Foreground = flag ? Brushes.BlueViolet : Brushes.HotPink;
     }
 
 }

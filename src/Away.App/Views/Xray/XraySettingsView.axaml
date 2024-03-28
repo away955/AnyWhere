@@ -9,8 +9,6 @@
 		<Style Selector="TabControl">
 			<Setter Property="CornerRadius" Value="5"/>
 			<Setter Property="TabStripPlacement" Value="Left"/>
-			<Setter Property="Background" Value="{StaticResource AwayPaper}"/>
-
 			<Style Selector="^>TabItem">
 				<Setter Property="FontSize" Value="12"/>
 			</Style>

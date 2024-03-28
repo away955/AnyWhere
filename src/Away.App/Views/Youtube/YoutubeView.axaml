@@ -3,16 +3,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+			 xmlns:vm="using:Away.App.ViewModels"
+			 x:DataType="vm:YoutubeViewModel"
              x:Class="Away.App.Views.YoutubeView">
+
+	<UserControl.Styles>
+		<Style Selector="DataGrid">
+			<Setter Property="IsReadOnly" Value="True"/>
+			<Setter Property="AutoGenerateColumns" Value="False"/>
+			<Setter Property="SelectionMode" Value="Single"/>
+		</Style>
+	</UserControl.Styles>
 
 	<Grid>
 
-		<!--<ItemsControl>
-			<ItemsControl.DataTemplates>
-				<Border>
-
-				</Border>
-			</ItemsControl.DataTemplates>
-		</ItemsControl>-->
+		<DataGrid ItemsSource="{Binding Items}">
+			<DataGrid.Columns>
+				<DataGridTextColumn Width="90" Binding="{Binding Id}" Header="编号" />
+				<DataGridTextColumn Width="*" Binding="{Binding Title}" Header="标题" />
+				<DataGridTextColumn Width="100" Binding="{Binding State}" Header="状态" />
+				<!--<DataGridTemplateColumn Width="*" Header="地址">
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">							
+							<TextBlock Text=":"/>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn>-->
+			</DataGrid.Columns>
+		</DataGrid>
 	</Grid>
 </UserControl>

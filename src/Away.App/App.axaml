@@ -4,23 +4,24 @@
              xmlns:local="using:Away.App"
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:AppViewModel"
-             RequestedThemeVariant="Dark">
-	
-	<Application.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceInclude Source="/Styles/Theme/Dark.axaml"/>
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
+			 xmlns:convert="using:Away.App.Converters"
+             RequestedThemeVariant="Default">
 
+	<Application.Resources>
+		<convert:RowConverter x:Key="RowConverter"/>
 	</Application.Resources>
 
 	<Application.Styles>
-		<FluentTheme />
+		<FluentTheme>
+			<FluentTheme.Palettes>
+				<ColorPaletteResources x:Key="Light" RegionColor="#F3F3F3"/>
+				<ColorPaletteResources x:Key="Dark" RegionColor="#202020"/>
+			</FluentTheme.Palettes>
+		</FluentTheme>
+
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 		<StyleInclude Source="/Styles/Base.axaml" />
 	</Application.Styles>
-
 
 	<TrayIcon.Icons>
 		<TrayIcons>

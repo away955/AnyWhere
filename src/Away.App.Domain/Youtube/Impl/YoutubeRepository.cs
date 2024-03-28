@@ -19,6 +19,12 @@ internal sealed class YoutubeRepository : IYoutubeRepository
     private ISimpleClient<YoutubeSettingsEntity> Settings => _settings ??= db.GetSimpleClient<YoutubeSettingsEntity>();
 
 
+    public List<YoutubeEntity> GetList()
+    {
+        return YoutubeTb.GetList();
+    }
+
+
     public List<YoutubeSettingsEntity> GetSettings()
     {
         return Settings.GetList();

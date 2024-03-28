@@ -1,4 +1,5 @@
-﻿using Away.App.Domain.Youtube.Models;
+﻿using Away.App.Domain.Youtube.Entities;
+using Away.App.Domain.Youtube.Models;
 using YoutubeExplode;
 using YoutubeExplode.Converter;
 using YoutubeExplode.Videos;
@@ -14,7 +15,9 @@ public class YoutubeService(IHttpClientFactory httpClientFactory, IYoutubeReposi
 
     private HttpClient HttpClient => _httpClient ??= httpClientFactory.CreateClient();
     private YoutubeClient YoutubeClient => _youtube ??= new YoutubeClient(HttpClient);
-    private string RootPath => youtubeRepository.GetSetting("RootPath").Value;
+
+    private string RootPath => youtubeRepository.GetSetting("RootPath").Value
+        ?? Path.Combine(Environment.CurrentDirectory, "Data");
 
     public ValueTask<Video> GetVideoInfo(string url)
     {
@@ -94,5 +97,10 @@ public class YoutubeService(IHttpClientFactory httpClientFactory, IYoutubeReposi
         var request = new ConversionRequestBuilder(fileRes.FileRootPath);
         await YoutubeClient.Videos.DownloadAsync(streamInfos, request.Build());
         return fileRes;
+    }
+
+    public List<YoutubeEntity> GetList()
+    {
+        return youtubeRepository.GetList();
     }
 }

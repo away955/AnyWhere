@@ -34,7 +34,7 @@ internal class XrayNodeRepository : IXrayNodeRepository
     {
         var x = db.Storageable(entities).WhereColumns(o => new { o.Host, o.Port }).ToStorage();
         x.AsInsertable.ExecuteCommand();
-        x.AsUpdateable.ExecuteCommand();
+        x.AsUpdateable.ExecuteCommand();        
     }
 
     public void SetChecked(XrayNodeEntity entity)

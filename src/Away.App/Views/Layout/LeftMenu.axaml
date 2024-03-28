@@ -8,9 +8,8 @@
 			 x:DataType="vm:LeftMenuViewModel"
              x:Class="Away.App.Views.LeftMenu">
 
-
 	<UserControl.Styles>
-		<Style Selector="Menu.leftmenu">
+		<Style Selector="Menu#Menu_Left">
 			<Setter Property="Height" Value="{Binding $parent[Grid].Height}"/>
 			<Setter Property="VerticalAlignment" Value="Top"/>
 			<Setter Property="ItemsPanel">
@@ -25,14 +24,14 @@
 				<Setter Property="HorizontalAlignment" Value="Center"/>
 			</Style>
 		</Style>
+
 		<Style Selector="MenuItem#logo:selected /template/ Border#PART_LayoutRoot">
 			<Setter Property="Background" Value="Transparent"/>
 		</Style>
-
 	</UserControl.Styles>
 
 	<Grid>
-		<Menu Classes="leftmenu" Name="Menu_Left" >
+		<Menu Name="Menu_Left">
 			<MenuItem Margin="0" Name="logo">
 				<MenuItem.Header>
 					<StackPanel>
@@ -44,11 +43,10 @@
 					</StackPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Header="{icon:Enum Home}" Command="{Binding NavCommand}" CommandParameter="youtube"/>
+			<!--<MenuItem Header="{icon:Enum Home}" Command="{Binding NavCommand}" CommandParameter="youtube"/>-->
 			<MenuItem Header="{icon:Enum Fly}" Command="{Binding NavCommand}" CommandParameter="xray-node"/>
 			<MenuItem Header="{icon:Enum Settings}" Command="{Binding NavCommand}" CommandParameter="xray-settings"/>
 		</Menu>
-
 	</Grid>
 
 </UserControl>

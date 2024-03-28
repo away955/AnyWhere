@@ -57,6 +57,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
         {
             IsEnabled = true;
             UpdateHeader = $"{Update} 检查更新(v{info.Version})";
+            Message.Information($"有新版本：{info.Version}", info.Info);
         }
         else
         {

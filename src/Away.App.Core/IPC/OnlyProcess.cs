@@ -1,6 +1,4 @@
-﻿using Away.App.Core.MessageBus;
-
-namespace Away.App.Core.IPC;
+﻿namespace Away.App.Core.IPC;
 
 public static class OnlyProcess
 {

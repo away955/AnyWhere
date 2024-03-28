@@ -1,4 +1,5 @@
-﻿using Away.App.Domain.XrayNode.Entities;
+﻿using Away.App.Domain.Xray;
+using Away.App.Domain.Xray.Entities;
 
 namespace Away.App.ViewModels;
 
@@ -52,7 +53,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
         if (model.Id > 0)
         {
             _repository.DeleteById(model.Id);
-            Success("删除成功");
+            Message.Success("删除成功");
         }
     }
 
@@ -63,7 +64,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
             .ToList();
 
         _repository.InsertOrUpdate(entitys);
-        Success("保存成功");
+        Message.Success("保存成功");
         Init();
     }
 

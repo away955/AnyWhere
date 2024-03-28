@@ -1,5 +1,4 @@
-﻿using Away.App.Core.MessageBus;
-using System.IO.Pipes;
+﻿using System.IO.Pipes;
 
 namespace Away.App.Core.IPC;
 

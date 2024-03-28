@@ -69,7 +69,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
     {
         var title = $"{AppInfo.Title} {AppInfo.Version}";
         var dest = "一款绿色的网络代理软件\naway©2024-03 至今";
-        Information(title, dest);
+        Message.Information(title, dest);
     }
 
     private async void OnUpdateCommand()

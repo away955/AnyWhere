@@ -44,6 +44,7 @@
 					</StackPanel>
 				</MenuItem.Header>
 			</MenuItem>
+			<MenuItem Header="{icon:Enum Home}" Command="{Binding NavCommand}" CommandParameter="youtube"/>
 			<MenuItem Header="{icon:Enum Fly}" Command="{Binding NavCommand}" CommandParameter="xray-node"/>
 			<MenuItem Header="{icon:Enum Settings}" Command="{Binding NavCommand}" CommandParameter="xray-settings"/>
 		</Menu>

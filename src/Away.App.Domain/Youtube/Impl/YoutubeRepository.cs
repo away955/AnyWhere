@@ -23,7 +23,10 @@ internal sealed class YoutubeRepository : IYoutubeRepository
     {
         return YoutubeTb.GetList();
     }
-
+    public bool DeleteById(int id)
+    {
+        return YoutubeTb.DeleteById(id);
+    }
 
     public List<YoutubeSettingsEntity> GetSettings()
     {

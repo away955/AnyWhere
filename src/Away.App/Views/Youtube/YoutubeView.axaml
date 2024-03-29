@@ -16,20 +16,26 @@
 	</UserControl.Styles>
 
 	<Grid>
+		<!--<ItemsControl ItemsSource="{Binding Items}">
+			<ItemsControl.DataTemplates>
+				<Border>
+					<StackPanel Spacing="5">
+						<Image Source="{Binding Thumbnail}"/>
+						<TextBlock Text="{Binding Title}"/>
+						<TextBlock Text="{Binding Description}"/>
+						<TextBlock Text="{Binding Author}"/>
+						<TextBlock Text="{Binding UploadDate}"/>
+					</StackPanel>
+				</Border>
+			</ItemsControl.DataTemplates>
+		</ItemsControl>-->
 
-		<DataGrid ItemsSource="{Binding Items}">
+		<!--<DataGrid ItemsSource="{Binding Items}">
 			<DataGrid.Columns>
 				<DataGridTextColumn Width="90" Binding="{Binding Id}" Header="编号" />
 				<DataGridTextColumn Width="*" Binding="{Binding Title}" Header="标题" />
-				<DataGridTextColumn Width="100" Binding="{Binding State}" Header="状态" />
-				<!--<DataGridTemplateColumn Width="*" Header="地址">
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">							
-							<TextBlock Text=":"/>
-						</StackPanel>
-					</DataTemplate>
-				</DataGridTemplateColumn>-->
+				<DataGridTextColumn Width="100" Binding="{Binding State}" Header="状态" />			
 			</DataGrid.Columns>
-		</DataGrid>
+		</DataGrid>-->
 	</Grid>
 </UserControl>

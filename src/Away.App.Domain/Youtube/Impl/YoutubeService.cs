@@ -103,4 +103,10 @@ public class YoutubeService(IHttpClientFactory httpClientFactory, IYoutubeReposi
     {
         return youtubeRepository.GetList();
     }
+
+    public bool Remove(int id)
+    {
+        //todo: 同时删除视频文件 
+        return youtubeRepository.DeleteById(id);
+    }
 }

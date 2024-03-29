@@ -57,7 +57,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
         {
             IsEnabled = true;
             UpdateHeader = $"{Update} 检查更新(v{info.Version})";
-            Message.Information($"有新版本：{info.Version}", info.Info);
+            MessageShow.Information($"有新版本：{info.Version}", info.Info);
         }
         else
         {
@@ -70,7 +70,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
     {
         var title = $"{AppInfo.Title} {AppInfo.Version}";
         var dest = "一款绿色的网络代理软件\naway©2024-03 至今";
-        Message.Information(title, dest);
+        MessageShow.Information(title, dest);
     }
 
     private async void OnUpdateCommand()
@@ -82,7 +82,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
             switch (cmdEvent)
             {
                 case StartedCommandEvent:
-                    MessageBus.Current.Publish(MessageBusType.Shutdown, new object());
+                    MessageShutdown.Shutdown();
                     break;
             }
         }
@@ -104,7 +104,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
 
     private static void OnCommand(WindowStateCommandType state)
     {
-        MessageBus.Current.Publish(MessageBusType.WindowState, state);
+        MessageWindowState.State(state);
     }
 
 }

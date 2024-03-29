@@ -17,6 +17,6 @@ public sealed class LeftMenuViewModel : ReactiveObject
 
     private void OnNavCommand(string url)
     {
-        MessageBus.Current.Publish(MessageBusType.NavMainBox, url);
+        MessageRouter.Go(url);
     }
 }

@@ -9,6 +9,12 @@
              x:Class="Away.App.Views.XrayNodesView">
 
 	<UserControl.Styles>
+		<Style Selector="Menu.settings">			
+			<Style Selector="^ > MenuItem">
+				<Setter Property="FontSize" Value="20"/>
+			</Style>
+		</Style>
+
 		<Style Selector="Border.toolbar">
 			<Setter Property="Padding" Value="10"/>
 			<Setter Property="Margin" Value="0,0,0,5"/>
@@ -53,6 +59,9 @@
 		<Border Classes="toolbar">
 			<StackPanel Spacing="5">
 				<StackPanel Spacing="10" Orientation="Horizontal">
+					<Menu Classes="settings">
+						<MenuItem Header="{icon:Enum Settings}" Command="{Binding SettingsCommand}"/>
+					</Menu>
 					<StackPanel Classes="toolbaritem">
 						<TextBlock ToolTip.Tip="代理服务" Text="{icon:Enum Server}"/>
 						<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />

@@ -1,5 +1,5 @@
 <Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"			
              x:Class="Away.App.App"
              xmlns:local="using:Away.App"
 			 xmlns:vm="using:Away.App.ViewModels"
@@ -18,8 +18,7 @@
 				<ColorPaletteResources x:Key="Dark" RegionColor="#202020"/>
 			</FluentTheme.Palettes>
 		</FluentTheme>
-
-		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>		
 		<StyleInclude Source="/Styles/Base.axaml" />
 	</Application.Styles>
 

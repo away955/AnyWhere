@@ -53,7 +53,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
         if (model.Id > 0)
         {
             _repository.DeleteById(model.Id);
-            Message.Success("删除成功");
+            MessageShow.Success("删除成功");
         }
     }
 
@@ -64,7 +64,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
             .ToList();
 
         _repository.InsertOrUpdate(entitys);
-        Message.Success("保存成功");
+        MessageShow.Success("保存成功");
         Init();
     }
 

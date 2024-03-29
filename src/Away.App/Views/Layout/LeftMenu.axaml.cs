@@ -25,10 +25,7 @@ public partial class LeftMenu : UserControl
             var constUrl = Convert.ToString(item.CommandParameter);
             ChangeMenuHeaderForeground(item, constUrl == url);
         }
-        Dispatcher.UIThread.Post(() =>
-        {
-            MessageBus.Current.Publish(MessageBusType.NavMainBox, _vm!.DefaultMenu);
-        });
+        MessageRouter.Go(_vm!.DefaultMenu);
     }
 
     private void Menu_Tapped(object? sender, TappedEventArgs e)

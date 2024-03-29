@@ -1,11 +1,9 @@
-﻿using Away.App.Core.Messages;
-using System.Reactive.Disposables;
+﻿using System.Reactive.Disposables;
 
 namespace Away.App.ViewModels;
 
 public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel
 {
-    public static MessageShow Message => new();
     public ViewModelActivator Activator { get; }
 
     public ViewModelBase()
@@ -27,7 +25,4 @@ public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel
     {
 
     }
-
-
-
 }

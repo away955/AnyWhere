@@ -18,6 +18,6 @@ public partial class XrayNodesView : ReactiveUserControl<XrayNodesViewModel>, IV
     /// <param name="e"></param>
     private void DataGrid_DoubleTapped(object? sender, TappedEventArgs e)
     {
-        MessageBus.Current.Publish(MessageBusType.Event, e, "DGXrayNode");
+        MessageEvent.Run(e, XrayNodesViewModel.CheckedEvent);
     }
 }

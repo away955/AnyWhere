@@ -3,7 +3,6 @@
 public static class OnlyProcess
 {
     private static string PipeName { get; set; } = "Default";
-    public static Action<WindowStateCommandType>? HasLiveAction { get; set; }
 
     public static void Listen(string pipeName)
     {
@@ -37,7 +36,7 @@ public static class OnlyProcess
             while (true)
             {
                 using IPCServer ipcServer = new(pipeName);
-                ipcServer.OnReceive += HasLiveAction;
+                ipcServer.OnReceive += (cmd) => MessageWindowState.State(cmd);
                 await ipcServer.Listen();
             }
         }

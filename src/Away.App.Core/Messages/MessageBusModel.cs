@@ -2,10 +2,25 @@
 
 public enum MessageBusType
 {
+    /// <summary>
+    /// 关机
+    /// </summary>
     Shutdown,
-    NavMainBox,
+    /// <summary>
+    /// 菜单路由
+    /// </summary>
+    Routes,
+    /// <summary>
+    /// 窗口状态
+    /// </summary>
     WindowState,
-    Notification,
+    /// <summary>
+    /// 系统消息
+    /// </summary>
+    MessageShow,
+    /// <summary>
+    /// 事件
+    /// </summary>
     Event
 }
 

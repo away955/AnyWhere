@@ -15,11 +15,11 @@ public sealed class AppViewModel : ViewModelBase
     }
     private void OnExitCommand()
     {
-        MessageBus.Current.Publish(MessageBusType.Shutdown, new object());
+        MessageShutdown.Shutdown();
     }
 
     private static void OnShowCommand()
     {
-        MessageBus.Current.Publish(MessageBusType.WindowState, WindowStateCommandType.ShowActivate);
+        MessageWindowState.State(WindowStateCommandType.ShowActivate);
     }
 }

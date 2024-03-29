@@ -9,7 +9,7 @@ public partial class App : Application
     {
         DataContext = AwayLocator.GetViewModel<AppViewModel>();
         AvaloniaXamlLoader.Load(this);
-        MessageBus.Current.Subscribe(MessageBusType.Shutdown, args =>
+        MessageShutdown.Listen(args =>
         {
             if (ApplicationLifetime is IControlledApplicationLifetime control)
             {

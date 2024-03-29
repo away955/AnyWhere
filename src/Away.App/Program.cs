@@ -18,7 +18,6 @@ public sealed class Program
         logConf.WriteTo.Console();
         Log.Logger = logConf.CreateLogger();
 #endif
-        OnlyProcess.HasLiveAction = (cmd) => MessageBus.Current.Publish(MessageBusType.WindowState, cmd);
         OnlyProcess.Listen("onlyProcess");
 
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, lifetime =>

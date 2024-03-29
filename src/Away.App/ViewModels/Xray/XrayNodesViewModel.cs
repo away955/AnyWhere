@@ -9,6 +9,8 @@ namespace Away.App.ViewModels;
 [ViewModel]
 public sealed class XrayNodesViewModel : ViewModelBase
 {
+    public const string CheckedEvent = "DGXrayNode";
+
     private readonly IXrayNodeSubService _subService;
     private readonly IXrayNodeRepository _xrayNodeRepository;
     private readonly IXrayNodeService _xrayNodeService;
@@ -24,6 +26,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     public ICommand CopyCommand { get; }
     public ICommand PasteCommand { get; }
     public ICommand DeleteCommand { get; }
+    public ICommand SettingsCommand { get; }
 
     [Reactive]
     public bool IsProgress { get; set; }
@@ -66,8 +69,9 @@ public sealed class XrayNodesViewModel : ViewModelBase
         PasteCommand = ReactiveCommand.Create(OnPasteCommand);
         DeleteCommand = ReactiveCommand.Create(OnDeleteCommand);
         ProgressCancelCommand = ReactiveCommand.Create(OnProgressCancelCommand);
+        SettingsCommand = ReactiveCommand.Create(OnSettingsCommand);
         OnResetCommand();
-        MessageBus.Current.Subscribe(MessageBusType.Event, o => OnCheckedCommand(), "DGXrayNode");
+        MessageEvent.Listen(o => OnCheckedCommand(), CheckedEvent);
 
         _xrayService.OnChangeNode += OnResetCommand;
     }
@@ -178,7 +182,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            Message.Warning("更新订阅被取消", $"等待{ProgressText}完成后再试");
+            MessageShow.Warning("更新订阅被取消", $"等待{ProgressText}完成后再试");
             return;
         }
         var subs = _xrayNodeSubRepository.GetListByEnable();
@@ -205,7 +209,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
             var sub = subs[i];
             var url = sub.ParseUrl();
             var nodes = await _subService.GetXrayNode(url);
-            Message.Success("更新订阅", $"{sub.Remark}更新了{nodes.Count}个节点");
+            MessageShow.Success("更新订阅", $"{sub.Remark}更新了{nodes.Count}个节点");
             if (nodes.Count == 0)
             {
                 continue;
@@ -216,7 +220,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
             OnResetCommand();
         }
         OnResetCommand();
-        Message.Success("节点订阅更新完成", $"共更新了{nodeTotal}个节点");
+        MessageShow.Success("节点订阅更新完成", $"共更新了{nodeTotal}个节点");
         await Task.Delay(1000);
         ClearProgress();
     }
@@ -228,7 +232,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            Message.Warning("测速被取消", $"等待{ProgressText}完成后再试");
+            MessageShow.Warning("测速被取消", $"等待{ProgressText}完成后再试");
             return;
         }
 
@@ -275,7 +279,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
             OnResetCommand();
             await Task.Delay(1000);
             ClearProgress();
-            Message.Success("节点检测完成");
+            MessageShow.Success("节点检测完成");
         };
         speedService.Listen();
     }
@@ -345,5 +349,12 @@ public sealed class XrayNodesViewModel : ViewModelBase
         _xrayNodeRepository.DeleteById(XrayNodeSelectedItem.Id);
         XrayNodeItemsSource.Remove(XrayNodeSelectedItem);
     }
-
+   
+    /// <summary>
+    /// 设置
+    /// </summary>
+    private void OnSettingsCommand()
+    {
+        MessageRouter.Go("xray-settings");
+    }
 }

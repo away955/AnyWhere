@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Away.App.Components.IconFont;
 
-public class EnumExtension(IconType key) : KeyExtension(key.ToString())
+public sealed class EnumExtension(IconType key) : KeyExtension(key.ToString())
 {
 }
 

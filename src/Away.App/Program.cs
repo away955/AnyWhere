@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
 using Away.App.Core.IPC;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -53,12 +54,18 @@ public sealed class Program
 #else
         services.AddSqlSugarClient("DataSource=./Data/away.sqlite");
 #endif
-        services.AddHttpClient("xray")
+        services.AddHttpClient("unsafe")
           .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
           {
-              UseProxy = false,
               ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
           });
+
+        services.AddHttpClient("xray-proxy")
+         .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+         {
+             Proxy = new WebProxy("127.0.0.1", 1080),
+             ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
+         });
 
         services.Configure<JsonSerializerOptions>(options =>
         {
@@ -70,6 +77,7 @@ public sealed class Program
         var libs = AppDomain.CurrentDomain.GetAssemblies().Where(o => o.FullName!.StartsWith("Away.App"));
         services.AddAutoDI([.. libs, typeof(XrayConfig).Assembly]);
         services.AddClipboard();
+        services.AddStorageProvider();
         services.AddProxySettings();
         services.AddScoped<IVersionService, VersionService>();
         services.AddScoped<IUpdateService, UpdateService>();

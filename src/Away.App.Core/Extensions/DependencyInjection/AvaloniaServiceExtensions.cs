@@ -8,4 +8,8 @@ public static class AvaloniaServiceExtensions
     {
         return services.AddSingleton(o => Application.Current?.GetTopLevel()?.Clipboard!);
     }
+    public static IServiceCollection AddStorageProvider(this IServiceCollection services)
+    {
+        return services.AddSingleton(o => Application.Current?.GetTopLevel()?.StorageProvider!);
+    }
 }

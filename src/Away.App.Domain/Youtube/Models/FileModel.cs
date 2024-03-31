@@ -7,16 +7,21 @@ public class FileModel
     public string FileName { get; set; } = string.Empty;
     public string FileExtension { get; set; } = string.Empty;
 
+    public string RootFolderPath => Path.Combine(RootPath, RelativePath);
     public string FileRelativePath => Path.Combine(RelativePath, $"{FileName}{FileExtension}");
-    public string FileRootPath => Path.Combine(RootPath, RelativePath, $"{FileName}{FileExtension}");
+    public string FileRootPath => Path.Combine(RootFolderPath, $"{FileName}{FileExtension}");
+
+    public void DeleteFolder()
+    {
+        Directory.Delete(RootFolderPath, true);
+    }
 }
 
-public class DownloadBuilder : FileModel
+public sealed class DownloadBuilder : FileModel
 {
     public DownloadBuilder()
     {
         var time = DateTime.Now;
-        RelativePath = Path.Combine(time.ToString("yyyy"), time.ToString("MM"), time.ToString("dd"));
         FileName = Convert.ToString(time.ToFileTime());
     }
 

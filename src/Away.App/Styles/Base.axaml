@@ -9,6 +9,7 @@
 		<Style Selector="^ > MenuItem">
 			<Setter Property="CornerRadius" Value="5"/>
 			<Setter Property="Padding" Value="5"/>
+			<Setter Property="FontSize" Value="20"/>
 		</Style>
 	</Style>
 

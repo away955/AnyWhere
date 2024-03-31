@@ -1,12 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<Style Selector="Menu">
-		<Style Selector="^ > MenuItem">
-			<Setter Property="FontSize" Value="20"/>
-		</Style>
-	</Style>
-
 	<Style Selector="Grid.input">
 		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="Margin" Value="0,0,0,5"/>

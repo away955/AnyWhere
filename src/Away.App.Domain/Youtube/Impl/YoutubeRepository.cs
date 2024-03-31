@@ -9,14 +9,12 @@ internal sealed class YoutubeRepository : IYoutubeRepository
     public YoutubeRepository(ISugarDbContext db)
     {
         this.db = db;
-        db.CodeFirst.InitTables<YoutubeEntity, YoutubeSettingsEntity>();
+        db.CodeFirst.InitTables<YoutubeEntity>();
     }
 
     private ISimpleClient<YoutubeEntity>? _youtubeTb;
-    private ISimpleClient<YoutubeSettingsEntity>? _settings;
 
     private ISimpleClient<YoutubeEntity> YoutubeTb => _youtubeTb ??= db.GetSimpleClient<YoutubeEntity>();
-    private ISimpleClient<YoutubeSettingsEntity> Settings => _settings ??= db.GetSimpleClient<YoutubeSettingsEntity>();
 
 
     public List<YoutubeEntity> GetList()
@@ -28,14 +26,21 @@ internal sealed class YoutubeRepository : IYoutubeRepository
         return YoutubeTb.DeleteById(id);
     }
 
-    public List<YoutubeSettingsEntity> GetSettings()
+    public YoutubeEntity GetById(int id)
     {
-        return Settings.GetList();
+        return YoutubeTb.GetById(id);
     }
 
-    public YoutubeSettingsEntity GetSetting(string key)
+    public bool InsertOrUpdate(YoutubeEntity entity)
     {
-        return Settings.AsQueryable().Where(o => o.Key == key).First();
+        return db.Storageable(entity).WhereColumns(o => o.Source).ExecuteCommand() > 0;
     }
 
+    public bool SetState(int id, YoutubeVideoState state)
+    {
+        return YoutubeTb.AsUpdateable()
+             .SetColumns(o => new YoutubeEntity { State = state })
+             .Where(o => o.Id == id)
+             .ExecuteCommand() > 0;
+    }
 }

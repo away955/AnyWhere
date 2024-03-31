@@ -9,16 +9,6 @@
              x:Class="Away.App.Views.XrayNodesView">
 
 	<UserControl.Styles>
-		<Style Selector="Menu.settings">			
-			<Style Selector="^ > MenuItem">
-				<Setter Property="FontSize" Value="20"/>
-			</Style>
-		</Style>
-
-		<Style Selector="Border.toolbar">
-			<Setter Property="Padding" Value="10"/>
-			<Setter Property="Margin" Value="0,0,0,5"/>
-		</Style>
 		<Style Selector="StackPanel.toolbaritem">
 			<Setter Property="Spacing"  Value="5"/>
 			<Setter Property="Orientation" Value="Horizontal"/>
@@ -52,37 +42,35 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition MinHeight="60" Height="Auto"/>
+			<RowDefinition MinHeight="30" Height="Auto"/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 
-		<Border Classes="toolbar">
-			<StackPanel Spacing="5">
-				<StackPanel Spacing="10" Orientation="Horizontal">
-					<Menu Classes="settings">
-						<MenuItem Header="{icon:Enum Settings}" Command="{Binding SettingsCommand}"/>
-					</Menu>
-					<StackPanel Classes="toolbaritem">
-						<TextBlock ToolTip.Tip="代理服务" Text="{icon:Enum Server}"/>
-						<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />
-					</StackPanel>
-					<StackPanel Classes="toolbaritem">
-						<TextBlock ToolTip.Tip="健康检查，自动切换节点" Text="{icon:Enum ServerAuto}"/>
-						<ToggleSwitch IsChecked="{Binding IsHealthCheck}" OffContent="关" OnContent="开" />
-					</StackPanel>
-
-					<StackPanel Classes="toolbaritem">
-						<TextBlock ToolTip.Tip="系统全局代理" Text="{icon:Enum SystemProxy}"/>
-						<ToggleSwitch IsChecked="{Binding IsEnableGlobalProxy}" OffContent="关" OnContent="开" />
-					</StackPanel>
+		<StackPanel Spacing="5">
+			<StackPanel Spacing="10" Orientation="Horizontal">
+				<Menu>
+					<MenuItem Header="{icon:Enum Settings}" Command="{Binding SettingsCommand}"/>
+				</Menu>
+				<StackPanel Classes="toolbaritem">
+					<TextBlock ToolTip.Tip="代理服务" Text="{icon:Enum Server}"/>
+					<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />
 				</StackPanel>
-				<Grid ColumnDefinitions="60,*,40" IsVisible="{Binding IsProgress}">
-					<TextBlock Text="{Binding ProgressText}"/>
-					<ProgressBar Grid.Column="1" Value="{Binding ProgressValue}" ShowProgressText="True" />
-					<Button Grid.Column="2" Classes="cancel" Content="取消" Command="{Binding ProgressCancelCommand}"/>
-				</Grid>
+				<StackPanel Classes="toolbaritem">
+					<TextBlock ToolTip.Tip="健康检查，自动切换节点" Text="{icon:Enum ServerAuto}"/>
+					<ToggleSwitch IsChecked="{Binding IsHealthCheck}" OffContent="关" OnContent="开" />
+				</StackPanel>
+
+				<StackPanel Classes="toolbaritem">
+					<TextBlock ToolTip.Tip="系统全局代理" Text="{icon:Enum SystemProxy}"/>
+					<ToggleSwitch IsChecked="{Binding IsEnableGlobalProxy}" OffContent="关" OnContent="开" />
+				</StackPanel>
 			</StackPanel>
-		</Border>
+			<Grid Margin="0,5" ColumnDefinitions="60,*,40" IsVisible="{Binding IsProgress}">
+				<TextBlock Text="{Binding ProgressText}"/>
+				<ProgressBar Grid.Column="1" Value="{Binding ProgressValue}" ShowProgressText="True" />
+				<Button Grid.Column="2" Classes="cancel" Content="取消" Command="{Binding ProgressCancelCommand}"/>
+			</Grid>
+		</StackPanel>
 
 		<DataGrid Grid.Row="1" Name="DGXrayNode"
 				  ItemsSource="{Binding XrayNodeItemsSource}"

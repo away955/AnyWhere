@@ -5,7 +5,7 @@
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:AppViewModel"
 			 xmlns:convert="using:Away.App.Converters"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="{Binding Theme}">
 
 	<Application.Resources>
 		<convert:RowConverter x:Key="RowConverter"/>

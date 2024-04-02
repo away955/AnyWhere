@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Away.App.Core.API;
 using Away.App.Domain.Xray.Models;
+using System.Diagnostics;
 
 namespace Away.Domain.Xray.Impl;
 
@@ -15,9 +16,14 @@ public sealed class XrayService : XrayServiceBase, IXrayService
 
     private readonly IProxySetting _proxySetting;
     private readonly IXrayNodeRepository _nodeRepository;
-    public XrayService(IProxySetting proxySetting, IXrayNodeRepository nodeRepository) : base("config.json")
+    private readonly IXrayOptions _xrayOptions;
+    public XrayService(
+        IProxySetting proxySetting,
+        IXrayOptions options,
+        IXrayNodeRepository nodeRepository) : base("config.json")
     {
         _proxySetting = proxySetting;
+        _xrayOptions = options;
         _nodeRepository = nodeRepository;
         IsEnableGlobalProxy = _proxySetting.ProxyEnable;
         var process = Process.GetProcessesByName(ExeFileName)?.FirstOrDefault();
@@ -26,8 +32,19 @@ public sealed class XrayService : XrayServiceBase, IXrayService
         {
             XrayStop = process.Kill;
         }
+        var (ip, port) = GetProxyServer();
+        _xrayOptions.SetHost(ip, port);
     }
 
+    private (string, int) GetProxyServer()
+    {
+        var inbound = Config.inbounds.FirstOrDefault();
+        if (inbound == null)
+        {
+            return (string.Empty, 0);
+        }
+        return (inbound.listen ?? "127.0.0.1", inbound.port);
+    }
 
     public bool OpenGlobalProxy()
     {
@@ -35,12 +52,8 @@ public sealed class XrayService : XrayServiceBase, IXrayService
         {
             return true;
         }
-        var inbound = Config.inbounds.FirstOrDefault();
-        if (inbound == null)
-        {
-            return false;
-        }
-        _proxySetting.ProxyServer = $"{inbound.listen ?? "127.0.0.1"}:{inbound.port}";
+
+        _proxySetting.ProxyServer = _xrayOptions.Host;
         _proxySetting.ProxyEnable = true;
         _proxySetting.Save();
         IsEnableGlobalProxy = true;

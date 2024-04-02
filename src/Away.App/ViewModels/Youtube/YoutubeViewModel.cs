@@ -10,7 +10,6 @@ public sealed class YoutubeViewModel : ViewModelBase
     private readonly IMapper _mapper;
     private readonly IYoutubeService _youtubeService;
     private readonly IYoutubeFactory _youtubeFactory;
-    private readonly IStorageProvider _storageProvider;
 
     /// <summary>
     /// 添加视频
@@ -38,12 +37,10 @@ public sealed class YoutubeViewModel : ViewModelBase
 
     public YoutubeViewModel(
         IMapper mapper,
-        IStorageProvider storageProvider,
         IYoutubeService youtubeService,
         IYoutubeFactory youtubeFactory)
     {
         _mapper = mapper;
-        _storageProvider = storageProvider;
         _youtubeService = youtubeService;
         _youtubeFactory = youtubeFactory;
 
@@ -58,7 +55,6 @@ public sealed class YoutubeViewModel : ViewModelBase
 
     private void OnDownloadProgress(int id, double value)
     {
-        Log.Information($"{id} ----{value}");
         var model = Items.FirstOrDefault(o => o.Id == id);
         if (model == null)
         {
@@ -123,16 +119,10 @@ public sealed class YoutubeViewModel : ViewModelBase
             MessageShow.Error("取消失败");
         }
     }
-    private async void OnOpenFolderCommand(YoutubeModel model)
+    private void OnOpenFolderCommand(YoutubeModel model)
     {
         var entity = _mapper.Map<YoutubeEntity>(model);
         var folderPath = _youtubeService.GetFolderPath(entity);
-        var folder = await _storageProvider.TryGetFolderFromPathAsync(folderPath);
-        var options = new FilePickerOpenOptions
-        {
-            Title = model.TitileShort,
-            SuggestedStartLocation = folder,
-        };
-        await _storageProvider.OpenFilePickerAsync(options);
+        System.Diagnostics.Process.Start("explorer", folderPath);
     }
 }

@@ -1,9 +1,21 @@
 ﻿namespace Away.App.Domain.XrayNodeSub.Impl;
 
 [DI]
-public sealed partial class XrayNodeSubService(IHttpClientFactory httpClientFactory) : IXrayNodeSubService
+public sealed partial class XrayNodeSubService : IXrayNodeSubService
 {
     private CancellationTokenSource _cts = new();
+
+    private readonly HttpClient _httpClient;
+    public XrayNodeSubService()
+    {
+        _httpClient = new HttpClient(new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
+        })
+        {
+            Timeout = TimeSpan.FromSeconds(3)
+        };
+    }
 
     public void Cancel()
     {
@@ -51,9 +63,7 @@ public sealed partial class XrayNodeSubService(IHttpClientFactory httpClientFact
 
     private Task<string> Request(string url)
     {
-        var client = httpClientFactory.CreateClient("unsafe");
-        client.Timeout = TimeSpan.FromSeconds(3);
-        return client.GetStringAsync(url, _cts.Token);
+        return _httpClient.GetStringAsync(url, _cts.Token);
     }
 
     [GeneratedRegex("```(?<nodes>[^`]+)```")]

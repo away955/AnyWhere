@@ -70,7 +70,7 @@ public sealed class YoutubeAddViewModel : ViewModelBase
             MessageShow.Warning("视频地址不能为空");
             return;
         }
-        MessageShow.Information("开始加载视频资源...");
+        MessageShow.Information("开始加载...");
         Data = new YoutubeModel { Source = Data.Source };
         StreamItems = [];
         DescriptionItems = [];
@@ -79,7 +79,7 @@ public sealed class YoutubeAddViewModel : ViewModelBase
         var video = await youtubeClient.GetVideo();
         if (video == null)
         {
-            MessageShow.Error("加载视频资源失败");
+            MessageShow.Error("加载失败");
             return;
         }
         Data.Author = video.Author.ChannelTitle;
@@ -88,18 +88,21 @@ public sealed class YoutubeAddViewModel : ViewModelBase
         Data.Uploaded = video.UploadDate.LocalDateTime;
         DescriptionItems = [.. Data.Description.Split("\n")];
 
+        MessageShow.Information("正在获取封面...");
         var thumbnail = video.Thumbnails.OrderByDescending(o => o.Resolution.Area).FirstOrDefault()!;
         var imageFile = await youtubeClient.DownloadImage(thumbnail.Url);
         if (imageFile == null)
         {
-            MessageShow.Error("加载视频资源失败");
+            MessageShow.Error("加载封面失败");
             return;
         }
         Data.ImagePath = imageFile.FileRootPath;
         var bitmap = await YoutubeClient.GetThumbnail(imageFile.FileRootPath);
+        MessageShow.Information("正在获取视频...");
         var muxedStreams = await youtubeClient.GetMuxedStreams(Data.Source);
         if (muxedStreams == null)
         {
+            MessageShow.Error("加载视频失败");
             return;
         }
         var streams = muxedStreams

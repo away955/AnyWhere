@@ -1,12 +1,14 @@
 ﻿using Avalonia.Media.Imaging;
+using Away.App.Core.API;
 using Away.App.Domain.Youtube.Models;
+using System.Net;
 using YoutubeExplode.Converter;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 
 namespace Away.App.Domain.Youtube;
 
-public sealed class YoutubeClient
+public sealed class YoutubeClient : IDisposable
 {
     public event Action<int, double>? VideoDownloadProgress;
     public event Action<bool, string>? VideoDownloadFinished;
@@ -16,14 +18,25 @@ public sealed class YoutubeClient
     private readonly YoutubeExplode.YoutubeClient _youtube;
     private readonly VideoId _videoId;
     private readonly CancellationTokenSource _cancellationTokenSource;
+    private static readonly string _ffmpegPath = Path.Combine(Environment.CurrentDirectory, "Data", "ffmpeg");
 
     public YoutubeClient(string url)
     {
-        _httpClient ??= AwayLocator.GetService<IHttpClientFactory>().CreateClient("xray-proxy");
+        _httpClient ??= CreateHttpClient();
         _videoId = ParseVideoId(url);
         _rootPath = Path.Combine(Environment.CurrentDirectory, "Data", "Videos");
         _youtube ??= new(_httpClient);
         _cancellationTokenSource = new CancellationTokenSource();
+    }
+
+    private static HttpClient CreateHttpClient()
+    {
+        var xrayOptions = AwayLocator.GetService<IXrayOptions>();
+        return new HttpClient(new HttpClientHandler
+        {
+            Proxy = new WebProxy(xrayOptions.Host),
+            ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
+        });
     }
 
     public void Cancel()
@@ -138,6 +151,7 @@ public sealed class YoutubeClient
 
                 var streamInfos = new IStreamInfo[] { video, audio };
                 var request = new ConversionRequestBuilder(fileRes.FileRootPath);
+                request.SetFFmpegPath(_ffmpegPath);
                 await _youtube.Videos.DownloadAsync(streamInfos, request.Build(), new DownLoadProgress(this, id), _cancellationTokenSource.Token);
                 VideoDownloadFinished?.Invoke(true, "finished");
             }
@@ -149,7 +163,7 @@ public sealed class YoutubeClient
         return fileRes;
     }
 
-    private IEnumerable<IVideoStreamInfo> GetVideoStreamList(StreamManifest streamManifest)
+    private static IEnumerable<IVideoStreamInfo> GetVideoStreamList(StreamManifest streamManifest)
     {
         return streamManifest
                   .GetVideoStreams()
@@ -163,6 +177,10 @@ public sealed class YoutubeClient
         return _youtube.Videos.Streams.GetManifestAsync(url, _cancellationTokenSource.Token);
     }
 
+    public void Dispose()
+    {
+        _httpClient.Dispose();
+    }
 
     private class DownLoadProgress(YoutubeClient youtubeClient, int id) : IProgress<double>
     {

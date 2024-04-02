@@ -43,8 +43,10 @@
 					</StackPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Header="{icon:Enum Home}" Command="{Binding NavCommand}" CommandParameter="youtube"/>
-			<MenuItem Header="{icon:Enum Fly}" Command="{Binding NavCommand}" CommandParameter="xray-node"/>
+			<MenuItem Header="{icon:Enum Youtube}" ToolTip.Tip="Youtube视频下载"
+					  Command="{Binding NavCommand}" CommandParameter="youtube"/>
+			<MenuItem Header="{icon:Enum Fly}" ToolTip.Tip="网络代理"
+					  Command="{Binding NavCommand}" CommandParameter="xray-node"/>
 		</Menu>
 	</Grid>
 

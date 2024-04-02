@@ -18,6 +18,10 @@ public static class SqlSugarServiceExtensions
                 SqliteCodeFirstEnableDescription = true //启用备注
             }
         });
+        db.Aop.OnLogExecuting = (sql, args) =>
+        {
+            Log.Information(sql);
+        };
         services.AddSingleton<ISugarDbContext>(db);
         return services;
     }

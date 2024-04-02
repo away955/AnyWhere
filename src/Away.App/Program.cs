@@ -54,19 +54,7 @@ public sealed class Program
 #else
         services.AddSqlSugarClient("DataSource=./Data/away.sqlite");
 #endif
-        services.AddHttpClient("unsafe")
-          .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-          {
-              ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
-          });
-
-        services.AddHttpClient("xray-proxy")
-         .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-         {
-             Proxy = new WebProxy("127.0.0.1", 1080),
-             ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
-         });
-
+        services.AddHttpClient();
         services.Configure<JsonSerializerOptions>(options =>
         {
             options.NumberHandling = JsonNumberHandling.AllowReadingFromString;

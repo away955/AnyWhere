@@ -18,12 +18,19 @@ public enum IconType
     [IconText("&#xe866;")] Save,
     [IconText("&#xe660;")] Add,
     [IconText("&#xe63c;")] Expander,
+    [IconText("&#xe60d;")] Cancel,
     [IconText("&#xe67b;")] Update,
     [IconText("&#xe6de;")] Info,
     [IconText("&#xeace;")] ServerAuto,
     [IconText("&#xeb25;")] SystemProxy,
     [IconText("&#xe98e;")] Server,
-    [IconText("&#xe600;")] Net
+    [IconText("&#xe600;")] Net,
+    [IconText("&#xe644;")] Loading,
+    [IconText("&#xe61f;")] Folder,
+    [IconText("&#xe7ed;")] Download,
+    [IconText("&#xe880;")] Youtube,
+    [IconText("&#xe612;")] Back,
+    [IconText("&#xe601;")] Theme
 }
 
 [AttributeUsage(AttributeTargets.Field)]

@@ -53,7 +53,7 @@ public sealed class YoutubeModel : ViewModelBase
     public bool IsVisibleDownloadBtn => State == YoutubeVideoState.Waiting || State == YoutubeVideoState.Error;
     public bool IsVisibleFolderBtn => State != YoutubeVideoState.Downloading;
 
-    public string TitileShort => TextLength(Title) > 45 ? $"{TextSpilt(Title, 45)}..." : Title;
+    public string TitileShort => TextLength(Title) > 30 ? $"{TextSpilt(Title, 30)}..." : Title;
 
     private int TextLength(string text)
     {

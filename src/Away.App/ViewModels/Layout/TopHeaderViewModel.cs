@@ -1,4 +1,5 @@
-﻿using CliWrap;
+﻿using Away.App.Domain.Setting;
+using CliWrap;
 using CliWrap.EventStream;
 using System.IO;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
     private static readonly string Update = IconData.Current["Update"].ToUnicode();
 
     private readonly IVersionService _versionService;
+    private readonly IAppThemeService _appThemeService;
 
     public ICommand CloseCommand { get; }
     public ICommand NormalCommand { get; }
@@ -32,9 +34,36 @@ public sealed class TopHeaderViewModel : ViewModelBase
     [Reactive]
     public bool IsEnabled { get; set; }
 
-    public TopHeaderViewModel(IVersionService versionService)
+    private bool _isDefaultTheme = true;
+    public bool IsDefaultTheme
+    {
+        get => _isDefaultTheme;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isDefaultTheme, value);
+            if (_isDefaultTheme)
+            {
+                _appThemeService.Set(ThemeType.Default);
+            }
+        }
+    }
+    private bool _isLightTheme = false;
+    public bool IsLightTheme
+    {
+        get => _isLightTheme;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isLightTheme, value);
+            _appThemeService.Set(_isLightTheme ? ThemeType.Light : ThemeType.Dark);
+        }
+    }
+
+    public TopHeaderViewModel(
+        IAppThemeService appThemeService,
+        IVersionService versionService)
     {
         _versionService = versionService;
+        _appThemeService = appThemeService;
 
         CloseCommand = ReactiveCommand.Create(() => OnCommand(WindowStateCommandType.Hide));
         MinimizedCommand = ReactiveCommand.Create(() => OnCommand(WindowStateCommandType.Minimized));
@@ -63,6 +92,13 @@ public sealed class TopHeaderViewModel : ViewModelBase
         {
             IsEnabled = false;
             UpdateHeader = $"{Update} 检查更新";
+        }
+
+        var theme = _appThemeService.Get();
+        IsDefaultTheme = theme == ThemeType.Default;
+        if (!IsDefaultTheme)
+        {
+            IsLightTheme = theme == ThemeType.Light;
         }
     }
 

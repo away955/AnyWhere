@@ -8,7 +8,7 @@
              RequestedThemeVariant="{Binding Theme}">
 
 	<Application.Resources>
-		<convert:RowConverter x:Key="RowConverter"/>
+		<convert:NodesStatusConverter x:Key="NodesStatusConverter"/>
 		<convert:BitmapPathConverter x:Key="BitmapPathConverter"/>
 	</Application.Resources>
 

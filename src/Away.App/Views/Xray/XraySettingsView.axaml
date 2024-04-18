@@ -15,10 +15,11 @@
 		</Style>
 
 	</UserControl.Styles>
-	
+
 	<Grid>
 		<ScrollViewer>
 			<TabControl Name="TabSettings" SelectedValue="订阅节点">
+				<TabItem Header="检测配置" Tag="xray-test-settings"/>
 				<TabItem Header="订阅节点" Tag="xray-node-sub"/>
 				<TabItem Header="日志" Tag="xray-setting-log" />
 				<TabItem Header="DNS" Tag="xray-setting-dns"/>

@@ -94,13 +94,12 @@ public sealed class Trojan : IModelXrayNode
         // streamSettings 配置
         model.streamSettings = new OutboundStreamSettings()
         {
-            network = type,
-            security = security,
+            network = "tcp",
+            security = "tls",
             tcpSettings = new
             {
                 allowInsecure = false,
                 serverName = sni,
-                alpn = new List<string> { alpn },
                 show = false
             }
         };

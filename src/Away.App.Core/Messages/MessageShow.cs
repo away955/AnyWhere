@@ -17,7 +17,7 @@ public static class MessageShow
     {
         Show(title, message, NotificationType.Error);
     }
-    public static void Information(string title, string? message = "")
+    public static void Info(string title, string? message = "")
     {
         Show(title, message, NotificationType.Information);
     }

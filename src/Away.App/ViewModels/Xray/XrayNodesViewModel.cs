@@ -2,6 +2,7 @@
 using Away.App.Domain.Xray;
 using Away.App.Domain.Xray.Entities;
 using Away.App.Domain.Xray.Extentions;
+using Away.App.Domain.Xray.Models;
 using System.Threading.Tasks;
 
 namespace Away.App.ViewModels;
@@ -9,24 +10,27 @@ namespace Away.App.ViewModels;
 [ViewModel]
 public sealed class XrayNodesViewModel : ViewModelBase
 {
-    public const string CheckedEvent = "DGXrayNode";
+    public const string CheckedEvent = "NodesCheckedEvent";
 
     private readonly IXrayNodeSubService _subService;
     private readonly IXrayNodeRepository _xrayNodeRepository;
     private readonly IXrayNodeService _xrayNodeService;
     private readonly IXrayNodeSubRepository _xrayNodeSubRepository;
     private readonly IXrayService _xrayService;
+    private readonly IXraySettingService _xraySettingService;
     private readonly IMapper _mapper;
     private readonly IClipboard _clipboard;
 
     public ICommand ResetCommand { get; }
     public ICommand UpdateNodeCommand { get; }
     public ICommand CheckedCommand { get; }
-    public ICommand SpeedTest { get; }
+    public ICommand SpeedTestAll { get; }
+    public ICommand SpeedTestOne { get; }
     public ICommand CopyCommand { get; }
     public ICommand PasteCommand { get; }
     public ICommand DeleteCommand { get; }
     public ICommand SettingsCommand { get; }
+    public ICommand DeleteErrorCommand { get; }
 
     [Reactive]
     public bool IsProgress { get; set; }
@@ -42,8 +46,8 @@ public sealed class XrayNodesViewModel : ViewModelBase
         ProgressValue = 0;
     }
 
-
     public XrayNodesViewModel(
+        IXraySettingService xraySettingService,
         IXrayNodeSubService subService,
         IXrayNodeRepository xrayNodeRepository,
         IXrayNodeService xrayNodeService,
@@ -53,6 +57,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
         IClipboard clipboard
         )
     {
+        _xraySettingService = xraySettingService;
         _subService = subService;
         _mapper = mapper;
         _xrayNodeRepository = xrayNodeRepository;
@@ -64,17 +69,20 @@ public sealed class XrayNodesViewModel : ViewModelBase
         ResetCommand = ReactiveCommand.Create(OnResetCommand);
         UpdateNodeCommand = ReactiveCommand.Create(OnUpdateNodeCommand);
         CheckedCommand = ReactiveCommand.Create(OnCheckedCommand);
-        SpeedTest = ReactiveCommand.Create(OnSpeedTest);
+        SpeedTestAll = ReactiveCommand.Create(OnSpeedTestAll);
+        SpeedTestOne = ReactiveCommand.Create(OnSpeedTestOne);
         CopyCommand = ReactiveCommand.Create(OnCopyCommand);
         PasteCommand = ReactiveCommand.Create(OnPasteCommand);
         DeleteCommand = ReactiveCommand.Create(OnDeleteCommand);
         ProgressCancelCommand = ReactiveCommand.Create(OnProgressCancelCommand);
         SettingsCommand = ReactiveCommand.Create(OnSettingsCommand);
+        DeleteErrorCommand = ReactiveCommand.Create(OnDeleteErrorCommand);
         OnResetCommand();
         MessageEvent.Listen(o => OnCheckedCommand(), CheckedEvent);
 
         _xrayService.OnChangeNode += OnResetCommand;
     }
+
 
 
     private bool _isEnableXray;
@@ -139,8 +147,18 @@ public sealed class XrayNodesViewModel : ViewModelBase
     [Reactive]
     public ObservableCollection<XrayNodeModel> XrayNodeItemsSource { get; set; } = [];
 
-    [Reactive]
-    public XrayNodeModel? XrayNodeSelectedItem { get; set; }
+    public bool IsSelected => _xrayNodeSelectedItem != null;
+    private XrayNodeModel? _xrayNodeSelectedItem;
+    public XrayNodeModel? XrayNodeSelectedItem
+    {
+        get => _xrayNodeSelectedItem;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _xrayNodeSelectedItem, value);
+            this.RaisePropertyChanged(nameof(IsSelected));
+        }
+    }
+
 
     /// <summary>
     /// 刷新
@@ -150,7 +168,9 @@ public sealed class XrayNodesViewModel : ViewModelBase
         IsEnableXray = _xrayService.IsEnable;
         IsEnableGlobalProxy = _xrayService.IsEnableGlobalProxy;
         IsHealthCheck = _xrayService.IsHealthCheck;
-        var xraynodes = _xrayNodeRepository.GetList().OrderByDescending(o => o.Speed);
+        var xraynodes = _xrayNodeRepository.GetList()
+            .OrderByDescending(o => o.Status)
+            .ThenBy(o => o.Speed);
         var items = xraynodes.Select(_mapper.Map<XrayNodeModel>);
         XrayNodeItemsSource = new ObservableCollection<XrayNodeModel>(items);
     }
@@ -165,6 +185,12 @@ public sealed class XrayNodesViewModel : ViewModelBase
         {
             return;
         }
+        OnSpeedTestOne();
+
+        foreach (var item in XrayNodeItemsSource)
+        {
+            item.IsChecked = model.Id == item.Id;
+        }
 
         var entity = _mapper.Map<XrayNodeEntity>(model);
         _xrayService.SetNode(entity);
@@ -172,7 +198,6 @@ public sealed class XrayNodesViewModel : ViewModelBase
         _xrayService.XrayRestart();
         IsEnableXray = _xrayService.IsEnable;
         _xrayNodeRepository.SetChecked(entity);
-        OnResetCommand();
     }
 
     /// <summary>
@@ -228,13 +253,16 @@ public sealed class XrayNodesViewModel : ViewModelBase
     /// <summary>
     /// 测试所有节点速度
     /// </summary>
-    private void OnSpeedTest()
+    private void OnSpeedTestAll()
     {
         if (IsProgress)
         {
-            MessageShow.Warning("测速被取消", $"等待{ProgressText}完成后再试");
+            MessageShow.Warning("检测进行中", $"等待{ProgressText}完成后再试");
             return;
         }
+
+        IsEnableXray = false;
+        _xrayService.CloseAll();
 
         var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
         var total = items.Count * 1d;
@@ -244,8 +272,14 @@ public sealed class XrayNodesViewModel : ViewModelBase
             ProgressText = "检测节点";
             IsProgress = true;
         }
-        var speedService = new SpeedTestMore(items, 10, 3000);
-        _progressCancel = speedService.Cancel;
+        var settings = _xraySettingService.Get();
+        var speedService = new SpeedTestMore(items, settings);
+        _progressCancel = () =>
+        {
+            _xrayNodeRepository.SaveNodes(items);
+            speedService.Cancel();
+        };
+
         speedService.OnProgress += (value) => ProgressValue = value;
         speedService.OnCancel += ClearProgress;
         speedService.OnTested += (result) =>
@@ -275,13 +309,62 @@ public sealed class XrayNodesViewModel : ViewModelBase
         speedService.OnCompeleted += async () =>
         {
             _xrayNodeRepository.SaveNodes(items);
-            await _xrayNodeRepository.DeleteByStatusError();
             OnResetCommand();
             await Task.Delay(1000);
             ClearProgress();
             MessageShow.Success("节点检测完成");
         };
         speedService.Listen();
+    }
+
+
+    public bool _isActiveSpeedTestOne;
+    /// <summary>
+    /// 测试单个节点
+    /// </summary>
+    private void OnSpeedTestOne()
+    {
+        if (_isActiveSpeedTestOne || IsProgress)
+        {
+            MessageShow.Warning("检测进行中", $"等待{ProgressText}完成后再试");
+            return;
+        }
+        var model = XrayNodeSelectedItem;
+        if (model == null)
+        {
+            return;
+        }
+        _isActiveSpeedTestOne = true;
+        MessageShow.Info($"开始检测:{model.Country}");
+        var settings = _xraySettingService.Get();
+        var entity = _mapper.Map<XrayNodeEntity>(model);
+        var port = settings.StartPort;
+        var service = new SpeedTest(entity, $"speed_test_{port}.json", port, settings);
+        service.OnResult += Tested;
+        service.TestSpeed();
+        async void Tested(SpeedTestResult result)
+        {
+            _isActiveSpeedTestOne = false;
+            Log.Information($"结果：{result.Remark} {result.Error}");
+            if (result.IsSuccess)
+            {
+                MessageShow.Success($"可用:{model.Country}", result.Remark);
+                model.Status = entity.Status = XrayNodeStatus.Success;
+                model.Remark = entity.Remark = result.Remark;
+                model.Speed = entity.Speed = result.Speed;
+                model.Updated = DateTime.Now;
+            }
+            else
+            {
+                model.Status = entity.Status = XrayNodeStatus.Error;
+                model.Remark = entity.Remark = "不可用";
+                model.Speed = entity.Speed = 0;
+                MessageShow.Error($"不可用:{model.Country}", result.Error);
+            }
+
+            await _xrayNodeRepository.Update(entity);
+        }
+
     }
 
     /// <summary>
@@ -349,7 +432,13 @@ public sealed class XrayNodesViewModel : ViewModelBase
         _xrayNodeRepository.DeleteById(XrayNodeSelectedItem.Id);
         XrayNodeItemsSource.Remove(XrayNodeSelectedItem);
     }
-   
+
+    private async void OnDeleteErrorCommand()
+    {
+        await _xrayNodeRepository.DeleteByStatusError();
+        OnResetCommand();
+    }
+
     /// <summary>
     /// 设置
     /// </summary>
@@ -357,4 +446,5 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         MessageRouter.Go("xray-settings");
     }
+
 }

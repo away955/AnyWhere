@@ -8,7 +8,7 @@ public partial class XrayNodesView : ReactiveUserControl<XrayNodesViewModel>, IV
         ViewModel = AwayLocator.GetViewModel<XrayNodesViewModel>();
         InitializeComponent();
 
-        DGXrayNode.DoubleTapped += DataGrid_DoubleTapped;
+        LB_Nodes.DoubleTapped += DataGrid_DoubleTapped;
     }
 
     /// <summary>
@@ -21,3 +21,4 @@ public partial class XrayNodesView : ReactiveUserControl<XrayNodesViewModel>, IV
         MessageEvent.Run(e, XrayNodesViewModel.CheckedEvent);
     }
 }
+

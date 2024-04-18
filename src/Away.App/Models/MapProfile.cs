@@ -1,5 +1,6 @@
 ﻿using Away.App.Core.Utils;
 using Away.App.Domain.Xray.Entities;
+using Away.App.Domain.Xray.Models;
 using Away.App.Domain.Youtube.Entities;
 
 namespace Away.App.Models;
@@ -20,6 +21,8 @@ public sealed class MapProfile : Mapper, IMapper
 
     private void XrayProfile()
     {
+        Config.ForType<XrayTestSettingsModel, SpeedTestSettings>();
+        Config.ForType<SpeedTestSettings, XrayTestSettingsModel>();
         Config.ForType<XrayNodeEntity, XrayNodeModel>();
         Config.ForType<XrayNodeModel, XrayNodeEntity>();
         Config.ForType<XrayNodeSubModel, XrayNodeSubEntity>();

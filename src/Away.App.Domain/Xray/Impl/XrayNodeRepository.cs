@@ -27,7 +27,7 @@ internal class XrayNodeRepository : IXrayNodeRepository
 
     public async Task DeleteByStatusError()
     {
-        await TB.AsDeleteable().Where(o => o.Status == XrayNodeStatus.Error).ExecuteCommandAsync();
+        await TB.AsDeleteable().Where(o => o.Status == XrayNodeStatus.Error && !o.IsChecked).ExecuteCommandAsync();
     }
 
     public void SaveNodes(List<XrayNodeEntity> entities)

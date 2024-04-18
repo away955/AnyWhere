@@ -10,25 +10,20 @@ namespace Away.App.Domain.Xray;
 public sealed class SpeedTest : XrayServiceBase, IDisposable
 {
     private const string Host = "127.0.0.1";
-    /// <summary>
-    /// 测试地址
-    /// </summary>
-    private const string TestUrl = "https://speed.cloudflare.com/__down?during=download&bytes=104857600";
-    //private const string TestUrl = "http://hkg.download.datapacket.com/100mb.bin";
-    /// <summary>
-    /// 测试时间
-    /// </summary>
-    private const int TestSeconds = 10;
 
-    public event Action<SpeedTestResult>? OnResult;
+    private readonly SpeedTestSettings _settings;
     private readonly CancellationTokenSource _cts;
     private readonly XrayNodeEntity entity;
     private readonly int port;
-    public SpeedTest(XrayNodeEntity entity, int port, string configFileName, int timeout) : base(configFileName)
+
+    public event Action<SpeedTestResult>? OnResult;
+
+    public SpeedTest(XrayNodeEntity entity, string configFileName, int port, SpeedTestSettings settings) : base(configFileName)
     {
         this.entity = entity;
+        _settings = settings;
         this.port = port;
-        _cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+        _cts = new CancellationTokenSource(TimeSpan.FromSeconds(settings.TestTimeout));
         _cts.Token.Register(() =>
         {
             if (!IsEnable)
@@ -58,9 +53,10 @@ public sealed class SpeedTest : XrayServiceBase, IDisposable
         {
             Task.Run(async () =>
             {
-                var speedRes = await TestDownload();
+                //var res = await TestDownload();
+                var res = await TestTelnet();
                 XrayClose();
-                OnResult?.Invoke(speedRes);
+                OnResult?.Invoke(res);
             });
         }
         // v2ray 启动失败
@@ -85,6 +81,7 @@ public sealed class SpeedTest : XrayServiceBase, IDisposable
     private bool SetTestConfig()
     {
         Config.inbounds.Clear();
+        Config.routing = null;
         Config.SetInbound(new XrayInbound()
         {
             listen = Host,
@@ -102,7 +99,62 @@ public sealed class SpeedTest : XrayServiceBase, IDisposable
         return true;
     }
 
-    private async Task<SpeedTestResult> TestDownload()
+    //private async Task<SpeedTestResult> TestDownload()
+    //{
+    //    try
+    //    {
+    //        using var httpclient = new HttpClient(new HttpClientHandler
+    //        {
+    //            Proxy = new WebProxy(Host, port),
+    //        })
+    //        {
+    //            Timeout = TimeSpan.FromSeconds(_settings.TestTimeout)
+    //        };
+    //        httpclient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0");
+
+    //        using var resp = await httpclient.GetAsync(_settings.TestUrl, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
+    //        resp.EnsureSuccessStatusCode();
+    //        using var stream = await resp.Content.ReadAsStreamAsync();
+    //        Stopwatch stopwatch = Stopwatch.StartNew();
+    //        var count = 0;
+    //        var len = 0;
+    //        byte[] bytes = new byte[1024];
+    //        while ((len = await stream.ReadAsync(bytes)) > 0)
+    //        {
+    //            count += len;
+    //            if (stopwatch.ElapsedMilliseconds / 1000d >= 10)
+    //            {
+    //                break;
+    //            }
+    //        }
+    //        stopwatch.Stop();
+    //        var sec = stopwatch.ElapsedMilliseconds / 1000d;
+
+    //        // 下载速度 b/s
+    //        var speed = count / sec;
+    //        var remark = speed switch
+    //        {
+    //            var i when 0 < i && i < 1024 => $"{Math.Round(speed, 2)} b/s",
+    //            var i when 1024 < i && i < 1024 * 1024 => $"{Math.Round(speed / 1024, 2)} kb/s",
+    //            var i when 1024 * 1024 < i => $"{Math.Round(speed / 1024 / 1024, 2)} m/s",
+    //            _ => string.Empty
+    //        };
+    //        return new SpeedTestResult
+    //        {
+    //            Entity = entity,
+    //            IsSuccess = true,
+    //            Speed = speed,
+    //            Remark = remark,
+    //        };
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Log.Information($"测试节点速度失败:{ex.Message}");
+    //        return new SpeedTestResult { Entity = entity, Error = ex.Message };
+    //    }
+    //}
+
+    private async Task<SpeedTestResult> TestTelnet()
     {
         try
         {
@@ -111,42 +163,26 @@ public sealed class SpeedTest : XrayServiceBase, IDisposable
                 Proxy = new WebProxy(Host, port),
             })
             {
-                Timeout = TimeSpan.FromSeconds(5)
+                Timeout = TimeSpan.FromSeconds(_settings.TestTimeout - 1)
             };
             httpclient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0");
 
-            using var resp = await httpclient.GetAsync(TestUrl, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
-            resp.EnsureSuccessStatusCode();
-            using var stream = await resp.Content.ReadAsStreamAsync();
             Stopwatch stopwatch = Stopwatch.StartNew();
-            var count = 0;
-            var len = 0;
-            byte[] bytes = new byte[1024];
-            while ((len = await stream.ReadAsync(bytes)) > 0)
-            {
-                count += len;
-                if (stopwatch.ElapsedMilliseconds / 1000d >= TestSeconds)
-                {
-                    break;
-                }
-            }
+            using var resp = await httpclient.GetAsync(_settings.TestUrl, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
+            resp.EnsureSuccessStatusCode();
             stopwatch.Stop();
-            var sec = stopwatch.ElapsedMilliseconds / 1000d;
 
-            // 下载速度 b/s
-            var speed = count / sec;
-            var remark = speed switch
+            var remark = stopwatch.ElapsedMilliseconds switch
             {
-                var i when 0 < i && i < 1024 => $"{Math.Round(speed, 2)} b/s",
-                var i when 1024 < i && i < 1024 * 1024 => $"{Math.Round(speed / 1024, 2)} kb/s",
-                var i when 1024 * 1024 < i => $"{Math.Round(speed / 1024 / 1024, 2)} m/s",
+                var i when 0 < i && i < 1000 => $"{i} ms",
+                var i when 100 < i => $"{Math.Round(i / 1000d, 2)} s",
                 _ => string.Empty
             };
             return new SpeedTestResult
             {
                 Entity = entity,
                 IsSuccess = true,
-                Speed = speed,
+                Speed = stopwatch.ElapsedMilliseconds,
                 Remark = remark,
             };
         }

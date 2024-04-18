@@ -86,7 +86,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
         {
             IsEnabled = true;
             UpdateHeader = $"{Update} 检查更新(v{info.Version})";
-            MessageShow.Information($"有新版本：{info.Version}", info.Info);
+            MessageShow.Info($"有新版本：{info.Version}", info.Info);
         }
         else
         {
@@ -106,7 +106,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
     {
         var title = $"{AppInfo.Title} {AppInfo.Version}";
         var dest = "一款绿色的网络代理软件\naway©2024-03 至今";
-        MessageShow.Information(title, dest);
+        MessageShow.Info(title, dest);
     }
 
     private async void OnUpdateCommand()

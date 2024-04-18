@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Runtime;
 using Away.App.Domain.Xray.Entities;
 using Away.App.Domain.Xray.Models;
 
@@ -9,13 +10,14 @@ public sealed class SpeedTestMore
     private readonly CancellationTokenSource _cts = new();
     private readonly Semaphore _semaphore;
     private readonly List<XrayNodeEntity> _nodes;
+    private readonly SpeedTestSettings _settings;
 
-    public SpeedTestMore(List<XrayNodeEntity> entities, int concurrency, int startPort)
+
+    public SpeedTestMore(List<XrayNodeEntity> entities, SpeedTestSettings settings)
     {
-        Concurrency = concurrency;
-        StartPort = startPort;
-        _semaphore = new(concurrency, concurrency);
-        foreach (var port in Enumerable.Range(startPort, Concurrency))
+        _settings = settings;
+        _semaphore = new(settings.Concurrency, settings.Concurrency);
+        foreach (var port in Enumerable.Range(settings.StartPort, settings.Concurrency))
         {
             Ports.TryAdd(port, false);
         }
@@ -47,15 +49,6 @@ public sealed class SpeedTestMore
     /// 取消
     /// </summary>
     public event Action? OnCancel;
-
-    /// <summary>
-    /// 并发数
-    /// </summary>
-    public int Concurrency { get; private set; }
-    /// <summary>
-    /// 开始端口
-    /// </summary>
-    public int StartPort { get; private set; }
 
     /// <summary>
     /// 可用端口，true：使用中，false：未使用
@@ -103,7 +96,7 @@ public sealed class SpeedTestMore
     {
         try
         {
-            var service = new SpeedTest(entity, port, $"speed_test_{port}.json", 30);
+            var service = new SpeedTest(entity, $"speed_test_{port}.json", port, _settings);
             service.OnResult += Tested;
             service.TestSpeed();
             void Tested(SpeedTestResult result)

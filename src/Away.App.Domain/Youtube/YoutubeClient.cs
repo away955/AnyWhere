@@ -22,21 +22,11 @@ public sealed class YoutubeClient : IDisposable
 
     public YoutubeClient(string url)
     {
-        _httpClient ??= CreateHttpClient();
+        _httpClient ??= HttpClientUtils.CreateHttpClientByXrayProxy();
         _videoId = ParseVideoId(url);
         _rootPath = Path.Combine(Environment.CurrentDirectory, "Data", "Videos");
         _youtube ??= new(_httpClient);
         _cancellationTokenSource = new CancellationTokenSource();
-    }
-
-    private static HttpClient CreateHttpClient()
-    {
-        var xrayOptions = AwayLocator.GetService<IXrayOptions>();
-        return new HttpClient(new HttpClientHandler
-        {
-            Proxy = new WebProxy(xrayOptions.Host),
-            ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
-        });
     }
 
     public void Cancel()

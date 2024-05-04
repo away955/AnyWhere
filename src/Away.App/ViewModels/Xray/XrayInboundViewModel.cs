@@ -8,7 +8,7 @@ public sealed class XrayInboundViewModel : ViewModelXrayBase
 
     [Reactive]
     public ObservableCollection<XrayInboundModel> Items { get; set; } = [];
-    public static List<string> ProtocolItems => ["http", "socks"];
+    public static List<string> ProtocolItems => ["http"];
 
     public ICommand AddCommand { get; private set; }
     public ICommand DelCommand { get; private set; }
@@ -43,5 +43,6 @@ public sealed class XrayInboundViewModel : ViewModelXrayBase
     {
         Items.Remove(model);
         _xrayService.Config.RemoveInbound(model.tag);
+        OnSaveCommand();
     }
 }

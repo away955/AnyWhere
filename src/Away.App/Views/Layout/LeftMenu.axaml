@@ -43,6 +43,8 @@
 					</StackPanel>
 				</MenuItem.Header>
 			</MenuItem>
+			<MenuItem Header="{icon:Enum Youtube}" ToolTip.Tip="路由器扫描"
+					  Command="{Binding NavCommand}" CommandParameter="router-scanner"/>
 			<MenuItem Header="{icon:Enum Youtube}" ToolTip.Tip="Youtube视频下载"
 					  Command="{Binding NavCommand}" CommandParameter="youtube"/>
 			<MenuItem Header="{icon:Enum Fly}" ToolTip.Tip="网络代理"

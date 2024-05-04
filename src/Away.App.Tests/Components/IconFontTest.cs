@@ -1,6 +1,6 @@
 ﻿using Away.App.Components.IconFont;
 
-namespace Away.App.Tests.Components;
+namespace Away.App.Tests;
 
 public sealed class IconFontTest : TestBase
 {

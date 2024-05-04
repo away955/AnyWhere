@@ -3,6 +3,9 @@
 public sealed class XrayInboundModel : ViewModelBase
 {
     [Reactive]
+    public string? listen { get; set; }
+
+    [Reactive]
     public int? port { get; set; }
     [Reactive]
     public string protocol { get; set; } = "http";

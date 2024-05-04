@@ -34,6 +34,7 @@ public sealed class XrayRouteViewModel : ViewModelXrayBase
         }
         ];
 
+    [Reactive]
     public XrayRouteModel Route { get; set; } = new();
     public ICommand AddCommand { get; }
     public ICommand DelCommand { get; }
@@ -46,7 +47,7 @@ public sealed class XrayRouteViewModel : ViewModelXrayBase
 
     protected override void Init()
     {
-        Route = _mapper.Map<XrayRouteModel>(_xrayService.Config.routing);
+        Route = _mapper.Map<XrayRouteModel>(_xrayService.Config.routing ?? new());
     }
 
     protected override void OnSaveCommand()
@@ -62,6 +63,8 @@ public sealed class XrayRouteViewModel : ViewModelXrayBase
     }
     private void OnDelCommand(XrayRouteRuleModel item)
     {
-        Route.rules.Remove(item!);
+        Route.rules.Remove(item);
+        OnSaveCommand();
+        Init();
     }
 }

@@ -23,7 +23,7 @@
 				<TabItem Header="订阅节点" Tag="xray-node-sub"/>
 				<TabItem Header="日志" Tag="xray-setting-log" />
 				<TabItem Header="DNS" Tag="xray-setting-dns"/>
-				<TabItem Header="路由" Tag="xray-setting-route"/>
+				<!--<TabItem Header="路由" Tag="xray-setting-route"/>-->
 				<TabItem Header="入站配置" Tag="xray-setting-inbound"/>
 				<TabItem Header="出站配置" Tag="xray-setting-outbound"/>
 				<!--<TabItem Header="接口"/>

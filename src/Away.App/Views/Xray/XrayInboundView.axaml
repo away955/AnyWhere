@@ -34,6 +34,11 @@
 											  CommandParameter="{Binding}"/>
 								</Menu>
 							</Grid>
+
+							<Grid Classes="input" ColumnDefinitions="50,*">
+								<TextBlock Text="地址"/>
+								<TextBox Grid.Column="1" Text="{Binding listen}"/>
+							</Grid>
 							<Grid Classes="input" ColumnDefinitions="50,*">
 								<TextBlock Text="标识"/>
 								<TextBox Grid.Column="1" Text="{Binding tag}"/>

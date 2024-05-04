@@ -29,17 +29,7 @@
 			<Link>$(RecursiveDir)Data\v2ray.exe</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Condition="'$(OS)'=='Linux'" Include="Data\linux_v2ray">
-			<Link>$(RecursiveDir)Data\v2ray</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Condition="'$(OS)'=='OSX'" Include="Data\macos_v2ray">
-			<Link>$(RecursiveDir)Data\v2ray</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
+		</None>		
 		<None Update="Data\geoip.dat">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -47,6 +37,9 @@
 		<None Update="Data\geosite.dat">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</None>
+		<None Update="Data\router-finger-print.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 

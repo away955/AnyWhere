@@ -1,8 +1,10 @@
 ﻿using Avalonia.Input.Platform;
+using Away.App.Core.Utils;
 using Away.App.Domain.Xray;
 using Away.App.Domain.Xray.Entities;
 using Away.App.Domain.Xray.Extentions;
 using Away.App.Domain.Xray.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Away.App.ViewModels;
@@ -25,6 +27,8 @@ public sealed class XrayNodesViewModel : ViewModelBase
     public ICommand UpdateNodeCommand { get; }
     public ICommand CheckedCommand { get; }
     public ICommand SpeedTestAll { get; }
+    public ICommand SpeedTestByError { get; }
+    public ICommand SpeedTestByDefault { get; }
     public ICommand SpeedTestOne { get; }
     public ICommand CopyCommand { get; }
     public ICommand PasteCommand { get; }
@@ -69,7 +73,9 @@ public sealed class XrayNodesViewModel : ViewModelBase
         ResetCommand = ReactiveCommand.Create(OnResetCommand);
         UpdateNodeCommand = ReactiveCommand.Create(OnUpdateNodeCommand);
         CheckedCommand = ReactiveCommand.Create(OnCheckedCommand);
-        SpeedTestAll = ReactiveCommand.Create(OnSpeedTestAll);
+        SpeedTestAll = ReactiveCommand.Create(() => OnSpeedTestAll(null));
+        SpeedTestByError = ReactiveCommand.Create(() => OnSpeedTestAll(XrayNodeStatus.Error));
+        SpeedTestByDefault = ReactiveCommand.Create(() => OnSpeedTestAll(XrayNodeStatus.Default));
         SpeedTestOne = ReactiveCommand.Create(OnSpeedTestOne);
         CopyCommand = ReactiveCommand.Create(OnCopyCommand);
         PasteCommand = ReactiveCommand.Create(OnPasteCommand);
@@ -253,7 +259,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     /// <summary>
     /// 测试所有节点速度
     /// </summary>
-    private void OnSpeedTestAll()
+    private void OnSpeedTestAll(XrayNodeStatus? status = null)
     {
         if (IsProgress)
         {
@@ -264,7 +270,9 @@ public sealed class XrayNodesViewModel : ViewModelBase
         IsEnableXray = false;
         _xrayService.CloseAll();
 
-        var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).ToList();
+        var cond = CondBuilder.New<XrayNodeEntity>(true)
+            .And(status != null, o => o.Status == status);
+        var items = XrayNodeItemsSource.Select(_mapper.Map<XrayNodeEntity>).AsQueryable().Where(cond).ToList();
         var total = items.Count * 1d;
         if (total > 0)
         {

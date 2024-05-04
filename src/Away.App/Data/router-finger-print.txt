@@ -1,0 +1,97 @@
+﻿# 更新时间：2024年4月25日
+# 作者：	Away
+# 路由器指纹
+#
+###########################格式说明###########################
+# 格式说明：match m|<正则表达式>| p/厂商/p v/<版本>/v f/<固件版本>/f
+
+###########################指纹配置###########################
+#小米路由器
+match m|<title>小米路由器</title>\n<noscript>\n<meta http-equiv="refresh" content="0; url=/cgi-bin/luci/web" />\n</noscript>| p/Redmi/p
+#移动宽带家庭网关
+match m|<td style="font-size:18px; font-weight:bold;color:#ffffff;" align=left>欢迎使用移动宽带家庭网关</td>| p/移动宽带家庭网关/p
+
+
+#TP-Link
+match m|Www-Authenticate: Basic realm="TP-LINK Wireless N Router WR841N"| p/TP-LINK/p v/WR841N/v
+match m|WWW-Authenticate: Basic realm="TP-LINK 450Mbps Wi-Fi Router/AP/Range Extender TL-WR941HP"| p/TP-LINK/p v/TL-WR941HP/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless Lite N Router WR740N/WR741ND"| p/TP-LINK/p v/WR740N/WR741ND/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless N Router WR840N"| p/TP-LINK/p v/WR840N/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless N 3G/4G Router MR3420"| p/TP-LINK/p v/MR3420/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless N Router WR940N plus"| p/TP-LINK/p v/WR940N plus/v
+match m|WWW-Authenticate: Basic realm="TP-Link Wireless N Router WR940N"| p/TP-LINK/p v/WR940N/v
+match m|WWW-Authenticate: Basic realm="TP-LINK AC1200 Wireless Dual Band Gigabit Router Archer C5"| p/TP-LINK/p v/Archer C5/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless Lite N Router WR740N"| p/TP-LINK/p v/WR740N/v
+match m|<h1 id="product-tag">TL-WA850RE</h1>| p/TP-LINK/p v/TL-WA850RE/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless N Gigabit Router WR1043ND"| p/TP-LINK/p v/WR1043ND/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless Dual Band Gigabit Router WDR4300"| p/TP-LINK/p v/WDR4300/v
+match m|<title>TP-LINK Nano WR702N</title>| p/TP-LINK/p v/WR702N/v
+match m|<title>TP-LINK Roteador Wireless N WR741ND</title>| p/TP-LINK/p v/WR741ND/v
+match m|<title>TP-LINK TL-WR941HP</title>| p/TP-LINK/p v/TL-WR941HP/v
+match m|<title>TP-LINK WR340G</title>| p/TP-LINK/p v/WR340G/v
+match m|<title>TP-LINK WR720N</title>| p/TP-LINK/p v/WR720N/v
+match m|<title>TP-LINK WR740N</title>| p/TP-LINK/p v/WR740N/v
+match m|<title>TP-LINK Wireless Lite N Router WR740N</title>| p/TP-LINK/p v/WR740N/v
+match m|<title>TP-LINK WR741N</title>| p/TP-LINK/p v/WR741N/v
+match m|<title>TP-LINK WR743ND</title>| p/TP-LINK/p v/WR743ND/v
+match m|<title>TP-LINK WR840N</title>| p/TP-LINK/p v/WR840N/v
+match m|<title>TP-LINK Wireless N Router WR840N</title>| p/TP-LINK/p v/WR840N/v
+match m|WWW-Authenticate: Basic realm="TP-LINK 300Mbps Wi-Fi Router/AP/Range Extender TL-WR841HP"| p/TP-LINK/p v/TL-WR841HP/v
+match m|<title>TP-LINK WR841HP</title>| p/TP-LINK/p v/WR841HP/v
+match m|<title>TP-LINK WR841N</title>| p/TP-LINK/p v/WR841N/v
+match m|<title>TP-LINK Wireless N Router WR841N/WR841ND</title>| p/TP-LINK/p v/WR841N/WR841ND/v
+match m|<title>TP-LINK WR940N</title>| p/TP-LINK/p v/WR940N/v
+match m|<title>TP-LINK WR941N</title>| p/TP-LINK/p v/WR941N/v
+match m|<title>TP-LINK WR949N</title>| p/TP-LINK/p v/WR949N/v
+match m|<title>TP-LINK Wireless AP WA5210G</title>| p/TP-LINK/p v/WA5210G/v
+match m|<title>TP-LINK Wireless Lite N Router WR749N</title>| p/TP-LINK/p v/WR749N/v
+match m|<title>TP-LINK Wireless N Gigabit Router WR1043ND</title>| p/TP-LINK/p v/WR1043ND/v
+match m|<title>TP-LINK Wireless N Router WR845N</title>| p/TP-LINK/p v/WR845N/v
+match m|WWW-Authenticate: Basic realm="TP-LINK Wireless N Router WR940N/WR941ND"| p/TP-LINK/p  v/WR940N/WR941ND/v
+match m|<title>TP-LINK Wireless N Router WR941ND</title>| p/TP-LINK/p v/WR941ND/v
+match m|<title>TL-MR6400TL-MR6400</title>| p/TP-LINK/p v/MR6400/v
+match m|<title>TL-WR740N/TL-WR741ND</title>| p/TP-LINK/p v/WR740N/WR741ND/v
+match m|<title>TL-WR740N</title>| p/TP-LINK/p v/WR740N/v
+match m|<title>TL-WR820N</title>| p/TP-LINK/p v/WR820N/v
+match m|<title>TL-WR840N</title>| p/TP-LINK/p v/WR840N/v
+match m|<title>TL-WR841HP</title>| p/TP-LINK/p v/WR841HP/v
+match m|<title>TL-WR841N/TL-WR841ND</title>| p/TP-LINK/p v/WR841N/WR841ND/v
+match m|<title>TL-WR841N</title>| p/TP-LINK/p v/WR841N/v
+match m|<title>TL-WR849N</title>| p/TP-LINK/p v/WR849N/v
+match m|<title>TL-WR886N</title>| p/TP-LINK/p v/WR886N/v
+match m|<title>TL-WR940N Plus</title>| p/TP-LINK/p v/WR940N Plus/v
+match m|<title>TL-WR940N/TL-WR941ND</title>| p/TP-LINK/p v/WR940N/WR940ND/v
+match m|<title>TL-WR940N</title>| p/TP-LINK/p v/WR940N/v
+match m|<title>tl-wr940n</title>| p/TP-LINK/p v/wr940n/v
+match m|<title>TL-WR941HP</title>| p/TP-LINK/p v/WR941HP/v
+match m|<title>TL-WR949N</title>| p/TP-LINK/p v/WR949N/v
+match m|<title>TL-WR1043ND</title>| p/TP-LINK/p v/WR1043ND/v
+match m|<title>TP-LINK Wireless N Gigabit Router WR1043ND</title>| p/TP-LINK/p v/WR1043ND/v
+match m|<TITLE>TL-MR3420</TITLE>| p/TP-LINK/p v/MR3420/v
+match m|TL-WR840N,Router inalámbrico N 300Mbps WR840N| p/TP-LINK/p v/WR840N/v
+match m|TL-WR840N,TP-Link Wireless N Router WR840N| p/TP-LINK/p v/WR840N/v
+match m|TL-WR849N,Roteador Wireless N 300Mbps| p/TP-LINK/p v/WR849N/v
+match m|<title>Archer C7</title>| p/TP-LINK/p v/Archer C7/v
+match m|<title>TP-LINK Archer C5</title>| p/TP-LINK/p v/Archer C5/v
+match m|<title>TL-WDR5600</title>| p/TP-LINK/p v/WDR5600/v
+match m|<title>TL-WPA4220</title>| p/TP-LINK/p v/WPA4220/v
+match m|<title>NC250 Admin - Login</title>| p/TP-LINK/p v/NC250/v
+match m|<title>NC450 Admin - Login</title>| p/TP-LINK/p v/NC450/v
+
+#Dlink
+match m|<title>Dlink DIR-610</title>| p/Dlink/p v/DIR-610/v
+match m|<title>Dlink DIR-611</title>| p/Dlink/p v/DIR-611/v
+match m|<title>Dlink DIR-615</title>| p/Dlink/p v/DIR-615/v
+match m|<title>ADSL Router --Dlink</title>| p/Dlink/p v/ADSL/v
+match m|<title>DIR-300</title>| p/Dlink/p v/DIR-300/v
+match m|<title>D-LINK CORPORATION, INC | WIRELESS ROUTER | LOGIN</title>|
+match m|<title>D-LINK SYSTEMS, INC. | WIRELESS ROUTER | HOME</title>| p/Dlink/p
+match m|<title>DIR600 1</title>| p/Dlink/p v/DIR600/v
+match m|<title>DIR-615 DLINK</title>| p/Dlink/p v/DIR-615/v
+match m|<title>DLINK DIR-905L</title>| p/Dlink/p v/DIR-905L/v
+match m|<title>DSL-2640U</title>| p/Dlink/p v/WR702N/v
+
+
+#MikroTik
+match m|<h1>RouterOS v6.49.7</h1>| p/MikroTik/p v/v6.49.7/v
+match m|<title>RouterOS router configuration page</title>| p/MikroTik/p

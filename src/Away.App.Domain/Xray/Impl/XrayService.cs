@@ -32,18 +32,16 @@ public sealed class XrayService : XrayServiceBase, IXrayService
         {
             XrayStop = process.Kill;
         }
-        var (ip, port) = GetProxyServer();
-        _xrayOptions.SetHost(ip, port);
     }
 
-    private (string, int) GetProxyServer()
+    private void SetXrayOptions()
     {
         var inbound = Config.inbounds.FirstOrDefault();
         if (inbound == null)
         {
-            return (string.Empty, 0);
+            return;
         }
-        return (inbound.listen ?? "127.0.0.1", inbound.port);
+        _xrayOptions.SetHost(inbound.listen ?? "127.0.0.1", inbound.port);
     }
 
     public bool OpenGlobalProxy()
@@ -52,6 +50,7 @@ public sealed class XrayService : XrayServiceBase, IXrayService
         {
             return true;
         }
+        SetXrayOptions();
 
         _proxySetting.ProxyServer = _xrayOptions.Host;
         _proxySetting.ProxyEnable = true;

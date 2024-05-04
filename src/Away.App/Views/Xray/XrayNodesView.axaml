@@ -86,6 +86,9 @@
 			</ListBox.ItemsPanel>
 			<ListBox.KeyBindings>
 				<KeyBinding Gesture="F1" Command="{Binding SpeedTestAll}"/>
+				<KeyBinding Gesture="F2" Command="{Binding SpeedTestByError}"/>
+				<KeyBinding Gesture="F3" Command="{Binding SpeedTestByDefault}"/>
+				
 				<KeyBinding Gesture="F5" Command="{Binding UpdateNodeCommand}"/>
 				<KeyBinding Gesture="Ctrl+C" Command="{Binding CopyCommand}"/>
 				<KeyBinding Gesture="Ctrl+V" Command="{Binding PasteCommand}"/>

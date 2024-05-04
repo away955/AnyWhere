@@ -1,4 +1,5 @@
 ﻿using Away.App.Core.Navigation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Away.App.Core.DI;
 
@@ -14,7 +15,7 @@ public static class AwayLocator
         Services = new();
     }
 
-    public static IView? GetView( string? url)
+    public static IView? GetView(string? url)
     {
         return ServiceProvider.GetKeyedService<IView>(url);
     }
@@ -25,5 +26,9 @@ public static class AwayLocator
     public static T GetService<T>() where T : notnull
     {
         return ServiceProvider.GetRequiredService<T>();
+    }
+    public static IEnumerable<T> GetKeyedServices<T>(string key) where T : notnull
+    {
+        return ServiceProvider.GetKeyedServices<T>(key);
     }
 }

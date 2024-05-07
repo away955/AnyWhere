@@ -1,14 +1,13 @@
 ﻿namespace Away.App.ViewModels;
 
-[ViewModel]
 public sealed class LeftMenuViewModel : ReactiveObject
 {
-    public static string Title => AppInfo.Title;
-    public static string Version => AppInfo.Version;
+    public static string Title => Constant.Title;
+    public static string Version => Constant.Version;
     public ICommand NavCommand { get; }
 
     [Reactive]
-    public string DefaultMenu { get; set; } = "xray-node";
+    public string DefaultMenu { get; set; }
 
     public LeftMenuViewModel()
     {

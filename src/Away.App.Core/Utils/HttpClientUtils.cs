@@ -1,5 +1,4 @@
-﻿using Away.App.Core.API;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -7,12 +6,6 @@ namespace Away.App.Core.Utils;
 
 public static class HttpClientUtils
 {
-    public static HttpClient CreateHttpClientByXrayProxy()
-    {
-        var xrayOptions = AwayLocator.GetService<IXrayOptions>();
-        return CreateHttpClient(new WebProxy(xrayOptions.Host));
-    }
-
     public static HttpClient CreateHttpClient(IWebProxy? proxy = null)
     {
         return new HttpClient(new HttpClientHandler

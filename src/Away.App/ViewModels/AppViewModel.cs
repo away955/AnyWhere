@@ -1,11 +1,10 @@
-﻿using Away.App.Domain.Setting;
+﻿using Away.App.Services;
 
 namespace Away.App.ViewModels;
 
-[ViewModel]
 public sealed class AppViewModel : ViewModelBase
 {
-    public static string Title => $"{AppInfo.Title} {AppInfo.Version}";
+    public static string Title => $"{Constant.Title} {Constant.Version}";
 
     public ICommand ExitCommand { get; }
     public ICommand ShowCommand { get; }

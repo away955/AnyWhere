@@ -4,14 +4,8 @@
              xmlns:local="using:Away.App"
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:AppViewModel"
-			 xmlns:convert="using:Away.App.Converters"
              RequestedThemeVariant="{Binding Theme}">
-
-	<Application.Resources>
-		<convert:NodesStatusConverter x:Key="NodesStatusConverter"/>
-		<convert:BitmapPathConverter x:Key="BitmapPathConverter"/>
-	</Application.Resources>
-
+	
 	<Application.Styles>
 		<FluentTheme>
 			<FluentTheme.Palettes>
@@ -19,7 +13,6 @@
 				<ColorPaletteResources x:Key="Dark" RegionColor="#202020"/>
 			</FluentTheme.Palettes>
 		</FluentTheme>
-		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 		<StyleInclude Source="/Styles/Base.axaml" />
 	</Application.Styles>
 

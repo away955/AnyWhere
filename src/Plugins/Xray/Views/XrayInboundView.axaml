@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:icon="using:Away.App.Components.IconFont"
+			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
+			 x:DataType="vm:XrayInboundViewModel"
+             x:Class="Xray.Views.XrayInboundView">
+
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/XraySettingsStyle.axaml"/>
+	</UserControl.Styles>
+
+	<Grid RowDefinitions="50,*">
+		<DockPanel>
+			<Menu>
+				<MenuItem Header="{icon:Enum Add}" Command="{Binding AddCommand}"/>
+			</Menu>
+			<Menu HorizontalAlignment="Right" DockPanel.Dock="Right">
+				<MenuItem Header="{icon:Enum Save}" Command="{Binding SaveCommand}"/>
+			</Menu>
+		</DockPanel>
+
+		<ItemsControl Name="ItemsInbound" ItemsSource="{Binding Items}" Grid.Row="1">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Border Classes="box">
+						<UniformGrid Columns="1">
+							<Grid Classes="input">
+								<Menu Grid.Column="2" HorizontalAlignment="Right">
+									<MenuItem Header="{icon:Enum Remove}"
+											  Command="{Binding #ItemsInbound.((vm:XrayInboundViewModel)DataContext).DelCommand}"
+											  CommandParameter="{Binding}"/>
+								</Menu>
+							</Grid>
+
+							<Grid Classes="input" ColumnDefinitions="50,*">
+								<TextBlock Text="地址"/>
+								<TextBox Grid.Column="1" Text="{Binding listen}"/>
+							</Grid>
+							<Grid Classes="input" ColumnDefinitions="50,*">
+								<TextBlock Text="标识"/>
+								<TextBox Grid.Column="1" Text="{Binding tag}"/>
+							</Grid>
+							<Grid Classes="input" ColumnDefinitions="50,*">
+								<TextBlock Text="协议"/>
+								<ComboBox Grid.Column="1" ItemsSource="{Binding #ItemsInbound.((vm:XrayInboundViewModel)DataContext).ProtocolItems}" SelectedItem="{Binding protocol}"/>
+
+							</Grid>
+							<Grid Classes="input" ColumnDefinitions="50,*">
+								<TextBlock Text="端口"/>
+								<TextBox Grid.Column="1" Text="{Binding port}"/>
+							</Grid>
+						</UniformGrid>
+					</Border>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</Grid>
+</UserControl>

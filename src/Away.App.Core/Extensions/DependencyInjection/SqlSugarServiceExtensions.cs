@@ -6,7 +6,7 @@ namespace Away.App.Core.Extensions.DependencyInjection;
 
 public static class SqlSugarServiceExtensions
 {
-    public static IServiceCollection AddSqlSugarClient(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddSqlSugarClient(this IServiceCollection services, string connectionString, string serviceKey)
     {
         var db = new SugarDbContext(new ConnectionConfig()
         {
@@ -22,7 +22,7 @@ public static class SqlSugarServiceExtensions
         {
             Log.Information(sql);
         };
-        services.AddSingleton<ISugarDbContext>(db);
+        services.AddKeyedSingleton<ISugarDbContext>(serviceKey, db);
         return services;
     }
 }

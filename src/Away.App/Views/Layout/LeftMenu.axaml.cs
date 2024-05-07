@@ -5,7 +5,7 @@ public partial class LeftMenu : UserControl
     private readonly LeftMenuViewModel _vm;
     public LeftMenu()
     {
-        _vm = AwayLocator.GetViewModel<LeftMenuViewModel>()!;
+        _vm = AwayLocator.GetService<LeftMenuViewModel>()!;
         this.DataContext = _vm;
         InitializeComponent();
 

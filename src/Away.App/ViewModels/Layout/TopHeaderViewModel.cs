@@ -1,16 +1,11 @@
-﻿using Away.App.Domain.Setting;
-using CliWrap;
-using CliWrap.EventStream;
-using System.IO;
-using System.Threading.Tasks;
+﻿using Away.App.Services;
 
 namespace Away.App.ViewModels;
 
-[ViewModel]
 public sealed class TopHeaderViewModel : ViewModelBase
 {
-    private const string CurrentVersion = AppInfo.Version;
-    private const string AppInfoUrl = AppInfo.AppInfoUrl;
+    private const string CurrentVersion = Constant.Version;
+    private const string AppInfoUrl = Constant.AppInfoUrl;
 
     private static readonly string Maximum = IconData.Current["Maximum"].ToUnicode();
     private static readonly string Normal = IconData.Current["Normal"].ToUnicode();
@@ -104,7 +99,7 @@ public sealed class TopHeaderViewModel : ViewModelBase
 
     private void OnInfoCommand()
     {
-        var title = $"{AppInfo.Title} {AppInfo.Version}";
+        var title = $"{Constant.Title} {Constant.Version}";
         var dest = "一款绿色的网络代理软件\naway©2024-03 至今";
         MessageShow.Info(title, dest);
     }

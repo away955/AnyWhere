@@ -14,7 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Away.App.Core\Away.App.Core.csproj" />
+	  <ProjectReference Include="..\Away.App.Core\Away.App.Core.csproj" />
 	</ItemGroup>
 
 </Project>

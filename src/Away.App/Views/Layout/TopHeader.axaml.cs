@@ -4,7 +4,7 @@ public partial class TopHeader : UserControl
 {
     public TopHeader()
     {
-        this.DataContext = AwayLocator.GetViewModel<TopHeaderViewModel>();
+        this.DataContext = AwayLocator.GetService<TopHeaderViewModel>();
         InitializeComponent();
     }
 }

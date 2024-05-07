@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:icon="using:Away.App.Components.IconFont"
+			 xmlns:vm="using:Youtube.ViewModels"
+			 x:DataType="vm:YoutubeAddViewModel"
+             x:Class="Youtube.Views.YoutubeAddView">
+
+	<UserControl.Styles>
+		<Style Selector="TextBlock.input">
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Margin" Value="0,0,5,0"/>
+		</Style>
+	</UserControl.Styles>
+
+	<ScrollViewer Margin="0,0,0,10">
+		<StackPanel Spacing="5" Margin="0,0,5,0">
+			<StackPanel Spacing="10" Orientation="Horizontal">
+				<Button Content="保存" Command="{Binding SaveCommand}"/>
+				<Button Content="加载" Command="{Binding LoadCommand}"/>
+			</StackPanel>
+			<TextBox Grid.Column="1" Text="{Binding Data.Source}" Watermark="请输入Youtube视频地址" />
+			<ListBox ItemsSource="{Binding StreamItems}" SelectedItem="{Binding StreamSelected}">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel />
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Spacing="5">
+							<Image Width="90" Height="90" Source="{Binding Bitmap}" />
+							<TextBlock Text="{Binding FileExtentsion}" HorizontalAlignment="Center" />
+							<TextBlock Text="{Binding Area}" HorizontalAlignment="Center" />
+							<StackPanel Spacing="5" Orientation="Horizontal" HorizontalAlignment="Center">
+								<TextBlock Text="{Binding FileSize}" />
+								<TextBlock Text="MB"  />
+							</StackPanel>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+
+			<TextBlock Text="{Binding Data.Title}" FontSize="25" FontWeight="Bold" TextWrapping="Wrap" Padding="0,10"/>
+			<StackPanel Spacing="10" Orientation="Horizontal" Margin="0,0,0,20">
+				<TextBlock Text="{Binding Data.Author}" FontSize="12" Opacity="0.8"/>
+				<TextBlock Text="{Binding Data.Uploaded}" FontSize="12" Opacity="0.8"/>
+			</StackPanel>
+			<ItemsControl Grid.Column="1" ItemsSource="{Binding DescriptionItems}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding .}" TextWrapping="Wrap"/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+
+	</ScrollViewer>
+</UserControl>

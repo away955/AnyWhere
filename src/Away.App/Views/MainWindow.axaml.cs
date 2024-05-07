@@ -8,7 +8,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 
     public MainWindow()
     {
-        ViewModel = AwayLocator.GetViewModel<MainWindowViewModel>();
+        ViewModel = AwayLocator.GetService<MainWindowViewModel>();
         this.InitializeComponent();
         MessageBusListen();
     }
@@ -39,7 +39,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             {
                 return;
             }
-            var view = AwayLocator.GetView(url) ?? AwayLocator.GetView("404");
+            var view = AwayLocator.ServiceProvider.GetView(url) ?? AwayLocator.ServiceProvider.GetView("404");
             this.MainBox.Content = view;
         });
         // ´°¿Ú×´Ì¬ÇÐ»»

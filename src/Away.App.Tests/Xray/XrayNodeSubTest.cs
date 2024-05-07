@@ -1,6 +1,4 @@
-﻿using Away.App.Domain.Xray;
-
-namespace Away.App.Tests;
+﻿namespace Away.App.Tests;
 
 public class XrayNodeSubTest : TestBase
 {

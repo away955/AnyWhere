@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:icon="using:Away.App.Components.IconFont"
+			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
+			 x:DataType="vm:XrayLogViewModel"
+             x:Class="Xray.Views.XrayLogView">
+
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/XraySettingsStyle.axaml"/>
+	</UserControl.Styles>
+
+	<Grid RowDefinitions="50,*">
+		<DockPanel>
+			<Menu HorizontalAlignment="Right" DockPanel.Dock="Right">
+				<MenuItem Header="{icon:Enum Save}" Command="{Binding SaveCommand}"/>
+			</Menu>
+		</DockPanel>
+
+		<Border Classes="box" Grid.Row="1">
+			<StackPanel Spacing="5">
+				<Grid Classes="input" ColumnDefinitions="120,*">
+					<TextBlock Text="DNS查询日志"/>
+					<ToggleSwitch Grid.Column="1" IsChecked="{Binding Log.dnsLog}" OffContent="关" OnContent="开" />
+				</Grid>
+				<Grid Classes="input" ColumnDefinitions="120,*">
+					<TextBlock Text="日志的级别"/>
+					<ComboBox Grid.Column="1" ItemsSource="{Binding LogLevelItems}" SelectedItem="{Binding Log.loglevel}"/>
+				</Grid>
+				<Grid Classes="input" ColumnDefinitions="120,*">
+					<TextBlock Text="访问日志地址"/>
+					<TextBox Grid.Column="1" Text="{Binding Log.access}"/>
+				</Grid>
+				<Grid Classes="input" ColumnDefinitions="120,*">
+					<TextBlock Text="错误日志地址"/>
+					<TextBox Grid.Column="1" Text="{Binding Log.error}"/>
+				</Grid>
+			</StackPanel>
+		</Border>
+
+	</Grid>
+</UserControl>

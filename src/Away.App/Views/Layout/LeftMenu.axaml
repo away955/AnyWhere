@@ -48,7 +48,7 @@
 			<MenuItem Header="{icon:Enum Youtube}" ToolTip.Tip="Youtube视频下载"
 					  Command="{Binding NavCommand}" CommandParameter="youtube"/>
 			<MenuItem Header="{icon:Enum Fly}" ToolTip.Tip="网络代理"
-					  Command="{Binding NavCommand}" CommandParameter="xray-node"/>
+					  Command="{Binding NavCommand}" CommandParameter="xray"/>
 		</Menu>
 	</Grid>
 

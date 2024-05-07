@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:icon="using:Away.App.Components.IconFont"
+			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
+			 x:DataType="vm:XrayOutboundViewModel"
+             x:Class="Xray.Views.XrayOutboundView">
+
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/XraySettingsStyle.axaml"/>
+	</UserControl.Styles>
+
+	<Grid Margin="0,10,0,0">
+		<ItemsControl ItemsSource="{Binding Items}" Grid.Row="1">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Border Classes="box">
+						<StackPanel Spacing="5">
+							<Grid Classes="input" ColumnDefinitions="100,*">
+								<TextBlock Text="标识："/>
+								<TextBlock Grid.Column="1" Text="{Binding tag}"/>
+							</Grid>
+							<Grid Classes="input" ColumnDefinitions="100,*">
+								<TextBlock Text="协议："/>
+								<TextBlock Grid.Column="1" Text="{Binding protocol}" />
+							</Grid>
+							<Grid Classes="input" ColumnDefinitions="100,*" IsVisible="{Binding IsVisibleSettingStr}">
+								<TextBlock Text="配置："/>
+								<TextBlock Grid.Column="1" Text="{Binding SettingStr}"/>
+							</Grid>
+						</StackPanel>
+					</Border>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</Grid>
+</UserControl>

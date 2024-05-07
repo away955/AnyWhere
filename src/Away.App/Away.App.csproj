@@ -20,32 +20,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Condition="'$(OS)'=='Windows_NT'" Include="Data\ffmpeg.exe">
-			<Link>$(RecursiveDir)Data\ffmpeg.exe</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Condition="'$(OS)'=='Windows_NT'" Include="Data\v2ray.exe">
-			<Link>$(RecursiveDir)Data\v2ray.exe</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>		
-		<None Update="Data\geoip.dat">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Update="Data\geosite.dat">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</None>
-		<None Update="Data\router-finger-print.txt">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+	  <None Include="FodyWeavers.xsd" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="11.0.10" />
-		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
 		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
 		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
@@ -59,6 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Away.App.Domain\Away.App.Domain.csproj" />
+		<ProjectReference Include="..\Away.App.Core\Away.App.Core.csproj" />
+		<ProjectReference Include="..\Away.App.PluginDomain\Away.App.PluginDomain.csproj" />
 	</ItemGroup>
 </Project>

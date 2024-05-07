@@ -1,11 +1,17 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Text.Json.Serialization;
 
 namespace Away.App.Core.Utils;
 
 public static class JsonUtils
 {
     private static JsonSerializerOptions? _jsonOptions;
-    private static JsonSerializerOptions JsonOptions => _jsonOptions ??= AwayLocator.ServiceProvider.GetService<IOptions<JsonSerializerOptions>>()!.Value;
+    private static JsonSerializerOptions JsonOptions => _jsonOptions ??= new JsonSerializerOptions
+    {
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        WriteIndented = true,
+        PropertyNameCaseInsensitive = true
+    };
 
     public static string Serialize<T>(T t)
     {

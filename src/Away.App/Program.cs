@@ -1,10 +1,7 @@
-﻿using Avalonia.Controls.ApplicationLifetimes;
-using Away.App.Core.IPC;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using Away.App.PluginDomain;
+using Away.App.Services;
+using Away.App.Services.Impl;
+using Away.App.Services.IPC;
 
 namespace Away.App;
 
@@ -20,18 +17,30 @@ public sealed class Program
         Log.Logger = logConf.CreateLogger();
 #endif
         OnlyProcess.Listen("onlyProcess");
-
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, lifetime =>
         {
-            lifetime.Exit += Lifetime_Exit;
+            var pluginRegisters = AwayLocator.GetServices<IPluginRegister>(Constant.PluginRegisterServiceKey);
+            lifetime.Startup += (_, _) => Startup();
+            lifetime.Exit += (_, _) => Exit();
+
+            void Startup()
+            {
+                foreach (var register in pluginRegisters)
+                {
+                    register.ApplicationStartup();
+                }
+            }
+            void Exit()
+            {
+                foreach (var register in pluginRegisters)
+                {
+                    register.ApplicationExit();
+                }
+            }
         });
     }
 
-    private static void Lifetime_Exit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
-    {
-        var _xrayService = AwayLocator.ServiceProvider.GetService<IXrayService>();
-        _xrayService?.CloseAll();
-    }
+
 
     public static AppBuilder BuildAvaloniaApp()
     {
@@ -46,29 +55,42 @@ public sealed class Program
     public static void ConfigureServices(IServiceCollection services)
     {
         Log.Information("注册服务");
-#if DEBUG
+
         services.AddLogging(o => o.AddSerilog());
-        var pathRoot = Environment.CurrentDirectory.Replace("\\bin\\Debug\\net8.0", string.Empty);
-        var conn = Path.Combine(pathRoot, "Data", "away.sqlite");
-        services.AddSqlSugarClient($"DataSource={conn}");
-#else
-        services.AddSqlSugarClient("DataSource=./Data/away.sqlite");
-#endif
+        services.AddSqlSugarClient(Constant.DBConn, Constant.DBKey);
+
         services.AddHttpClient();
-        services.Configure<JsonSerializerOptions>(options =>
-        {
-            options.NumberHandling = JsonNumberHandling.AllowReadingFromString;
-            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            options.WriteIndented = true;
-            options.PropertyNameCaseInsensitive = true;
-        });
-        var libs = AppDomain.CurrentDomain.GetAssemblies().Where(o => o.FullName!.StartsWith("Away.App"));
-        services.AddAutoDI([.. libs, typeof(XrayConfig).Assembly]);
         services.AddClipboard();
         services.AddStorageProvider();
-        services.AddProxySettings();
+
+        services.AddSingleton<IAppSettingService, AppSettingService>();
+        services.AddSingleton<IAppThemeService, AppThemeService>();
+
+        // 版本检测
         services.AddScoped<IVersionService, VersionService>();
         services.AddScoped<IUpdateService, UpdateService>();
+
+
+
+        // 视图
+        services.AddView<NotFoundView>("404");
+        services.AddViewModel<LeftMenuViewModel>();
+        services.AddViewModel<TopHeaderViewModel>();
+        services.AddViewModel<MainWindowViewModel>();
+        services.AddViewModel<AppViewModel>();
+
+        // 插件
+        PluginRegisterManager.Register();
     }
 
+}
+
+
+public static class AppBuilderServiceExtensions
+{
+    public static AppBuilder UseAwayLocator(this AppBuilder builder, Action<IServiceCollection> configureServices)
+    {
+        configureServices?.Invoke(AwayLocator.Services);
+        return builder;
+    }
 }

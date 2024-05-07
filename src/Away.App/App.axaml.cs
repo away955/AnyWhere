@@ -7,7 +7,7 @@ public partial class App : Application
 {
     public override void Initialize()
     {
-        DataContext = AwayLocator.GetViewModel<AppViewModel>();
+        DataContext = AwayLocator.GetService<AppViewModel>();
         AvaloniaXamlLoader.Load(this);
         MessageShutdown.Listen(args =>
         {

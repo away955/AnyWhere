@@ -1,9 +1,9 @@
-﻿using Away.App.Update.Services.Impl;
-using System.Threading.Tasks;
+﻿namespace Away.App.Services;
 
-namespace Away.App.Update.Services;
-
-public interface IUpdateService
+/// <summary>
+/// App 升级服务
+/// </summary>
+public interface IUpgradeService
 {
     /// <summary>
     /// 下载进度

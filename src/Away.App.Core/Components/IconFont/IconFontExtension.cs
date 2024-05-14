@@ -21,6 +21,14 @@ public class KeyExtension(string key) : MarkupExtension
     }
 }
 
+public class UnicodeExtension(string text) : MarkupExtension
+{
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {       
+        return text.ToUnicode();
+    }
+}
+
 
 public static class IconFontExtension
 {

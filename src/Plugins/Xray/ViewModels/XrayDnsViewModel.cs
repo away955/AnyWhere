@@ -7,7 +7,7 @@ public sealed class XrayDnsViewModel : ViewModelXrayBase
     public ICommand AddCommand { get; }
     public ICommand DelCommand { get; }
 
-    public XrayDnsViewModel(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
+    public XrayDnsViewModel(IXrayService xrayService, IXrayMapper mapper) : base(xrayService, mapper)
     {
         AddCommand = ReactiveCommand.Create(OnAddCommand);
         DelCommand = ReactiveCommand.Create<StringItem>(OnDelCommand);

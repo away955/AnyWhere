@@ -1,7 +1,4 @@
-﻿using Away.App.PluginDomain;
-using Away.App.Services;
-using Away.App.Services.Impl;
-using Away.App.Services.IPC;
+﻿using Away.App.Views;
 
 namespace Away.App;
 
@@ -15,16 +12,17 @@ public sealed class Program
         logConf.MinimumLevel.Information();
         logConf.WriteTo.Console();
         Log.Logger = logConf.CreateLogger();
-#endif
+#else
         OnlyProcess.Listen("onlyProcess");
+#endif   
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, lifetime =>
         {
-            var pluginRegisters = AwayLocator.GetServices<IPluginRegister>(Constant.PluginRegisterServiceKey);
             lifetime.Startup += (_, _) => Startup();
             lifetime.Exit += (_, _) => Exit();
 
             void Startup()
             {
+                var pluginRegisters = AwayLocator.GetServices<IPluginRegister>(Constant.PluginRegisterServiceKey);
                 foreach (var register in pluginRegisters)
                 {
                     register.ApplicationStartup();
@@ -32,6 +30,7 @@ public sealed class Program
             }
             void Exit()
             {
+                var pluginRegisters = AwayLocator.GetServices<IPluginRegister>(Constant.PluginRegisterServiceKey);
                 foreach (var register in pluginRegisters)
                 {
                     register.ApplicationExit();
@@ -39,8 +38,6 @@ public sealed class Program
             }
         });
     }
-
-
 
     public static AppBuilder BuildAvaloniaApp()
     {
@@ -63,21 +60,23 @@ public sealed class Program
         services.AddClipboard();
         services.AddStorageProvider();
 
+        services.AddSingleton<IAppMapper, AppMapper>();
         services.AddSingleton<IAppSettingService, AppSettingService>();
         services.AddSingleton<IAppThemeService, AppThemeService>();
+        services.AddScoped<IAppMenuRepository, AppMenuRepository>();
+        services.AddScoped<IPluginStoreService, PluginStoreService>();
 
         // 版本检测
         services.AddScoped<IVersionService, VersionService>();
-        services.AddScoped<IUpdateService, UpdateService>();
-
-
+        services.AddScoped<IUpgradeService, UpgradeService>();
 
         // 视图
-        services.AddView<NotFoundView>("404");
         services.AddViewModel<LeftMenuViewModel>();
         services.AddViewModel<TopHeaderViewModel>();
         services.AddViewModel<MainWindowViewModel>();
         services.AddViewModel<AppViewModel>();
+        services.AddView<NotFoundView>("404");
+        services.AddView<PluginStoreView, PluginStoreViewModel>("app-store");
 
         // 插件
         PluginRegisterManager.Register();
@@ -90,7 +89,7 @@ public static class AppBuilderServiceExtensions
 {
     public static AppBuilder UseAwayLocator(this AppBuilder builder, Action<IServiceCollection> configureServices)
     {
-        configureServices?.Invoke(AwayLocator.Services);
+        configureServices.Invoke(AwayLocator.Services);
         return builder;
     }
 }

@@ -1,6 +1,11 @@
-﻿global using Away.App.Core;
+﻿global using Avalonia.ReactiveUI;
+global using Away.App.Core;
+global using Away.App.Core.Extensions.DependencyInjection;
+global using Away.App.Core.MVVM;
 global using Away.App.Core.Utils;
+global using Away.App.PluginDomain;
 global using Microsoft.Extensions.DependencyInjection;
+global using RouterScanner.ViewModels;
 global using Serilog;
 global using System;
 global using System.Collections.Generic;

@@ -1,15 +1,12 @@
-﻿using Away.App.Services;
-
-namespace Away.App.ViewModels;
+﻿namespace Away.App.ViewModels;
 
 public sealed class TopHeaderViewModel : ViewModelBase
 {
     private const string CurrentVersion = Constant.Version;
-    private const string AppInfoUrl = Constant.AppInfoUrl;
+    private const string AppInfoUrl = Constant.AppUpgradeResource;
 
     private static readonly string Maximum = IconData.Current["Maximum"].ToUnicode();
     private static readonly string Normal = IconData.Current["Normal"].ToUnicode();
-    private static readonly string Update = IconData.Current["Update"].ToUnicode();
 
     private readonly IVersionService _versionService;
     private readonly IAppThemeService _appThemeService;
@@ -80,13 +77,13 @@ public sealed class TopHeaderViewModel : ViewModelBase
         if (hasNewVersion)
         {
             IsEnabled = true;
-            UpdateHeader = $"{Update} 检查更新(v{info.Version})";
+            UpdateHeader = $"检查更新(v{info.Version})";
             MessageShow.Info($"有新版本：{info.Version}", info.Info);
         }
         else
         {
             IsEnabled = false;
-            UpdateHeader = $"{Update} 检查更新";
+            UpdateHeader = $"检查更新";
         }
 
         var theme = _appThemeService.Get();

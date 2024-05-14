@@ -17,5 +17,6 @@
 		<PackageReference Include="SqlSugarCore" Version="5.1.4.148" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="YamlDotNet" Version="15.1.2" />
 	</ItemGroup>
 </Project>

@@ -7,9 +7,9 @@ public sealed class XrayTestSettingsViewModel : ViewModelBase
 
     public ICommand SaveCommand { get; }
 
-    private readonly IMapper _mapper;
+    private readonly IXrayMapper _mapper;
     private readonly IXraySettingService _xraySettingService;
-    public XrayTestSettingsViewModel(IMapper mapper, IXraySettingService xraySettingService)
+    public XrayTestSettingsViewModel(IXrayMapper mapper, IXraySettingService xraySettingService)
     {
         _mapper = mapper;
         _xraySettingService = xraySettingService;

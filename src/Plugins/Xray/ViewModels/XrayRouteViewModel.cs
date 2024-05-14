@@ -38,7 +38,7 @@ public sealed class XrayRouteViewModel : ViewModelXrayBase
     public ICommand AddCommand { get; }
     public ICommand DelCommand { get; }
 
-    public XrayRouteViewModel(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
+    public XrayRouteViewModel(IXrayService xrayService, IXrayMapper mapper) : base(xrayService, mapper)
     {
         AddCommand = ReactiveCommand.Create(OnAddCommand);
         DelCommand = ReactiveCommand.Create<XrayRouteRuleModel>(OnDelCommand);

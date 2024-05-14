@@ -7,7 +7,9 @@ public enum ThemeType
     Light = 2,
 }
 
-
+/// <summary>
+/// APP主题服务
+/// </summary>
 public interface IAppThemeService
 {
     ThemeType Get();

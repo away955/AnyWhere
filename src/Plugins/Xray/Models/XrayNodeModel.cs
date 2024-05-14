@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class XrayNodeModel : ViewModelBase
+public sealed class XrayNodeModel : ReactiveObject
 {
     private bool _isChecked;
     private string _remark = string.Empty;

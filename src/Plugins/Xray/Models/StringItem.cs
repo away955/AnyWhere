@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class StringItem : ViewModelBase
+public sealed class StringItem : ReactiveObject
 {
     [Reactive]
     public string Item { get; set; } = string.Empty;

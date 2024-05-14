@@ -1,9 +1,4 @@
-﻿using Away.App.Update.Services;
-using Away.App.Update.Services.Impl;
-using ReactiveUI.Fody.Helpers;
-using System.Threading.Tasks;
-
-namespace Away.App.Update.ViewModels;
+﻿namespace Away.App.Update.ViewModels;
 
 public sealed class MainWindowViewModel : ViewModelBase
 {
@@ -12,7 +7,7 @@ public sealed class MainWindowViewModel : ViewModelBase
     public static string Title => $"{AppInfo.Title} {AppInfo.Version}";
 
     private readonly IVersionService _versionService;
-    private readonly IUpdateService _updateService;
+    private readonly IUpgradeService _updateService;
 
     public ICommand CloseCommand { get; }
     public ICommand MinimizedCommand { get; }
@@ -42,7 +37,7 @@ public sealed class MainWindowViewModel : ViewModelBase
     [Reactive]
     public bool IsEnable { get; set; }
 
-    public MainWindowViewModel(IVersionService versionService, IUpdateService updateService)
+    public MainWindowViewModel(IVersionService versionService, IUpgradeService updateService)
     {
         _versionService = versionService;
         _updateService = updateService;

@@ -1,10 +1,6 @@
-using Avalonia.ReactiveUI;
-using Away.App;
-using RouterScanner.ViewModels;
-
 namespace RouterScanner.Views;
 
-public partial class RouterView : ReactiveUserControl<RouterViewModel>
+public partial class RouterView : ReactiveUserControl<RouterViewModel>, IView
 {
     public RouterView()
     {

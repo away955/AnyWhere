@@ -1,16 +1,11 @@
-﻿using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿namespace Away.App.Services.Impl;
 
-namespace Away.App.Update.Services.Impl;
-
-public sealed class VersionService(IHttpClientFactory httpClientFactory) : IVersionService
+public sealed class VersionService : IVersionService
 {
-    private readonly HttpClient _httpClient = httpClientFactory.CreateClient("xray");
-
     public async Task<VersionInfo> GetVersionInfo(string url)
     {
-        var text = await _httpClient.GetStringAsync(url);
+        using var http = new HttpClient();
+        var text = await http.GetStringAsync(url);
         var pattern = @"^# 哪都通 \((?<updated>\d{4}-\d{2}-\d{2})\)\n## 更新功能 v(?<version>.*.)\n";
         var reg = Regex.Match(text, pattern);
         if (!reg.Success)

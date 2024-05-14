@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class XrayDnsModel : ViewModelBase
+public sealed class XrayDnsModel : ReactiveObject
 {
     /// <summary>
     /// DNS 服务器列表

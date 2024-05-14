@@ -3,13 +3,18 @@
 /// <summary>
 /// 插件注册
 /// </summary>
-public interface IPluginRegister
+public interface IPluginRegister : IDisposable
 {
+    /// <summary>
+    /// 插件模块名
+    /// </summary>
+    string Module { get; }
+
     /// <summary>
     /// 服务注册
     /// </summary>
     /// <param name="services"></param>
-    void ConfigureServices(IServiceCollection services);
+    IServiceCollection ConfigureServices(IServiceCollection services);
     /// <summary>
     /// 应用启动
     /// </summary>

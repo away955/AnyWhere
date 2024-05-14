@@ -19,11 +19,17 @@ public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel, ISc
         });
     }
 
+    /// <summary>
+    /// 进入页面
+    /// </summary>
     protected virtual void OnActivation()
     {
 
     }
 
+    /// <summary>
+    /// 离开页面
+    /// </summary>
     protected virtual void OnDeactivation()
     {
 

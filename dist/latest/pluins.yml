@@ -1,0 +1,51 @@
+# 更新时间: 2024年5月9日
+# 插件商品配置
+# 格式说明:
+# Authorization: 访问139.com的Token
+# Plugins:
+#   - Module: 模块名称
+#     Version: 版本号
+#     Path: 菜单地址
+#     Logo: 图标|iconfont-unicode
+#     Image: 图片地址|url
+#     FileSize: 安装包文件大小|kb
+#     DownloadUrl: 安装包下载地址|url
+#     Name: 插件名称
+#     Description: 插件说明
+
+Authorization: "Basic cGM6MTgzNzY5MTE5OTc6ZHk3M3hKcW18MXxSQ1N8MTcxNzgyODE3NzE1MnxER3NTb21EVDhlRm9yaWJtYTUyekJUcEtjRXIyeGxiMVhrLng3VndpbzZKclgyNWZ4X0hycFdpbTVMWURfSjlsdVV0M0hRU0xNYXljcHdVSkJFdEJfRjhYTzZ2dGdmeHRBMzlpWTZCelZ1ZTlXUUVGTklQakZFVXV0YTZHdGFUNFdxUk9kd1B0QUhHNGVtY21LZjBrcmNpVXlQZTE1bVhVanFIUHBaTEtNZEEt"
+Plugins:
+  - Module: "Xray"
+    Version: "1.0.1"
+    Path: "xray"
+    Image: 'https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT130202405141728076fb33417wAFnRMpC&contentID=0y11YNYhH0VT130202405141728076fb&dom=D952&oprChannel=10000000&filename=eHJheS5wbmc=&rate=0'
+    Logo: "&#xe619;"
+    FileSize: 21886
+    DownloadUrl: "https://download5.mcloud.139.com/storageWeb/servlet/downloadServlet?code=TDcweTExWU5ZaEgwVlQyOTExN3dBQ3lrZnJK&un=BBCBF985EFB5308A0E4BF621B3ECB779AC8D9DC1E525DD2DC06627982E4578CF&dom=D952&rate=0&txType=0"
+    Name: "网络代理"
+    Description: >
+      科学上网
+      支持http、socks代理
+      支持ss、vless、vemss、trojan协议
+
+  - Module: "Youtube"
+    Version: "1.0.0"
+    Path: "youtube"
+    Image: 'https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT1322024051417280609333417wAFnN1xB&contentID=0y11YNYhH0VT13220240514172806093&dom=D952&oprChannel=10000000&filename=eW91dHViZS5wbmc=&rate=0'
+    Logo: "&#xe880;"
+    FileSize: 24802
+    DownloadUrl: "https://download5.mcloud.139.com/storageWeb/servlet/downloadServlet?code=TDcweTExWU5ZaEgwVlQyOTQxN3dBQ3lqYjZk&un=81BA439BB55139881939235D09D5CDED05ACE7F2D123C6CCFDE9883688C813C8&dom=D952&rate=0&txType=0"
+    Name: "油管视频"
+    Description: "下载油管视频"
+
+  - Module: "RouterScanner"
+    Version: "1.0.0"
+    Path: "router"
+    Image: 'https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT13320240514172808qa529417wAFnReYF&contentID=0y11YNYhH0VT13320240514172808qa5&dom=D952&oprChannel=10000000&filename=cm91dGVyLnBuZw==&rate=0'
+    Logo: "&#xe698;"
+    FileSize: 131
+    DownloadUrl: "https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT134202405141201132qj40017wAFkD_pp&contentID=0y11YNYhH0VT134202405141201132qj&dom=D956&oprChannel=10000000&filename=Um91dGVyU2Nhbm5lci56aXA=&rate=0"
+    Name: "路由器漏扫"
+    Description: >
+      路由器漏洞扫描
+      支持IP扫描、漏洞检测、漏洞利用

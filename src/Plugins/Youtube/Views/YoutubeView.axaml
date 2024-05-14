@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+             mc:Ignorable="d" FontFamily="avares://Youtube/Assets/#iconfont"
 			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="using:Youtube.ViewModels"
 			 x:DataType="vm:YoutubeViewModel"
@@ -28,7 +28,7 @@
 					<DataTemplate>
 						<Border BoxShadow="0 0 2 2 #ccc" Margin="5,5,5,20" Width="235" MinHeight="230">
 							<StackPanel Spacing="5">
-								<Image Source="{Binding ImagePath,Converter={StaticResource BitmapPathConverter}}"/>
+								<Image Source="{Binding ImagePath,Converter={StaticResource ImagePath}}"/>
 								<TextBlock Text="{Binding TitileShort}" ToolTip.Tip="{Binding Title}"
 										   TextWrapping="Wrap" Margin="5,0"/>
 								<StackPanel Spacing="10" Orientation="Horizontal" Margin="5,0">

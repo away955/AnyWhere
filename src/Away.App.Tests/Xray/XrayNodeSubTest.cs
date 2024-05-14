@@ -1,4 +1,6 @@
-﻿namespace Away.App.Tests;
+﻿using Xray.Services;
+
+namespace Away.App.Tests;
 
 public class XrayNodeSubTest : TestBase
 {

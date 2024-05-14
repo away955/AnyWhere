@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class XrayNodeSubModel : ViewModelBase
+public sealed class XrayNodeSubModel : ReactiveObject
 {
     [Reactive]
     public int Id { get; set; }

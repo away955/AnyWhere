@@ -3,12 +3,15 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
+		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
 	</PropertyGroup>
+
+	<Import Project="..\plugin.props"/>
 
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<None Update="Data\router-finger-print.txt">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -16,31 +19,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.10" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
-		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
-		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\Away.App.Core\Away.App.Core.csproj" />
-		<ProjectReference Include="..\..\Away.App.PluginDomain\Away.App.PluginDomain.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Folder Include="Models\" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Include="FodyWeavers.xsd" />
-	</ItemGroup>
-
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="set PLUGINS=$(ProjectDir)..\..\Away.App\$(OutDir)Plugins\$(AssemblyName)&#xD;&#xA;set TARGET=$(ProjectDir)$(OutDir)$(AssemblyName)&#xD;&#xA;echo 开始复制$(AssemblyName)插件到App%25PLUGINS%25&#xD;&#xA;mkdir %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.dll %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.pdb %25PLUGINS%25" />
+		<Exec Command="set PLUGINS=$(ProjectDir)..\..\Away.App\$(OutDir)Plugins\$(AssemblyName)&#xD;&#xA;set TARGET=$(ProjectDir)$(OutDir)$(AssemblyName)&#xD;&#xA;echo 开始复制$(AssemblyName)插件到App%25PLUGINS%25&#xD;&#xA;mkdir %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.dll %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.pdb %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.deps.json %25PLUGINS%25" />
 	</Target>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class XrayRouteModel : ViewModelBase
+public sealed class XrayRouteModel : ReactiveObject
 {
     [Reactive]
     public string domainStrategy { get; set; } = "AsIs";
@@ -11,7 +11,7 @@ public sealed class XrayRouteModel : ViewModelBase
     public ObservableCollection<XrayRouteRuleModel> rules { get; set; } = [];
 }
 
-public sealed class XrayRouteRuleModel : ViewModelBase
+public sealed class XrayRouteRuleModel : ReactiveObject
 {
     [Reactive]
     public string type { get; set; } = string.Empty;

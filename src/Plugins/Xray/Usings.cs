@@ -1,4 +1,5 @@
-﻿global using Avalonia.ReactiveUI;
+﻿global using Avalonia.Input.Platform;
+global using Avalonia.ReactiveUI;
 global using Away.App.Core;
 global using Away.App.Core.Database;
 global using Away.App.Core.Messages;

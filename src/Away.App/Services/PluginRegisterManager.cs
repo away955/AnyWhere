@@ -1,68 +1,130 @@
-﻿using Away.App.PluginDomain;
-using Away.App.Services.Impl;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Away.App.Services;
+
+/// <summary>
+/// 插件程序集
+/// </summary>
+public sealed class PluginAssembly
+{
+    /// <summary>
+    /// 程序集
+    /// </summary>
+    public required Assembly Assembly { get; set; }
+    /// <summary>
+    /// 程序集名称
+    /// </summary>
+    public required string AssemblyName { get; set; }
+    /// <summary>
+    /// 插件模块名称
+    /// </summary>
+    public required string Module { get; set; }
+}
 
 /// <summary>
 /// 插件注册管理
 /// </summary>
 public sealed class PluginRegisterManager
 {
+    private static List<PluginAssembly> Assemblies { get; set; } = [];
+
+    static PluginRegisterManager()
+    {
+        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+        {
+            var module = args!.Name.Split(",")[0];
+            return Assemblies.FirstOrDefault(o => o.AssemblyName.StartsWith(module))?.Assembly;
+        };
+
+        AwayLocator.Services.AddTransient<IPluginStoreRepository, PluginStoreRepository>();
+    }
+
+    /// <summary>
+    /// 注册所有启动的插件
+    /// </summary>
     public static void Register()
     {
-        //LoadPlugin("Xray");
-        //LoadPlugin("Youtube");
-
-        RegisterService(AwayLocator.Services);
         using var provider = AwayLocator.Services.BuildServiceProvider();
-        var registerRep = provider.GetRequiredService<IPluginInstalledRepository>();
-        var plugins = registerRep.GetListByNotDisabled();
+        var registerRep = provider.GetRequiredService<IPluginStoreRepository>();
+        var plugins = registerRep.GetPluginRegisters();
+
         foreach (var plugin in plugins)
         {
-            LoadPlugin(plugin.Module);
-        }
-    }
-
-    private static void RegisterService(IServiceCollection services)
-    {
-        services.AddTransient<IPluginInstalledRepository, PluginInstalledRepository>();
-    }
-
-    private static void LoadPlugin(string module)
-    {
-        Log.Information($"注册插件：{module}");
-        var dir = Path.Combine(Constant.PluginsRootPath, module);
-        var files = Directory.GetFiles(dir);
-        foreach (var file in files.Where(o => o.EndsWith("dll")))
-        {
-            Load(file, module);
-        }
-    }
-
-    private static void Load(string dllPath, string module)
-    {
-        var assembly = Assembly.LoadFrom(dllPath);
-        if (dllPath.Contains($"{module}.dll"))
-        {
-            foreach (var type in assembly.DefinedTypes)
+            try
             {
-                if (type.GetInterface(nameof(IPluginRegister)) != null)
+                LoadPlugin(plugin.Module);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"加载插件失败：{plugin.Module}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// 卸载插件
+    /// </summary>
+    /// <param name="module">插件模块名称</param>
+    public static void UnLoadPlugin(string module)
+    {
+        Assemblies.RemoveAll(o => o.Module == module);
+        Log.Information($"卸载插件：{module}");
+    }
+
+    /// <summary>
+    /// 加载插件
+    /// </summary>
+    /// <param name="module"></param>
+    public static void LoadPlugin(string module)
+    {
+        Log.Information($"加载插件：{module} ...");
+
+        var floder = Path.Combine(Constant.PluginsRootPath, module);
+
+        var dlls = Directory.GetFiles(floder).AsEnumerable().Where(o => o.EndsWith("dll")).Reverse();
+        foreach (var assemblyPath in dlls)
+        {
+            var name = Path.GetFileNameWithoutExtension(assemblyPath);
+            var bytes = File.ReadAllBytes(assemblyPath);
+            var assembly = AppDomain.CurrentDomain.Load(bytes);
+
+            Assemblies.Add(new PluginAssembly
+            {
+                Assembly = assembly,
+                Module = module,
+                AssemblyName = name,
+            });
+
+            if (assemblyPath.EndsWith($"{module}.dll"))
+            {
+                CreatePluginRegister(assembly);
+            }
+        }
+    }
+
+    private static IPluginRegister? CreatePluginRegister(Assembly assembly)
+    {
+        IPluginRegister? register = null;
+        foreach (var type in assembly.GetTypes())
+        {
+            if (type.GetInterface(nameof(IPluginRegister)) != null)
+            {
+                var obj = Activator.CreateInstance(type);
+                if (obj is IPluginRegister service)
                 {
-                    if (Activator.CreateInstance(type) is not IPluginRegister register)
-                    {
-                        break;
-                    }
-                    register.ConfigureServices(AwayLocator.Services);
-                    AwayLocator.Services.AddKeyedSingleton(Constant.PluginRegisterServiceKey, register);
+                    register = service;
                     break;
                 }
             }
         }
-
-        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+        if (register == null)
         {
-            return assembly;
-        };
+            return register;
+        }
+
+        register.ConfigureServices(AwayLocator.Services);
+        AwayLocator.Services.AddKeyedSingleton<IPluginRegister>(Constant.PluginRegisterServiceKey, register);
+        Log.Information($"加载插件：{register.Module} 完成！");
+        return null;
     }
 }

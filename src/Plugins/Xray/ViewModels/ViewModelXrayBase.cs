@@ -3,13 +3,13 @@
 public abstract class ViewModelXrayBase : ViewModelBase
 {
     protected readonly IXrayService _xrayService;
-    protected readonly IMapper _mapper;
+    protected readonly IXrayMapper _mapper;
 
 
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
 
-    public ViewModelXrayBase(IXrayService xrayService, IMapper mapper)
+    public ViewModelXrayBase(IXrayService xrayService, IXrayMapper mapper)
     {
         _xrayService = xrayService;
         _mapper = mapper;

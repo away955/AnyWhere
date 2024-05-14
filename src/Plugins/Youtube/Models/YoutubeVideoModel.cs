@@ -1,6 +1,6 @@
 ﻿namespace Youtube.Models;
 
-public sealed class YoutubeVideoModel : ViewModelBase
+public sealed class YoutubeVideoModel : ReactiveObject
 {
     [Reactive]
     public string Url { get; set; } = string.Empty;

@@ -1,5 +1,5 @@
-﻿using Away.App.Domain.Xray;
-using Away.App.Domain.Xray.Models;
+﻿using Xray.Services;
+using Xray.Services.Models;
 
 namespace Away.App.Tests;
 

@@ -1,0 +1,22 @@
+<!--
+插件通用类库
+更新时间：2024年5月13日
+-->
+
+<Project>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.0.10" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
+		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Away.App.Core\Away.App.Core.csproj"/>
+		<ProjectReference Include="..\..\Away.App.PluginDomain\Away.App.PluginDomain.csproj" />
+	</ItemGroup>
+</Project>

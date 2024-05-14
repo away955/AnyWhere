@@ -1,9 +1,13 @@
 ﻿using Avalonia.Data.Converters;
+using Avalonia.Media.Imaging;
 using System.Globalization;
 
-namespace Youtube.Converters;
+namespace Away.App.Components.Converters;
 
-public sealed class BitmapPathConverter : IValueConverter
+/// <summary>
+/// 从本地磁盘加载图片
+/// </summary>
+public sealed class ImagePathConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

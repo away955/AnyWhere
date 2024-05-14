@@ -1,10 +1,9 @@
-﻿namespace Xray.Models;
+﻿namespace Xray.Services.Impl;
 
-public sealed class MapProfile : Mapper, IMapper
+public sealed class XrayMapper : Mapper, IXrayMapper
 {
-    public MapProfile()
+    public XrayMapper()
     {
-    
         Config.ForType<XrayTestSettingsModel, SpeedTestSettings>();
         Config.ForType<SpeedTestSettings, XrayTestSettingsModel>();
         Config.ForType<XrayNodeEntity, XrayNodeModel>();
@@ -41,6 +40,4 @@ public sealed class MapProfile : Mapper, IMapper
         Config.ForType<XrayOutbound, XrayOutboundModel>()
             .Map(d => d.SettingStr, s => s.settings == null ? string.Empty : JsonUtils.Serialize(s.settings));
     }
-
 }
-

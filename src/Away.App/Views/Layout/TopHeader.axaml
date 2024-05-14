@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+             mc:Ignorable="d" MinWidth="300"
 			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:TopHeaderViewModel"
@@ -31,7 +31,7 @@
 		</MenuItem>
 		<MenuItem Header="{icon:Enum Expander}" >
 			<MenuItem Header="{Binding UpdateHeader}" IsEnabled="{Binding IsEnabled}" Command="{Binding UpdateCommand}"/>
-			<MenuItem Header="&#xe6de; 关于我们" Command="{Binding InfoCommand}"/>
+			<MenuItem Header="关于我们" Command="{Binding InfoCommand}"/>
 		</MenuItem>
 		<MenuItem Header="{icon:Enum Minimal}" Command="{Binding MinimizedCommand}"/>
 		<MenuItem Header="{Binding NormalIcon}" Command="{Binding NormalCommand}"/>

@@ -1,6 +1,4 @@
-﻿using Avalonia.Input.Platform;
-
-namespace Xray.ViewModels;
+﻿namespace Xray.ViewModels;
 
 public sealed class XrayNodesViewModel : ViewModelBase
 {
@@ -12,7 +10,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     private readonly IXrayNodeSubRepository _xrayNodeSubRepository;
     private readonly IXrayService _xrayService;
     private readonly IXraySettingService _xraySettingService;
-    private readonly IMapper _mapper;
+    private readonly IXrayMapper _mapper;
     private readonly IClipboard _clipboard;
 
     /// <summary>
@@ -97,7 +95,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
         IXrayNodeService xrayNodeService,
         IXrayNodeSubRepository xrayNodeSubRepository,
         IXrayService xrayService,
-        IMapper mapper,
+        IXrayMapper mapper,
         IClipboard clipboard
         )
     {

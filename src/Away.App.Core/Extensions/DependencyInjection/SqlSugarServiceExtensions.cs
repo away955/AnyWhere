@@ -20,7 +20,7 @@ public static class SqlSugarServiceExtensions
         });
         db.Aop.OnLogExecuting = (sql, args) =>
         {
-            Log.Information(sql);
+            Log.Debug(sql);
         };
         services.AddKeyedSingleton<ISugarDbContext>(serviceKey, db);
         return services;

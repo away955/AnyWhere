@@ -2,8 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        x:Class="Away.App.Views.MainWindow"
+        mc:Ignorable="d" FontFamily="avares://Away.App/Assets/app-base.ttf#iconfont"
+        x:Class="Away.App.Views.MainWindow"		
 		xmlns:view="using:Away.App.Views"
 		xmlns:vm="using:Away.App.ViewModels"
 		x:DataType="vm:MainWindowViewModel">
@@ -27,7 +27,7 @@
 			<Border Background="Transparent" PointerPressed="TopHeader_PointerMoved"/>
 			<DockPanel>
 				<view:LeftMenu/>
-				<Grid RowDefinitions="50,*">
+				<Grid RowDefinitions="30,*">
 					<view:TopHeader/>
 					<Border Grid.Row="1">
 						<ContentControl Name="MainBox"/>

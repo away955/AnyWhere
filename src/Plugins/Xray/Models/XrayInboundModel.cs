@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class XrayInboundModel : ViewModelBase
+public sealed class XrayInboundModel : ReactiveObject
 {
     [Reactive]
     public string? listen { get; set; }

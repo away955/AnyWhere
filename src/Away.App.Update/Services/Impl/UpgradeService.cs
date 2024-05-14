@@ -1,16 +1,7 @@
-﻿using System.IO;
-using System.IO.Compression;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
+﻿namespace Away.App.Services.Impl;
 
-namespace Away.App.Update.Services.Impl;
-
-public sealed class UpdateService(IHttpClientFactory httpClientFactory) : IUpdateService
+public sealed class UpgradeService : IUpgradeService
 {
-    private readonly HttpClient _httpClient = httpClientFactory.CreateClient("xray");
-
     private readonly CancellationTokenSource _cts = new();
     private static string _basePath => AppDomain.CurrentDomain.BaseDirectory;
     private string _destinationPath => _basePath;
@@ -63,7 +54,8 @@ public sealed class UpdateService(IHttpClientFactory httpClientFactory) : IUpdat
             Description = $"开始下载文件：{_filename}",
             ProgressValue = 0
         });
-        using var resp = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
+        using var http = new HttpClient();
+        using var resp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
         resp.EnsureSuccessStatusCode();
         using var stream = await resp.Content.ReadAsStreamAsync();
         using var fileStream = File.Create(_zipPath);
@@ -116,7 +108,7 @@ public sealed class UpdateService(IHttpClientFactory httpClientFactory) : IUpdat
             {
                 continue;
             }
-            var filename = entry.FullName;          
+            var filename = entry.FullName;
             entry.ExtractToFile(Path.Combine(_destinationPath, filename), true);
         }
         archive.Dispose();

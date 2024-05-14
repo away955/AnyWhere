@@ -6,7 +6,7 @@ public class XrayLogViewModel : ViewModelXrayBase
     public XrayLogModel Log { get; set; } = new();
     public static List<string> LogLevelItems => ["none", "error", "warning", "info", "debug"];
 
-    public XrayLogViewModel(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
+    public XrayLogViewModel(IXrayService xrayService, IXrayMapper mapper) : base(xrayService, mapper)
     {
     }
 

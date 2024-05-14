@@ -9,11 +9,18 @@ namespace Xray;
 /// </summary>
 public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPluginRegister
 {
-    public override void ConfigureServices(IServiceCollection services)
+    public string Module => "Xray";
+
+    public PluginRegister()
+    {
+
+    }
+
+    public override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         services.AddSqlSugarClient(Constant.DBConn, Constant.DBKey);
         services.AddSingleton<IXraySetting, XraySettings>();
-        services.AddSingleton<IMapper, MapProfile>();
+        services.AddSingleton<IXrayMapper, XrayMapper>();
         services.AddSingleton<IXrayNodeRepository, XrayNodeRepository>();
         services.AddSingleton<IXrayNodeService, XrayNodeService>();
         services.AddSingleton<IXrayNodeSubRepository, XrayNodeSubRepository>();
@@ -46,6 +53,7 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
         services.AddView<XrayLogView, XrayLogViewModel>("xray-setting-log");
         services.AddView<XrayRouteView, XrayRouteViewModel>("xray-setting-route");
 
+        return base.ConfigureServices(services);
     }
 
     public override void ApplicationExit()

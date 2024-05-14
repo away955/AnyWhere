@@ -1,8 +1,8 @@
-﻿using Away.App.Update.Services.Impl;
-using System.Threading.Tasks;
+﻿namespace Away.App.Services;
 
-namespace Away.App.Update.Services;
-
+/// <summary>
+/// App 版本服务
+/// </summary>
 public interface IVersionService
 {
     Task<VersionInfo> GetVersionInfo(string url);

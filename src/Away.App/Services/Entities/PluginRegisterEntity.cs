@@ -3,8 +3,8 @@
 /// <summary>
 /// 插件注册表
 /// </summary>
-[SugarTable("app_pluign_installed")]
-public sealed class PluginInstalledEntity
+[SugarTable("app_pluign_register")]
+public sealed class PluginRegisterEntity
 {
     /// <summary>
     /// 插件模块名称

@@ -5,7 +5,7 @@ public class XrayOutboundViewModel : ViewModelXrayBase
     [Reactive]
     public ObservableCollection<XrayOutboundModel> Items { get; set; } = [];
 
-    public XrayOutboundViewModel(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
+    public XrayOutboundViewModel(IXrayService xrayService, IXrayMapper mapper) : base(xrayService, mapper)
     {
     }
 

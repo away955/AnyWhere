@@ -1,4 +1,4 @@
-﻿using Away.App.Domain.RouterScanner;
+﻿using RouterScanner.Services;
 
 namespace Away.App.Tests;
 

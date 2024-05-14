@@ -2,7 +2,7 @@
 
 public sealed class YoutubeAddViewModel : ViewModelBase
 {
-    private readonly IMapper _mapper;
+    private readonly IYoutubeMapper _mapper;
     private readonly IYoutubeService _youtubeService;
 
     [Reactive]
@@ -34,7 +34,7 @@ public sealed class YoutubeAddViewModel : ViewModelBase
 
 
     public YoutubeAddViewModel(
-        IMapper mapper,
+        IYoutubeMapper mapper,
         IYoutubeService youtubeService)
     {
         _mapper = mapper;

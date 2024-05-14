@@ -1,6 +1,6 @@
 ﻿namespace Youtube.Models;
 
-public sealed class YoutubeModel : ViewModelBase
+public sealed class YoutubeModel : ReactiveObject
 {
     private YoutubeVideoState _state;
     [Reactive]

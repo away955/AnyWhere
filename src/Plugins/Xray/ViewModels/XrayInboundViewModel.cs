@@ -10,7 +10,7 @@ public sealed class XrayInboundViewModel : ViewModelXrayBase
     public ICommand AddCommand { get; private set; }
     public ICommand DelCommand { get; private set; }
 
-    public XrayInboundViewModel(IXrayService xrayService, IMapper mapper) : base(xrayService, mapper)
+    public XrayInboundViewModel(IXrayService xrayService, IXrayMapper mapper) : base(xrayService, mapper)
     {
         AddCommand = ReactiveCommand.Create(OnAddCommand);
         DelCommand = ReactiveCommand.Create<XrayInboundModel>(OnDelCommand);

@@ -3,7 +3,7 @@
 public sealed class XrayNodeSubViewModel : ViewModelBase
 {
     private readonly IXrayNodeSubRepository _repository;
-    private readonly IMapper _mapper;
+    private readonly IXrayMapper _mapper;
 
     [Reactive]
     public ObservableCollection<XrayNodeSubModel> Items { get; set; } = [];
@@ -14,7 +14,7 @@ public sealed class XrayNodeSubViewModel : ViewModelBase
 
     public XrayNodeSubViewModel(
         IXrayNodeSubRepository xrayNodeSubRepository,
-        IMapper mapper)
+        IXrayMapper mapper)
     {
         _repository = xrayNodeSubRepository;
         _mapper = mapper;

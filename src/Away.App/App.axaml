@@ -4,16 +4,21 @@
              xmlns:local="using:Away.App"
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:AppViewModel"
+			 xmlns:Convert="clr-namespace:Away.App.Components.Converters;assembly=Away.App.Core"
              RequestedThemeVariant="{Binding Theme}">
-	
+
+	<Application.Resources>
+		<Convert:ImagePathConverter x:Key="ImagePath" />
+		<Convert:ImageUrlConverter x:Key="ImageUrl" />
+	</Application.Resources>
+
 	<Application.Styles>
 		<FluentTheme>
 			<FluentTheme.Palettes>
 				<ColorPaletteResources x:Key="Light" RegionColor="#F3F3F3"/>
-				<ColorPaletteResources x:Key="Dark" RegionColor="#202020"/>
+				<ColorPaletteResources x:Key="Dark" RegionColor="#13131A"/>
 			</FluentTheme.Palettes>
 		</FluentTheme>
-		<StyleInclude Source="/Styles/Base.axaml" />
 	</Application.Styles>
 
 	<TrayIcon.Icons>

@@ -2,54 +2,73 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+             mc:Ignorable="d" MinHeight="300"
 			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:LeftMenuViewModel"
+			 Background="#1A1A21"
              x:Class="Away.App.Views.LeftMenu">
 
 	<UserControl.Styles>
-		<Style Selector="Menu#Menu_Left">
-			<Setter Property="Height" Value="{Binding $parent[Grid].Height}"/>
-			<Setter Property="VerticalAlignment" Value="Top"/>
-			<Setter Property="ItemsPanel">
-				<ItemsPanelTemplate>
-					<StackPanel />
-				</ItemsPanelTemplate>
-			</Setter>
-
-			<Style Selector="^ > MenuItem">
-				<Setter Property="FontSize" Value="30"/>
-				<Setter Property="Margin" Value="0,10,0,0"/>
-				<Setter Property="HorizontalAlignment" Value="Center"/>
-			</Style>
+		<Style Selector="Grid.show">
+			<Setter Property="Width" Value="150"/>
+			<Style.Animations>
+				<Animation Duration="0:0:0.3">
+					<KeyFrame Cue="0%">
+						<Setter Property="Width" Value="50"/>
+					</KeyFrame>
+					<KeyFrame Cue="100%">
+						<Setter Property="Width" Value="150"/>
+					</KeyFrame>
+				</Animation>
+			</Style.Animations>
+		</Style>
+		<Style Selector="Grid.hide">
+			<Setter Property="Width" Value="50"/>
+			<Style.Animations>
+				<Animation Duration="0:0:0.3">
+					<KeyFrame Cue="0%">
+						<Setter Property="Width" Value="150"/>
+					</KeyFrame>
+					<KeyFrame Cue="100%">
+						<Setter Property="Width" Value="50"/>
+					</KeyFrame>
+				</Animation>
+			</Style.Animations>
 		</Style>
 
-		<Style Selector="MenuItem#logo:selected /template/ Border#PART_LayoutRoot">
-			<Setter Property="Background" Value="Transparent"/>
-		</Style>
 	</UserControl.Styles>
 
-	<Grid>
-		<Menu Name="Menu_Left">
-			<MenuItem Margin="0" Name="logo">
-				<MenuItem.Header>
-					<StackPanel>
-						<Image Source="/Assets/logo.ico" Width="35" Height="35" />
-						<StackPanel Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Center">
-							<TextBlock Text="{Binding Title}" FontSize="10" Opacity="0.8"/>
-							<TextBlock Text="{Binding Version}" FontSize="7" Opacity="0.8"/>
-						</StackPanel>
+	<Grid RowDefinitions="50,*,30"
+		  Classes.show="{Binding IsMenuToggle}"
+		  Classes.hide="{Binding !IsMenuToggle}">
+		<!--logo-->
+		<StackPanel Margin="8,0,0,0" HorizontalAlignment="Left" Orientation="Horizontal">
+			<Image Source="/Assets/logo.ico" Width="35" Height="35"/>
+			<StackPanel Orientation="Horizontal" Margin="10,20,0,0" HorizontalAlignment="Center">
+				<TextBlock Text="{Binding Title}" FontSize="15" FontWeight="Bold" Foreground="#FFF"/>
+				<TextBlock Text="{Binding Version}" FontSize="7" Opacity="0.8" Foreground="#FFF"/>
+			</StackPanel>
+		</StackPanel>
+
+		<!--menus-->
+		<ListBox Name="LB_Menu" Grid.Row="1" Background="Transparent" ItemsSource="{Binding Menus}"
+				 SelectedValue="{Binding CheckedMenu}" SelectedValueBinding="{Binding Path}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal" Cursor="Hand">
+						<TextBlock Text="{Binding IconText}" FontFamily="{Binding FontFamily}"
+								   FontSize="20" Margin="3,6,0,0" Foreground="#C8C8CA"/>
+						<TextBlock Text="{Binding Title}" Margin="15,10,0,0" Foreground="#C8C8CA" FontWeight="Black"/>
 					</StackPanel>
-				</MenuItem.Header>
-			</MenuItem>
-			<MenuItem Header="{icon:Enum Youtube}" ToolTip.Tip="路由器扫描"
-					  Command="{Binding NavCommand}" CommandParameter="router-scanner"/>
-			<MenuItem Header="{icon:Enum Youtube}" ToolTip.Tip="Youtube视频下载"
-					  Command="{Binding NavCommand}" CommandParameter="youtube"/>
-			<MenuItem Header="{icon:Enum Fly}" ToolTip.Tip="网络代理"
-					  Command="{Binding NavCommand}" CommandParameter="xray"/>
-		</Menu>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<!--togget-->
+		<StackPanel Grid.Row="2" Margin="5,0" HorizontalAlignment="Right" Orientation="Horizontal">
+			<ToggleSwitch OffContent="收起" OnContent="展开" Command="{Binding MenuToggleCommand}" Foreground="#C8C8CA"/>
+		</StackPanel>
 	</Grid>
 
 </UserControl>

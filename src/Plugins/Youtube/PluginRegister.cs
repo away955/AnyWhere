@@ -9,10 +9,12 @@ namespace Youtube;
 /// </summary>
 public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPluginRegister
 {
-    public override void ConfigureServices(IServiceCollection services)
+    public string Module => "Youtube";
+
+    public override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         services.AddSqlSugarClient(Constant.DBConn, Constant.DBKey);
-        services.AddSingleton<IMapper, MapProfile>();
+        services.AddSingleton<IYoutubeMapper, YoutubeMapper>();
         services.AddSingleton<IYoutubeFactory, YoutubeFactory>();
         services.AddSingleton<IYoutubeRepository, YoutubeRepository>();
         services.AddSingleton<IYoutubeService, YoutubeService>();
@@ -20,5 +22,7 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
         // view model
         services.AddView<YoutubeView, YoutubeViewModel>("youtube");
         services.AddView<YoutubeAddView, YoutubeAddViewModel>("youtube-add");
+
+        return base.ConfigureServices(services);
     }
 }

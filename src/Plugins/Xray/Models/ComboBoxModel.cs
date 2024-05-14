@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class ComboBoxModel
+public sealed class ComboBoxModel: ReactiveObject
 {
     [Reactive]
     public string Text { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿using Away.App.Update.Services;
+﻿using Away.App.Services;
 
 namespace Away.App.Tests;
 

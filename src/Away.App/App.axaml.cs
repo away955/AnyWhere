@@ -14,7 +14,7 @@ public partial class App : Application
             if (ApplicationLifetime is IControlledApplicationLifetime control)
             {
                 control.Shutdown();
-            }            
+            }
         });
     }
 

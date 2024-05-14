@@ -4,18 +4,24 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
 	</PropertyGroup>
 	
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="set PLUGINS=$(ProjectDir)..\..\Away.App\$(OutDir)Plugins\$(AssemblyName)&#xD;&#xA;set TARGET=$(ProjectDir)$(OutDir)$(AssemblyName)&#xD;&#xA;echo 开始复制$(AssemblyName)插件到App%25PLUGINS%25&#xD;&#xA;mkdir %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.dll %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.pdb %25PLUGINS%25" />
-	</Target>
+	<Import Project="..\plugin.props" />
 	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="set PLUGINS=$(ProjectDir)..\..\Away.App\$(OutDir)Plugins\$(AssemblyName)&#xD;&#xA;set TARGET=$(ProjectDir)$(OutDir)$(AssemblyName)&#xD;&#xA;echo 开始复制$(AssemblyName)插件到App%25PLUGINS%25&#xD;&#xA;mkdir %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.dll %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.pdb %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.deps.json %25PLUGINS%25" />
+	</Target>
+
 	<ItemGroup>
-		<None Condition="'$(OS)'=='Windows_NT'" Include="Data\v2ray.exe">			
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Condition="'$(OS)'=='Windows_NT'" Include="Data\v2ray.exe">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 		</None>
-		<None Include="FodyWeavers.xsd" />
 		<None Update="Data\geoip.dat">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -24,23 +30,6 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.10" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
-		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
-		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
-	</ItemGroup>
-
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\Away.App.Core\Away.App.Core.csproj" />
-		<ProjectReference Include="..\..\Away.App.PluginDomain\Away.App.PluginDomain.csproj" />
 	</ItemGroup>
 
 </Project>

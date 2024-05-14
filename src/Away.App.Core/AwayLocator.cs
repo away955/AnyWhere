@@ -8,7 +8,7 @@ public static class AwayLocator
     }
 
     public static ServiceCollection Services { get; private set; }
-    private static IServiceProvider _serviceProvider = null!;
+    private static ServiceProvider _serviceProvider = null!;
     public static IServiceProvider ServiceProvider => _serviceProvider ??= Services.BuildServiceProvider();
 
     public static T GetService<T>() where T : notnull
@@ -18,5 +18,11 @@ public static class AwayLocator
     public static IEnumerable<T> GetServices<T>(string key) where T : notnull
     {
         return ServiceProvider.GetKeyedServices<T>(key);
+    }
+
+    public static void Refresh()
+    {
+        _serviceProvider.Dispose();
+        _serviceProvider = Services.BuildServiceProvider();
     }
 }

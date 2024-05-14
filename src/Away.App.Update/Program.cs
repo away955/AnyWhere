@@ -1,5 +1,5 @@
-﻿using Away.App.Update.Services;
-using Away.App.Update.Services.Impl;
+﻿using Away.App.Services;
+using Away.App.Services.Impl;
 
 namespace Away.App.Update;
 
@@ -43,7 +43,7 @@ public sealed class Program
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddScoped<IVersionService, VersionService>();
-        services.AddScoped<IUpdateService, UpdateService>();
+        services.AddScoped<IUpgradeService, UpgradeService>();
     }
 }
 

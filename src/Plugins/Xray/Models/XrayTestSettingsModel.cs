@@ -1,6 +1,6 @@
 ﻿namespace Xray.Models;
 
-public sealed class XrayTestSettingsModel
+public sealed class XrayTestSettingsModel: ReactiveObject
 {
     /// <summary>
     /// 检测地址

@@ -1,7 +1,7 @@
-﻿using Away.App.PluginDomain;
-using RouterScanner.Services;
+﻿using RouterScanner.Services;
 using RouterScanner.Services.Impl;
 using RouterScanner.Services.VulHub;
+using RouterScanner.Views;
 
 namespace RouterScanner;
 
@@ -10,12 +10,17 @@ namespace RouterScanner;
 /// </summary>
 public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPluginRegister
 {
-    public override void ConfigureServices(IServiceCollection services)
+    public string Module => "RouterScanner";
+
+    public override IServiceCollection ConfigureServices(IServiceCollection services)
     {
         services.AddTransient<IRouterScanner, Services.Impl.RouterScanner>();
         services.AddTransient<IRouterFingerPrintHub, RouterFingerPrintHub>();
         services.AddTransient<IRouterFingerPrintScanner, RouterFingerPrintScanner>();
         services.AddTransient<IRouterVulScanner, RouterVulScanner>();
+
+        // 视图
+        services.AddView<RouterView, RouterViewModel>("router");
 
         // 2018 vulhub
         services.AddKeyedScoped<IRouterVulHub, CVE_2018_12692>(Constant.VulHubKey);
@@ -31,5 +36,7 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
         // 2023 vulhub
         services.AddKeyedScoped<IRouterVulHub, CVE_2023_1389>(Constant.VulHubKey);
         services.AddKeyedScoped<IRouterVulHub, CVE_2023_36355>(Constant.VulHubKey);
+
+        return base.ConfigureServices(services);
     }
 }

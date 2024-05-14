@@ -1,10 +1,10 @@
 namespace Away.App.Views;
 
-public partial class TopHeader : UserControl
+public partial class TopHeader : ReactiveUserControl<TopHeaderViewModel>
 {
     public TopHeader()
     {
-        this.DataContext = AwayLocator.GetService<TopHeaderViewModel>();
+        ViewModel = AwayLocator.GetService<TopHeaderViewModel>();
         InitializeComponent();
     }
 }

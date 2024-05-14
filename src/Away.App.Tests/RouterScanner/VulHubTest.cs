@@ -1,11 +1,11 @@
-﻿using Away.App.Core.DI;
-using Away.App.Domain.RouterScanner;
+﻿using Away.App.Core;
+using RouterScanner.Services;
 
 namespace Away.App.Tests;
 
 public sealed class VulHubTest : TestBase
 {
-    private static IEnumerable<IRouterVulHub> VULHUBS => AwayLocator.GetKeyedServices<IRouterVulHub>(Constant.VulHubKey);
+    private static IEnumerable<IRouterVulHub> VULHUBS => AwayLocator.GetServices<IRouterVulHub>(RouterScanner.Constant.VulHubKey);
 
     [InlineData("CVE-2019-6971", "http://82.79.101.200:8081")]
     [InlineData("CVE-2023-36355", "http://197.162.239.174:80")]

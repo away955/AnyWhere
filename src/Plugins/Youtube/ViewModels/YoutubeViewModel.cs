@@ -2,7 +2,7 @@
 
 public sealed class YoutubeViewModel : ViewModelBase
 {
-    private readonly IMapper _mapper;
+    private readonly IYoutubeMapper _mapper;
     private readonly IYoutubeService _youtubeService;
     private readonly IYoutubeFactory _youtubeFactory;
 
@@ -31,7 +31,7 @@ public sealed class YoutubeViewModel : ViewModelBase
     public ObservableCollection<YoutubeModel> Items { get; set; } = [];
 
     public YoutubeViewModel(
-        IMapper mapper,
+        IYoutubeMapper mapper,
         IYoutubeService youtubeService,
         IYoutubeFactory youtubeFactory)
     {

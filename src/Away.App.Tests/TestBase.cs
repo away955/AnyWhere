@@ -1,4 +1,4 @@
-﻿using Away.App.Core.DI;
+﻿using Away.App.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Away.App.Tests;

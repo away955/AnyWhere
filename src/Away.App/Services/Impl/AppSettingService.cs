@@ -1,6 +1,4 @@
-﻿using Away.App.Services.Entities;
-
-namespace Away.App.Services.Impl;
+﻿namespace Away.App.Services.Impl;
 
 public sealed class AppSettingService : IAppSettingService
 {

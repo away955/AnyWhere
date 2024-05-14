@@ -1,6 +1,4 @@
-﻿using Away.App.Services;
-
-namespace Away.App.ViewModels;
+﻿namespace Away.App.ViewModels;
 
 public sealed class AppViewModel : ViewModelBase
 {

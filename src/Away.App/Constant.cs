@@ -14,10 +14,7 @@ public sealed class Constant
     /// App根地址
     /// </summary>
     public static string RootPath => AppDomain.CurrentDomain.BaseDirectory;
-    /// <summary>
-    /// App数据库服务key
-    /// </summary>
-    public const string DBKey = "App";
+
     /// <summary>
     /// App数据库连接字符串
     /// </summary>

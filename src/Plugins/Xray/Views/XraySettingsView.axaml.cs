@@ -1,13 +1,13 @@
 using Avalonia.Controls;
-using Away.App.Core.Extensions.DependencyInjection;
 
 namespace Xray.Views;
 
-public partial class XraySettingsView : UserControl, IView
+public partial class XraySettingsView : ReactiveUserControl<XraySettingsViewModel>, IView
 {
     private readonly TabControl _tabControl;
     public XraySettingsView()
     {
+        ViewModel = AwayLocator.GetService<XraySettingsViewModel>();
         InitializeComponent();
         _tabControl = this.FindControl<TabControl>("TabSettings")!;
         _tabControl.SelectionChanged += TabControl_SelectionChanged;

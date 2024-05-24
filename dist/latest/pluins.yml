@@ -9,19 +9,19 @@
 #     Logo: 图标|iconfont-unicode
 #     Image: 图片地址|url
 #     FileSize: 安装包文件大小|kb
-#     DownloadUrl: 安装包下载地址|url
+#     ContentID: 文件编号
 #     Name: 插件名称
 #     Description: 插件说明
 
-Authorization: "Basic cGM6MTgzNzY5MTE5OTc6ZHk3M3hKcW18MXxSQ1N8MTcxNzgyODE3NzE1MnxER3NTb21EVDhlRm9yaWJtYTUyekJUcEtjRXIyeGxiMVhrLng3VndpbzZKclgyNWZ4X0hycFdpbTVMWURfSjlsdVV0M0hRU0xNYXljcHdVSkJFdEJfRjhYTzZ2dGdmeHRBMzlpWTZCelZ1ZTlXUUVGTklQakZFVXV0YTZHdGFUNFdxUk9kd1B0QUhHNGVtY21LZjBrcmNpVXlQZTE1bVhVanFIUHBaTEtNZEEt"
+Authorization: "Basic cGM6MTgzNzY5MTE5OTc6REp3a0lmTFB8MXxSQ1N8MTcxOTExNTYxNTQyNXxRc1cwV3ViZEI0WDYwYWpXeUpaR0tvUF8ueFljMVZpUkswMjk3Z0Q3OTVCTURfYThaWDR5XzJEeDhaelRyUlpIZ19Icng4ZFZPLm1pYUxGa1FpeGY4ZjBETDd4X3NxUG9TRjVuVzM0Lm56YVh5TjVBV1FrZm10WnguazFnLjI0OW5GVWNiVEFjUVhSV3JpS0RScVRtaGxQeVlER3VHcEFCUnpzSlcuT1R3bUkt"
 Plugins:
   - Module: "Xray"
     Version: "1.0.1"
     Path: "xray"
-    Image: 'https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT130202405141728076fb33417wAFnRMpC&contentID=0y11YNYhH0VT130202405141728076fb&dom=D952&oprChannel=10000000&filename=eHJheS5wbmc=&rate=0'
+    Image: 'https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L7f99687bfbc73f2f3f6d4a6f19b8e6f9e.png&ct=1&type=0&code=717DBE57FE40D84E6B16554B20524D8E32B2A79832E82BC4403BCAFE538F7228&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT130202405141728076fb&userSiteId=usersite-s&cn=xray&oprChannel=10000034&dom=D952&ts=20240514172808'
     Logo: "&#xe619;"
     FileSize: 21886
-    DownloadUrl: "https://download5.mcloud.139.com/storageWeb/servlet/downloadServlet?code=TDcweTExWU5ZaEgwVlQyOTExN3dBQ3lrZnJK&un=BBCBF985EFB5308A0E4BF621B3ECB779AC8D9DC1E525DD2DC06627982E4578CF&dom=D952&rate=0&txType=0"
+    ContentID: '0y11YNYhH0VT133202405241540131q7'
     Name: "网络代理"
     Description: >
       科学上网
@@ -31,20 +31,20 @@ Plugins:
   - Module: "Youtube"
     Version: "1.0.0"
     Path: "youtube"
-    Image: 'https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT1322024051417280609333417wAFnN1xB&contentID=0y11YNYhH0VT13220240514172806093&dom=D952&oprChannel=10000000&filename=eW91dHViZS5wbmc=&rate=0'
+    Image: 'https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L8814525ce82ade459a52f04c89c2f5541.png&ct=1&type=0&code=FE93DB7CDB744997034E3F07A8F39120347CCC84E734BAFE15CD116E342DA99C&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT13220240514172806093&userSiteId=usersite-s&cn=youtube&oprChannel=10000034&dom=D952&ts=20240514172807'
     Logo: "&#xe880;"
     FileSize: 24802
-    DownloadUrl: "https://download5.mcloud.139.com/storageWeb/servlet/downloadServlet?code=TDcweTExWU5ZaEgwVlQyOTQxN3dBQ3lqYjZk&un=81BA439BB55139881939235D09D5CDED05ACE7F2D123C6CCFDE9883688C813C8&dom=D952&rate=0&txType=0"
+    ContentID: '0y11YNYhH0VT13120240524154023wvx'
     Name: "油管视频"
     Description: "下载油管视频"
 
   - Module: "RouterScanner"
     Version: "1.0.0"
     Path: "router"
-    Image: 'https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT13320240514172808qa529417wAFnReYF&contentID=0y11YNYhH0VT13320240514172808qa5&dom=D952&oprChannel=10000000&filename=cm91dGVyLnBuZw==&rate=0'
+    Image: 'https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L7f06f70e0b58f385a2a802e6483ab7f5a.png&ct=1&type=0&code=61B623D656740121D8CF9F6077F3E649CC45BD2EDF45D92E3BDB012D31AEE9D8&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT13320240514172808qa5&userSiteId=usersite-s&cn=router&oprChannel=10000034&dom=D952&ts=20240514172808'
     Logo: "&#xe698;"
     FileSize: 131
-    DownloadUrl: "https://download5.mcloud.139.com:443/storageWeb/servlet/pcDownloadFile?code=0y11YNYhH0VT134202405141201132qj40017wAFkD_pp&contentID=0y11YNYhH0VT134202405141201132qj&dom=D956&oprChannel=10000000&filename=Um91dGVyU2Nhbm5lci56aXA=&rate=0"
+    ContentID: '0y11YNYhH0VT13020240524153626kma'
     Name: "路由器漏扫"
     Description: >
       路由器漏洞扫描

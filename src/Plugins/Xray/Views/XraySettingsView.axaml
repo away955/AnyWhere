@@ -18,7 +18,7 @@
 
 	<Grid>
 		<ScrollViewer>
-			<TabControl Name="TabSettings" SelectedValue="订阅节点">
+			<TabControl Name="TabSettings" SelectedValue="订阅节点" Background="Transparent">
 				<TabItem Header="检测配置" Tag="xray-setting-test"/>
 				<TabItem Header="订阅节点" Tag="xray-setting-sub"/>
 				<TabItem Header="日志" Tag="xray-setting-log" />

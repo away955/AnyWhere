@@ -1,4 +1,5 @@
 ﻿using Away.App.Views;
+using Away.App.Services.IPC;
 
 namespace Away.App;
 
@@ -52,11 +53,16 @@ public sealed class Program
     public static void ConfigureServices(IServiceCollection services)
     {
         Log.Information("注册服务");
-
         services.AddLogging(o => o.AddSerilog());
-        services.AddSqlSugarClient(Constant.DBConn, Constant.DBKey);
+        services.AddSqlSugarClient(Constant.DBConn);
 
-        services.AddHttpClient();
+        services.AddHttpClient(string.Empty).ConfigurePrimaryHttpMessageHandler(() =>
+        {
+            return new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
+            };
+        });
         services.AddClipboard();
         services.AddStorageProvider();
 
@@ -71,9 +77,9 @@ public sealed class Program
         services.AddScoped<IUpgradeService, UpgradeService>();
 
         // 视图
+        services.AddViewModel<MainWindowViewModel>();
         services.AddViewModel<LeftMenuViewModel>();
         services.AddViewModel<TopHeaderViewModel>();
-        services.AddViewModel<MainWindowViewModel>();
         services.AddViewModel<AppViewModel>();
         services.AddView<NotFoundView>("404");
         services.AddView<PluginStoreView, PluginStoreViewModel>("app-store");

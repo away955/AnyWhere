@@ -1,6 +1,6 @@
 ﻿global using Avalonia.ReactiveUI;
 global using Away.App.Core;
-global using Away.App.Core.Extensions.DependencyInjection;
+global using Away.App.Core.Extensions;
 global using Away.App.Core.MVVM;
 global using Away.App.Core.Utils;
 global using Away.App.PluginDomain;

@@ -2,7 +2,7 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.VisualTree;
 
-namespace Away.App.Core.Extensions.App;
+namespace Away.App.Core.Extensions;
 
 public static class ApplicationExtentsion
 {

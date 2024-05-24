@@ -31,7 +31,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     private void MessageBusListen()
     {
         //系统消息
-        MessageShow.Listen(args => _nofityManager?.Show(args));       
+        MessageShow.Listen(args => _nofityManager?.Show(args));
         // 菜单切换
         MessageRouter.Listen(args =>
         {
@@ -39,6 +39,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             {
                 return;
             }
+            Log.Information($"router:{url}");
             var view = AwayLocator.ServiceProvider.GetView(url) ?? AwayLocator.ServiceProvider.GetView("404");
             this.MainBox.Content = view;
         });

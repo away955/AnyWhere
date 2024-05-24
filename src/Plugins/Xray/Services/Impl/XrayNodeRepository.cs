@@ -3,7 +3,7 @@
 internal class XrayNodeRepository : IXrayNodeRepository
 {
     private readonly ISugarDbContext db;
-    public XrayNodeRepository([FromKeyedServices(Constant.DBKey)] ISugarDbContext db)
+    public XrayNodeRepository(ISugarDbContext db)
     {
         this.db = db;
         db.CodeFirst.InitTables<XrayNodeEntity>();

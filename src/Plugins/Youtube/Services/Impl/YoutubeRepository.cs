@@ -3,7 +3,7 @@
 public sealed class YoutubeRepository : IYoutubeRepository
 {
     private readonly ISugarDbContext db;
-    public YoutubeRepository([FromKeyedServices(Constant.DBKey)] ISugarDbContext db)
+    public YoutubeRepository(ISugarDbContext db)
     {
         this.db = db;
         db.CodeFirst.InitTables<YoutubeEntity>();

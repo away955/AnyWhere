@@ -12,20 +12,11 @@ public sealed class LeftMenuViewModel : ViewModelBase
     /// 展开|收起菜单
     /// </summary>
     public ICommand MenuToggleCommand { get; }
-
-    private string _checkedMenu = string.Empty;
     /// <summary>
     /// 选中的菜单
     /// </summary>
-    public string CheckedMenu
-    {
-        get => _checkedMenu;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _checkedMenu, value);
-            MessageRouter.Go(_checkedMenu);
-        }
-    }
+    [Reactive]
+    public string CheckedMenu { get; set; } = string.Empty;
 
     /// <summary>
     /// 是否展开菜单
@@ -38,7 +29,9 @@ public sealed class LeftMenuViewModel : ViewModelBase
     [Reactive]
     public ObservableCollection<AppMenuModel> Menus { get; set; } = [];
 
-    public LeftMenuViewModel(IAppMenuRepository appMenuRepository, IAppMapper mapper)
+    public LeftMenuViewModel(
+        IAppMenuRepository appMenuRepository,
+        IAppMapper mapper)
     {
         _mapper = mapper;
         _appMenuRepository = appMenuRepository;
@@ -46,11 +39,23 @@ public sealed class LeftMenuViewModel : ViewModelBase
         MenuToggleCommand = ReactiveCommand.Create(OnMenuToggle);
         Init();
         MessageEvent.Listen(o => Init(), "RefreshMenu");
+        MessageRouter.Listen(args =>
+        {
+            if (args is not string url)
+            {
+                return;
+            }
+            if (url != CheckedMenu)
+            {
+                CheckedMenu = url;
+            }
+        });
     }
+
     protected override void OnActivation()
     {
         Init();
-        CheckedMenu = "app-store";
+
     }
 
     private void Init()

@@ -1,5 +1,4 @@
-﻿using Away.App.Core.Extensions.DependencyInjection;
-using Xray.Services.Impl;
+﻿using Xray.Services.Impl;
 using Xray.Views;
 
 namespace Xray;
@@ -18,7 +17,6 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
 
     public override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        services.AddSqlSugarClient(Constant.DBConn, Constant.DBKey);
         services.AddSingleton<IXraySetting, XraySettings>();
         services.AddSingleton<IXrayMapper, XrayMapper>();
         services.AddSingleton<IXrayNodeRepository, XrayNodeRepository>();
@@ -44,7 +42,7 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
 
         // view model
         services.AddView<XrayNodesView, XrayNodesViewModel>("xray");
-        services.AddView<XraySettingsView>("xray-settings");
+        services.AddView<XraySettingsView, XraySettingsViewModel>("xray-settings");
         services.AddView<XrayNodeSubView, XrayNodeSubViewModel>("xray-setting-sub");
         services.AddView<XrayTestSettingsView, XrayTestSettingsViewModel>("xray-setting-test");
         services.AddView<XrayDnsView, XrayDnsViewModel>("xray-setting-dns");

@@ -2,9 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:rxui="http://reactiveui.net"
         mc:Ignorable="d" FontFamily="avares://Away.App/Assets/app-base.ttf#iconfont"
-        x:Class="Away.App.Views.MainWindow"		
+        x:Class="Away.App.Views.MainWindow"
 		xmlns:view="using:Away.App.Views"
+		xmlns:local="using:Away.App"
 		xmlns:vm="using:Away.App.ViewModels"
 		x:DataType="vm:MainWindowViewModel">
 
@@ -33,6 +35,8 @@
 						<ContentControl Name="MainBox"/>
 					</Border>
 				</Grid>
+
+
 			</DockPanel>
 		</Grid>
 	</Border>

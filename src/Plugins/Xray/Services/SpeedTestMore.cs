@@ -117,14 +117,21 @@ public sealed class SpeedTestMore
 
     private void Release(int port)
     {
-        Ports.TryUpdate(port, false, true);
-        _count++;
-        var progressValue = (int)(_count * 1d / _total * 100);
-        OnProgress?.Invoke(progressValue);
-        if (_count == _total)
+        try
         {
-            OnCompeleted?.Invoke();
+            Ports.TryUpdate(port, false, true);
+            _count++;
+            var progressValue = (int)(_count * 1d / _total * 100);
+            OnProgress?.Invoke(progressValue);
+            if (_count == _total)
+            {
+                OnCompeleted?.Invoke();
+            }
+            _semaphore.Release();
         }
-        _semaphore.Release();
+        catch (Exception ex)
+        {
+            Log.Error(ex, "测试节点释放线程信号失败");
+        }
     }
 }

@@ -9,7 +9,6 @@
 
 	<Application.Resources>
 		<Convert:ImagePathConverter x:Key="ImagePath" />
-		<Convert:ImageUrlConverter x:Key="ImageUrl" />
 	</Application.Resources>
 
 	<Application.Styles>

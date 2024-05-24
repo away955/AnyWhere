@@ -1,5 +1,4 @@
-﻿using Away.App.Core.Extensions.DependencyInjection;
-using Youtube.Services.Impl;
+﻿using Youtube.Services.Impl;
 using Youtube.Views;
 
 namespace Youtube;
@@ -13,7 +12,6 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
 
     public override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        services.AddSqlSugarClient(Constant.DBConn, Constant.DBKey);
         services.AddSingleton<IYoutubeMapper, YoutubeMapper>();
         services.AddSingleton<IYoutubeFactory, YoutubeFactory>();
         services.AddSingleton<IYoutubeRepository, YoutubeRepository>();

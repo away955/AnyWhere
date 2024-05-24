@@ -3,7 +3,7 @@
 public sealed class AppSettingService : IAppSettingService
 {
     private readonly ISugarDbContext db;
-    public AppSettingService([FromKeyedServices(Constant.DBKey)] ISugarDbContext db)
+    public AppSettingService(ISugarDbContext db)
     {
         this.db = db;
         db.CodeFirst.InitTables<AppSettingEntity>();

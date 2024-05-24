@@ -3,4 +3,9 @@
 public sealed class MainWindowViewModel : ViewModelBase
 {
     public static string Title => $"{Constant.Title} {Constant.Version}";
+
+
+    public MainWindowViewModel()
+    {
+    }
 }

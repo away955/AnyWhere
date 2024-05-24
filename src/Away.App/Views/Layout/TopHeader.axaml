@@ -15,26 +15,33 @@
 		</Style>
 	</UserControl.Styles>
 
-	<Menu Classes="rightmenu">
-		<MenuItem Header="{icon:Enum Theme}" ToolTip.Tip="主题">
-			<MenuItem>
-				<MenuItem.Header>
-					<CheckBox IsChecked="{Binding IsDefaultTheme} " Content="跟随系统" FontSize="12"/>
-				</MenuItem.Header>
+	<DockPanel>
+		<Menu>
+			<MenuItem Header="&#xe612;" ToolTip.Tip="后退" IsEnabled="{Binding IsBack}" Command="{Binding BackCommand}"/>
+			<MenuItem Header="&#xebaa;" ToolTip.Tip="前进" IsEnabled="{Binding IsNext}" Command="{Binding NextCommand}"/>
+		</Menu>
+		
+		<Menu DockPanel.Dock="Right" Classes="rightmenu">
+			<MenuItem Header="{icon:Enum Theme}" ToolTip.Tip="主题">
+				<MenuItem>
+					<MenuItem.Header>
+						<CheckBox IsChecked="{Binding IsDefaultTheme} " Content="跟随系统" FontSize="12"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem>
+					<MenuItem.Header>
+						<ToggleSwitch IsChecked="{Binding IsLightTheme}" IsEnabled="{Binding !IsDefaultTheme}"
+									  OffContent="暗黑" OnContent="明亮"/>
+					</MenuItem.Header>
+				</MenuItem>
 			</MenuItem>
-			<MenuItem>
-				<MenuItem.Header>
-					<ToggleSwitch IsChecked="{Binding IsLightTheme}" IsEnabled="{Binding !IsDefaultTheme}"
-								  OffContent="暗黑" OnContent="明亮"/>
-				</MenuItem.Header>
+			<MenuItem Header="{icon:Enum Expander}" >
+				<MenuItem Header="{Binding UpdateHeader}" IsEnabled="{Binding IsEnabled}" Command="{Binding UpdateCommand}"/>
+				<MenuItem Header="关于我们" Command="{Binding InfoCommand}"/>
 			</MenuItem>
-		</MenuItem>
-		<MenuItem Header="{icon:Enum Expander}" >
-			<MenuItem Header="{Binding UpdateHeader}" IsEnabled="{Binding IsEnabled}" Command="{Binding UpdateCommand}"/>
-			<MenuItem Header="关于我们" Command="{Binding InfoCommand}"/>
-		</MenuItem>
-		<MenuItem Header="{icon:Enum Minimal}" Command="{Binding MinimizedCommand}"/>
-		<MenuItem Header="{Binding NormalIcon}" Command="{Binding NormalCommand}"/>
-		<MenuItem Header="{icon:Enum Close}" Command="{Binding CloseCommand}"/>
-	</Menu>
+			<MenuItem Header="{icon:Enum Minimal}" Command="{Binding MinimizedCommand}"/>
+			<MenuItem Header="{Binding NormalIcon}" Command="{Binding NormalCommand}"/>
+			<MenuItem Header="{icon:Enum Close}" Command="{Binding CloseCommand}"/>
+		</Menu>
+	</DockPanel>
 </UserControl>

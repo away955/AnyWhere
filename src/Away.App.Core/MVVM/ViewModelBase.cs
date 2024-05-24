@@ -3,14 +3,12 @@
 namespace Away.App.Core.MVVM;
 
 
-public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel, IScreen
+public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel
 {
-    public ViewModelActivator Activator { get; }
-    public RoutingState Router { get; }
+    public ViewModelActivator Activator { get; }  
 
     public ViewModelBase()
     {
-        Router = new RoutingState();
         Activator = new ViewModelActivator();
         this.WhenActivated(disposables =>
         {
@@ -18,6 +16,7 @@ public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel, ISc
             Disposable.Create(OnDeactivation).DisposeWith(disposables);
         });
     }
+
 
     /// <summary>
     /// 进入页面

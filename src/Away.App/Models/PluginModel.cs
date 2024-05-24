@@ -2,7 +2,6 @@
 
 public sealed class PluginModel : ReactiveObject
 {
-    private string _logo = string.Empty;
     private string _currentVersion = string.Empty;
     private double _fileSize;
 
@@ -45,10 +44,10 @@ public sealed class PluginModel : ReactiveObject
     [Reactive]
     public bool IsDisabled { get; set; }
     /// <summary>
-    /// 下载地址
+    /// 文件编号
     /// </summary>
     [Reactive]
-    public string DownloadUrl { get; set; } = string.Empty;
+    public string ContentID { get; set; } = string.Empty;
     /// <summary>
     /// 图片|url
     /// </summary>
@@ -101,4 +100,6 @@ public sealed class PluginModel : ReactiveObject
         }
     }
 
+    [Reactive]
+    public Bitmap? ImageSouce { get; set; }
 }

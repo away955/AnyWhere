@@ -32,9 +32,9 @@ public sealed class PluginStoreEntity
     /// </summary>
     public double FileSize { get; set; }
     /// <summary>
-    /// 下载地址
+    /// 文件编号
     /// </summary>
-    public string DownloadUrl { get; set; } = string.Empty;
+    public string ContentID { get; set; } = string.Empty;
     /// <summary>
     /// 菜单地址
     /// </summary>

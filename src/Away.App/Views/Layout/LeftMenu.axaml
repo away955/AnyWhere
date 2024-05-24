@@ -9,6 +9,7 @@
 			 Background="#1A1A21"
              x:Class="Away.App.Views.LeftMenu">
 
+
 	<UserControl.Styles>
 		<Style Selector="Grid.show">
 			<Setter Property="Width" Value="150"/>
@@ -36,7 +37,6 @@
 				</Animation>
 			</Style.Animations>
 		</Style>
-
 	</UserControl.Styles>
 
 	<Grid RowDefinitions="50,*,30"
@@ -53,12 +53,13 @@
 
 		<!--menus-->
 		<ListBox Name="LB_Menu" Grid.Row="1" Background="Transparent" ItemsSource="{Binding Menus}"
+				 SelectionChanged="Menu_SelectionChanged"
 				 SelectedValue="{Binding CheckedMenu}" SelectedValueBinding="{Binding Path}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal" Cursor="Hand">
 						<TextBlock Text="{Binding IconText}" FontFamily="{Binding FontFamily}"
-								   FontSize="20" Margin="3,6,0,0" Foreground="#C8C8CA"/>
+							   FontSize="20" Margin="3,6,0,0" Foreground="#C8C8CA"/>
 						<TextBlock Text="{Binding Title}" Margin="15,10,0,0" Foreground="#C8C8CA" FontWeight="Black"/>
 					</StackPanel>
 				</DataTemplate>
@@ -66,9 +67,11 @@
 		</ListBox>
 
 		<!--togget-->
-		<StackPanel Grid.Row="2" Margin="5,0" HorizontalAlignment="Right" Orientation="Horizontal">
-			<ToggleSwitch OffContent="收起" OnContent="展开" Command="{Binding MenuToggleCommand}" Foreground="#C8C8CA"/>
-		</StackPanel>
+		<Menu Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,15,2">
+			<MenuItem Header="&#xe612;" ToolTip.Tip="收起" IsVisible="{Binding IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
+			<MenuItem Header="&#xebaa;" ToolTip.Tip="展开" IsVisible="{Binding !IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
+		</Menu>
 	</Grid>
+
 
 </UserControl>

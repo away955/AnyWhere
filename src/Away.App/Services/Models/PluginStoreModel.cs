@@ -30,9 +30,9 @@ public class PluginStoreModel
     /// </summary>
     public bool IsDisabled { get; set; }
     /// <summary>
-    /// 下载地址
+    /// 文件编号
     /// </summary>
-    public string DownloadUrl { get; set; } = string.Empty;
+    public string ContentID { get; set; } = string.Empty;
     /// <summary>
     /// 图标
     /// </summary>

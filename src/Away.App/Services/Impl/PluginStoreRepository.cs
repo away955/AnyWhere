@@ -5,7 +5,7 @@ public sealed class PluginStoreRepository : IPluginStoreRepository
     private readonly SimpleClient<PluginRegisterEntity> _pluginRegister;
     private readonly SimpleClient<PluginStoreEntity> _pluginStore;
 
-    public PluginStoreRepository([FromKeyedServices(Constant.DBKey)] ISugarDbContext db)
+    public PluginStoreRepository(ISugarDbContext db)
     {
         db.CodeFirst.InitTables<PluginRegisterEntity, PluginStoreEntity>();
         _pluginRegister = db.GetSimpleClient<PluginRegisterEntity>();
@@ -36,7 +36,7 @@ public sealed class PluginStoreRepository : IPluginStoreRepository
                   Module = o.Module,
                   Name = o.Name,
                   Description = o.Description,
-                  DownloadUrl = o.DownloadUrl,
+                  ContentID = o.ContentID,
                   LatestVersion = o.Version,
                   IsDisabled = r.IsDisabled,
                   CurrentVersion = r.Version,

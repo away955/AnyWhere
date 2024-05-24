@@ -1,6 +1,6 @@
 ﻿using Away.App.Core.MVVM;
 
-namespace Away.App.Core.Extensions.DependencyInjection;
+namespace Away.App.Core.Extensions;
 
 public static class MVVMServiceExtensions
 {

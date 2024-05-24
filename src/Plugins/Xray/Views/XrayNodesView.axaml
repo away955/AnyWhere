@@ -14,7 +14,7 @@
 			<Setter Property="Orientation" Value="Horizontal"/>
 			<Style Selector="^ > TextBlock">
 				<Setter Property="VerticalAlignment" Value="Center"/>
-				<Setter Property="FontSize" Value="25"/>
+				<Setter Property="FontSize" Value="20"/>
 			</Style>
 		</Style>
 		<Style Selector="Button.cancel">
@@ -26,11 +26,17 @@
 			<Setter Property="VerticalAlignment" Value="Center"/>
 		</Style>
 
-		<Style Selector="Border.checked">
-			<Setter Property="Background" Value="#ff9300"/>
-		</Style>
-		<Style Selector="Border.unchecked">
+
+		<Style Selector="ListBox#LB_Nodes">
 			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+
+		<!--节点状态-->
+		<Style Selector="Border.node">
+			<Setter Property="CornerRadius" Value="65"/>
+			<Setter Property="Width" Value="65"/>
+			<Setter Property="Height" Value="65"/>
+			<Setter Property="Opacity" Value="0.5"/>
 		</Style>
 		<Style Selector="Border.default">
 			<Setter Property="BoxShadow" Value="0 0 10 2 #ccc"/>
@@ -42,6 +48,14 @@
 			<Setter Property="BoxShadow" Value="0 0 10 2 #ff2700"/>
 		</Style>
 
+		<!--选中节点-->
+		<Style Selector="Border.checked">
+			<Setter Property="Opacity" Value="1"/>
+		</Style>
+		<Style Selector="Border.unchecked">
+			<Setter Property="Opacity" Value="0.5"/>
+		</Style>
+
 	</UserControl.Styles>
 
 	<Grid>
@@ -50,29 +64,38 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 
-		<StackPanel Spacing="5">
-			<StackPanel Spacing="10" Orientation="Horizontal">
-				<Menu>
-					<MenuItem Header="{icon:Enum Settings}" Command="{Binding SettingsCommand}"/>
-				</Menu>
-				<StackPanel Classes="toolbaritem">
-					<TextBlock ToolTip.Tip="代理服务" Text="{icon:Enum Server}"/>
-					<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />
-				</StackPanel>
-				<!--<StackPanel Classes="toolbaritem">
-					<TextBlock ToolTip.Tip="健康检查，自动切换节点" Text="{icon:Enum ServerAuto}"/>
-					<ToggleSwitch IsChecked="{Binding IsHealthCheck}" OffContent="关" OnContent="开" />
-				</StackPanel>-->
+		<StackPanel Spacing="5" Margin="10">
+			<Menu>
+				<MenuItem ToolTip.Tip="设置" Header="{icon:Enum Settings}" FontSize="20" Command="{Binding SettingsCommand}"/>
+				<MenuItem ToolTip.Tip="代理服务">
+					<MenuItem.Header>
+						<StackPanel Classes="toolbaritem">
+							<TextBlock Text="{icon:Enum Server}"/>
+							<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />
+						</StackPanel>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem ToolTip.Tip="系统全局代理">
+					<MenuItem.Header>
+						<StackPanel Classes="toolbaritem">
+							<TextBlock Text="{icon:Enum SystemProxy}"/>
+							<ToggleSwitch IsChecked="{Binding IsEnableGlobalProxy}" OffContent="关" OnContent="开" />
+						</StackPanel>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem ToolTip.Tip="健康检查，自动切换节点">
+					<MenuItem.Header>
+						<StackPanel Classes="toolbaritem">
+							<TextBlock Text="{icon:Enum ServerAuto}"/>
+							<ToggleSwitch IsChecked="{Binding IsHealthCheck}" OffContent="关" OnContent="开" />
+						</StackPanel>
+					</MenuItem.Header>
+				</MenuItem>
+			</Menu>
 
-				<StackPanel Classes="toolbaritem">
-					<TextBlock ToolTip.Tip="系统全局代理" Text="{icon:Enum SystemProxy}"/>
-					<ToggleSwitch IsChecked="{Binding IsEnableGlobalProxy}" OffContent="关" OnContent="开" />
-				</StackPanel>
-			</StackPanel>
-			<Grid Margin="0,5" ColumnDefinitions="60,*,40" IsVisible="{Binding IsProgress}">
-				<TextBlock Text="{Binding ProgressText}"/>
-				<ProgressBar Grid.Column="1" Value="{Binding ProgressValue}" ShowProgressText="True" />
-				<Button Grid.Column="2" Classes="cancel" Content="取消" Command="{Binding ProgressCancelCommand}"/>
+			<Grid ColumnDefinitions="*,40" IsVisible="{Binding IsProgress}">
+				<ProgressBar Grid.Column="0" Value="{Binding ProgressValue}" ShowProgressText="True" />
+				<Button Grid.Column="1" Classes="cancel" Content="取消" Command="{Binding ProgressCancelCommand}"/>
 			</Grid>
 		</StackPanel>
 
@@ -81,7 +104,7 @@
 				 SelectedItem="{Binding XrayNodeSelectedItem}">
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
-					<WrapPanel />
+					<WrapPanel HorizontalAlignment="Center" />
 				</ItemsPanelTemplate>
 			</ListBox.ItemsPanel>
 			<ListBox.KeyBindings>
@@ -116,18 +139,16 @@
 
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<Border BorderThickness="0.5" CornerRadius="5" Width="80" Height="100"
-							ToolTip.Tip="{Binding Tip}"
+					<Border ToolTip.Tip="{Binding Tip}"
+							Classes="node"
 							Classes.default="{Binding Default}"
 							Classes.success="{Binding Success}"
-							Classes.error="{Binding Error}">
-						<StackPanel>
-							<Border BoxShadow="0 0 10 2 #ccc" CornerRadius="50" Padding="5,0" Margin="5,10,5,5" Width="60" Height="60"
-									Classes.checked="{Binding IsChecked}"
-									Classes.unchecked="{Binding !IsChecked}">
-								<TextBlock Text="{Binding Country}" Margin="0,25,0,0" HorizontalAlignment="Center" />
-							</Border>
-							<TextBlock Text="{Binding Remark}" Margin="0,5" HorizontalAlignment="Center" />
+							Classes.error="{Binding Error}"
+							Classes.checked="{Binding IsChecked}"
+							Classes.unchecked="{Binding !IsChecked}">
+						<StackPanel Spacing="5" VerticalAlignment="Center">
+							<TextBlock Text="{Binding Country}" Margin="0,15,0,0" HorizontalAlignment="Center" />
+							<TextBlock Text="{Binding Remark}" FontSize="10" Margin="0,5" HorizontalAlignment="Center" />
 						</StackPanel>
 					</Border>
 				</DataTemplate>

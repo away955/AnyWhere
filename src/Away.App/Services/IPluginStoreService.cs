@@ -38,4 +38,10 @@ public interface IPluginStoreService
     /// </summary>
     /// <returns></returns>
     Task<bool> UpdateResource();
+    /// <summary>
+    /// 获取图标
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    Task<Bitmap?> GetImgae(string url);
 }

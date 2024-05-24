@@ -4,7 +4,7 @@ public sealed class AppMenuRepository : IAppMenuRepository
 {
     private readonly SimpleClient<AppMenuEntity> _menu;
 
-    public AppMenuRepository([FromKeyedServices(Constant.DBKey)] ISugarDbContext db)
+    public AppMenuRepository(ISugarDbContext db)
     {
         db.CodeFirst.InitTables<AppMenuEntity>();
         _menu = db.GetSimpleClient<AppMenuEntity>();

@@ -73,11 +73,6 @@ public sealed class XrayNodesViewModel : ViewModelBase
     [Reactive]
     public int ProgressValue { get; set; }
     /// <summary>
-    /// 进度条说明
-    /// </summary>
-    [Reactive]
-    public string ProgressText { get; set; } = string.Empty;
-    /// <summary>
     /// 进度条取消
     /// </summary>
     public ICommand ProgressCancelCommand { get; }
@@ -201,6 +196,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
         }
     }
 
+
     private void OnResetCommand()
     {
         IsEnableXray = _xrayService.IsEnable;
@@ -238,7 +234,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            MessageShow.Warning("更新订阅被取消", $"等待{ProgressText}完成后再试");
+            MessageShow.Warning("更新订阅被取消", "等待完成后再试");
             return;
         }
         var subs = _xrayNodeSubRepository.GetListByEnable();
@@ -246,7 +242,6 @@ public sealed class XrayNodesViewModel : ViewModelBase
         if (total > 0)
         {
             ClearProgress();
-            ProgressText = "更新订阅";
             IsProgress = true;
         }
         _progressCancel = () =>
@@ -285,7 +280,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         if (IsProgress)
         {
-            MessageShow.Warning("检测进行中", $"等待{ProgressText}完成后再试");
+            MessageShow.Warning("检测进行中", "等待完成后再试");
             return;
         }
 
@@ -299,7 +294,6 @@ public sealed class XrayNodesViewModel : ViewModelBase
         if (total > 0)
         {
             ClearProgress();
-            ProgressText = "检测节点";
             IsProgress = true;
         }
         var settings = _xraySettingService.Get();
@@ -353,7 +347,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
     {
         if (_isActiveSpeedTestOne || IsProgress)
         {
-            MessageShow.Warning("检测进行中", $"等待{ProgressText}完成后再试");
+            MessageShow.Warning("检测进行中", "等待完成后再试");
             return;
         }
         var model = XrayNodeSelectedItem;

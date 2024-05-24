@@ -11,7 +11,7 @@
 			<ItemsControl ItemsSource="{Binding Stores}" Name="StoreItems" Background="Transparent">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<WrapPanel />
+						<WrapPanel HorizontalAlignment="Center" />
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 
@@ -25,13 +25,13 @@
 
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Border BorderBrush="#333" BorderThickness="1" CornerRadius="5"
+						<Border BorderBrush="#C8C8CA" BorderThickness="1" CornerRadius="5"
 								Padding="5" Margin="10" Width="330" Height="100">
 							<StackPanel Orientation="Horizontal">
 								<!--logo-->
-								<Border BorderBrush="#333" BorderThickness="1" CornerRadius="5" Padding="5"
+								<Border Background="#DCDCDC" CornerRadius="5" Padding="5"
 										Margin="5" Height="80" Width="80">
-									<Image Width="50" Height="50" Source="{Binding Image,Converter={StaticResource ImageUrl}}"/>
+									<Image Width="50" Height="50" Source="{Binding ImageSouce}"/>
 								</Border>
 								<!--text-->
 								<StackPanel Margin="5">
@@ -60,7 +60,7 @@
 												Command="{Binding #StoreItems.((vm:PluginStoreViewModel)DataContext).UnInstallCommand}"
 												CommandParameter="{Binding}"/>
 										<StackPanel IsVisible="{Binding IsInstalled}">
-											<Button Content="启动" FontSize="12" IsVisible="{Binding IsDisabled}"
+											<Button Content="启用" FontSize="12" IsVisible="{Binding IsDisabled}"
 													Command="{Binding #StoreItems.((vm:PluginStoreViewModel)DataContext).IsDisabledCommand}"
 													CommandParameter="{Binding}"/>
 											<Button Content="禁用" FontSize="12" IsVisible="{Binding !IsDisabled}"

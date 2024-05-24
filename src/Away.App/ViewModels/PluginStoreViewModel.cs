@@ -33,6 +33,7 @@ public sealed class PluginStoreViewModel : ViewModelBase
     [Reactive]
     public ObservableCollection<PluginModel> Stores { get; private set; } = [];
 
+
     public PluginStoreViewModel(IPluginStoreService pluginStoreService, IAppMapper appMapper)
     {
         _appMapper = appMapper;
@@ -43,7 +44,7 @@ public sealed class PluginStoreViewModel : ViewModelBase
         UnInstallCommand = ReactiveCommand.Create<PluginModel>(OnUnInstall);
         UpgradeCommand = ReactiveCommand.Create<PluginModel>(OnUpgrade);
         IsDisabledCommand = ReactiveCommand.Create<PluginModel>(OnIsDisabled);
-        Init();
+        OnUpdateResource();
     }
 
     private async void OnUpdateResource()
@@ -51,7 +52,7 @@ public sealed class PluginStoreViewModel : ViewModelBase
         var res = await _pluginStoreService.UpdateResource();
         if (res)
         {
-            Init();
+            _ = Init();
             MessageShow.Success("插件资源更新成功");
         }
         else
@@ -81,7 +82,7 @@ public sealed class PluginStoreViewModel : ViewModelBase
         var res = await _pluginStoreService.Upgrade(plugin);
         if (res)
         {
-            Init();
+            _ = Init();
             MessageShow.Success($"{model.Name} 升级成功");
         }
         else
@@ -110,7 +111,7 @@ public sealed class PluginStoreViewModel : ViewModelBase
         var res = await _pluginStoreService.Install(plugin);
         if (res)
         {
-            Init();
+            _ = Init();
             MessageShow.Success($"{model.Name} 安装成功");
         }
         else
@@ -124,10 +125,23 @@ public sealed class PluginStoreViewModel : ViewModelBase
         Init();
     }
 
-    private void Init()
+    private Task Init()
     {
         var items = _pluginStoreService.GetList().Select(_appMapper.Map<PluginModel>);
         Stores = new ObservableCollection<PluginModel>(items);
+
+        Task.Run(async () =>
+        {
+            foreach (var item in Stores)
+            {
+                if (item.ImageSouce != null)
+                {
+                    continue;
+                }
+                item.ImageSouce = await _pluginStoreService.GetImgae(item.Image);
+            }
+        });
+        return Task.CompletedTask;
     }
 
 }

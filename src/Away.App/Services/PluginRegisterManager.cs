@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.Loader;
 
 namespace Away.App.Services;
 
@@ -39,6 +40,17 @@ public sealed class PluginRegisterManager
         AwayLocator.Services.AddTransient<IPluginStoreRepository, PluginStoreRepository>();
     }
 
+
+    /// <summary>
+    /// 卸载插件
+    /// </summary>
+    /// <param name="module">插件模块名称</param>
+    public static void UnLoadPlugin(string module)
+    {
+        Assemblies.RemoveAll(o => o.Module == module);
+        Log.Information($"卸载插件：{module}");
+    }
+
     /// <summary>
     /// 注册所有启动的插件
     /// </summary>
@@ -61,15 +73,6 @@ public sealed class PluginRegisterManager
         }
     }
 
-    /// <summary>
-    /// 卸载插件
-    /// </summary>
-    /// <param name="module">插件模块名称</param>
-    public static void UnLoadPlugin(string module)
-    {
-        Assemblies.RemoveAll(o => o.Module == module);
-        Log.Information($"卸载插件：{module}");
-    }
 
     /// <summary>
     /// 加载插件
@@ -127,4 +130,31 @@ public sealed class PluginRegisterManager
         Log.Information($"加载插件：{register.Module} 完成！");
         return null;
     }
+
+
+    //private sealed class PluginAssemblyLoadContext : AssemblyLoadContext
+    //{
+    //    public PluginAssemblyLoadContext(string name) : base(name, true)
+    //    {
+
+    //    }
+
+    //    protected override Assembly? Load(AssemblyName assemblyName)
+    //    {
+    //        var assembly = Default.Assemblies.FirstOrDefault(o => o.GetName().Name == assemblyName.Name);
+    //        if (assembly != null)
+    //        {
+    //            return assembly;
+    //        }
+    //        Log.Information($"load:{assemblyName.FullName}");
+    //        return PluginRegisterManager.Assemblies.FirstOrDefault(o => o.AssemblyName == assemblyName.Name)?.Assembly;
+    //    }
+
+    //    protected override nint LoadUnmanagedDll(string unmanagedDllName)
+    //    {
+    //        Log.Information($"uload:{unmanagedDllName}");
+    //        return 0;
+    //    }
+
+    //}
 }

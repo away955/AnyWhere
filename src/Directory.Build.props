@@ -5,6 +5,10 @@
 		<Nullable>enable</Nullable>
 		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
 		<NoWarn>1701;1702;IDE1006;IDE0290;</NoWarn>
+		<Authors>金云科技</Authors>
+		<Company>金云科技</Company>
+		<Copyright>金云科技</Copyright>
+		<NeutralLanguage>zh-Hans</NeutralLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>

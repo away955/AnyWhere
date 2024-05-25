@@ -50,6 +50,7 @@ public sealed class PluginStoreRepository : IPluginStoreRepository
 
     public bool Save(List<PluginStoreEntity> list)
     {
+        _pluginStore.Delete(o => !list.Any(oo => oo.Module == o.Module));
         return _pluginStore.InsertOrUpdate(list);
     }
 }

@@ -2,9 +2,6 @@
 
 public sealed class TopHeaderViewModel : ViewModelBase
 {
-    private const string CurrentVersion = Constant.Version;
-    private const string AppInfoUrl = Constant.AppUpgradeResource;
-
     private static readonly string Maximum = IconData.Current["Maximum"].ToUnicode();
     private static readonly string Normal = IconData.Current["Normal"].ToUnicode();
 
@@ -85,19 +82,27 @@ public sealed class TopHeaderViewModel : ViewModelBase
         _ = Init();
     }
 
+    /// <summary>
+    /// App信息
+    /// </summary>
+    private AppResource? AppResource { get; set; }
+    /// <summary>
+    /// 更新程序信息
+    /// </summary>
+    private AppResource? UpdateResource { get; set; }
     private async Task Init()
     {
-        var info = await _versionService.GetVersionInfo(AppInfoUrl);
-        if (string.IsNullOrWhiteSpace(info.Version))
+        (AppResource, UpdateResource) = await _versionService.GetAppResource();
+        if (AppResource == null)
         {
             return;
         }
-        var hasNewVersion = info.HasNewVersion(CurrentVersion.Replace("v", string.Empty));
+        var hasNewVersion = AppResource.HasNewVersion(Constant.Version.Replace("v", string.Empty));
         if (hasNewVersion)
         {
             IsEnabled = true;
-            UpdateHeader = $"检查更新(v{info.Version})";
-            MessageShow.Info($"有新版本：{info.Version}", info.Info);
+            UpdateHeader = $"检查更新(v{AppResource.Version})";
+            MessageShow.Info($"有新版本：v{AppResource.Version}", AppResource.Description);
         }
         else
         {
@@ -111,6 +116,9 @@ public sealed class TopHeaderViewModel : ViewModelBase
         {
             IsLightTheme = theme == ThemeType.Light;
         }
+
+        // 检查更新程序
+        _ = InstallUpdate();
     }
 
     private void OnInfoCommand()
@@ -124,7 +132,16 @@ public sealed class TopHeaderViewModel : ViewModelBase
     {
         IsEnabled = false;
         var updateExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Away.App.Update");
-        await foreach (var cmdEvent in Cli.Wrap(updateExe).ListenAsync())
+        List<string> args = [];
+        if (AppResource != null)
+        {
+            var url = await _versionService.GetDownloadRequest(AppResource.ContentID);
+            args.Add(url);
+            args.Add(AppResource.Updated);
+            args.Add(AppResource.Version);
+            args.Add(AppResource.Description);
+        }
+        await foreach (var cmdEvent in Cli.Wrap(updateExe).WithArguments(args).ListenAsync())
         {
             switch (cmdEvent)
             {
@@ -154,4 +171,37 @@ public sealed class TopHeaderViewModel : ViewModelBase
         MessageWindowState.State(state);
     }
 
+    /// <summary>
+    /// 检查更新更新程序
+    /// </summary>
+    /// <returns></returns>
+    private async Task InstallUpdate()
+    {
+        if (UpdateResource == null)
+        {
+            return;
+        }
+        var filename = OperatingSystem.IsWindows() ? "Away.App.Update.exe" : "Away.App.Update";
+        var update = System.Diagnostics.FileVersionInfo.GetVersionInfo(Path.Combine(Constant.RootPath, filename));
+        var hasUpdateNewVersion = UpdateResource.HasNewVersion(update!.FileVersion!);
+        if (!hasUpdateNewVersion)
+        {
+            return;
+        }
+
+        // 下载
+        var zipPath = Path.Combine(Constant.RootPath, "tmp", "update.zip");
+        var flag = await _versionService.DownloadFile(UpdateResource.ContentID, zipPath);
+        if (!flag)
+        {
+            return;
+        }
+
+        // 解压安装
+        using (var archive = ZipFile.Open(zipPath, ZipArchiveMode.Read, System.Text.Encoding.Default))
+        {
+            archive.ExtractToDirectory(Constant.RootPath, true);
+        }
+        File.Delete(zipPath);
+    }
 }

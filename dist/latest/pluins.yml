@@ -1,51 +1,56 @@
-# 更新时间: 2024年5月9日
-# 插件商品配置
-# 格式说明:
-# Authorization: 访问139.com的Token
-# Plugins:
-#   - Module: 模块名称
-#     Version: 版本号
-#     Path: 菜单地址
-#     Logo: 图标|iconfont-unicode
-#     Image: 图片地址|url
-#     FileSize: 安装包文件大小|kb
-#     ContentID: 文件编号
-#     Name: 插件名称
-#     Description: 插件说明
+# 更新时间: 2024年5月25日
 
 Authorization: "Basic cGM6MTgzNzY5MTE5OTc6REp3a0lmTFB8MXxSQ1N8MTcxOTExNTYxNTQyNXxRc1cwV3ViZEI0WDYwYWpXeUpaR0tvUF8ueFljMVZpUkswMjk3Z0Q3OTVCTURfYThaWDR5XzJEeDhaelRyUlpIZ19Icng4ZFZPLm1pYUxGa1FpeGY4ZjBETDd4X3NxUG9TRjVuVzM0Lm56YVh5TjVBV1FrZm10WnguazFnLjI0OW5GVWNiVEFjUVhSV3JpS0RScVRtaGxQeVlER3VHcEFCUnpzSlcuT1R3bUkt"
+
+App:
+  ContentID: "0y11YNYhH0VT13420240525143216en4"
+  Name: "哪都通"
+  Version: "1.3.0"
+  Updated: "2024-5-24"
+  Description: |
+    1、添加插件商店
+    2、优化界面 
+    3、网络代理改为插件
+
+Updated:
+  ContentID: "0y11YNYhH0VT17020240525140029sfj"
+  Name: "哪都通更新程序"
+  Version: "1.0.1"
+  Updated: "2024-5-24"
+  Description: "优化更新逻辑"
+
 Plugins:
-  - Module: "Xray"
+  - ContentID: "0y11YNYhH0VT133202405241540131q7"
+    Module: "Xray"
     Version: "1.0.1"
     Path: "xray"
-    Image: 'https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L7f99687bfbc73f2f3f6d4a6f19b8e6f9e.png&ct=1&type=0&code=717DBE57FE40D84E6B16554B20524D8E32B2A79832E82BC4403BCAFE538F7228&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT130202405141728076fb&userSiteId=usersite-s&cn=xray&oprChannel=10000034&dom=D952&ts=20240514172808'
+    Image: "https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L7f99687bfbc73f2f3f6d4a6f19b8e6f9e.png&ct=1&type=0&code=717DBE57FE40D84E6B16554B20524D8E32B2A79832E82BC4403BCAFE538F7228&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT130202405141728076fb&userSiteId=usersite-s&cn=xray&oprChannel=10000034&dom=D952&ts=20240514172808"
     Logo: "&#xe619;"
     FileSize: 21886
-    ContentID: '0y11YNYhH0VT133202405241540131q7'
     Name: "网络代理"
-    Description: >
+    Description: |
       科学上网
       支持http、socks代理
       支持ss、vless、vemss、trojan协议
 
-  - Module: "Youtube"
-    Version: "1.0.0"
-    Path: "youtube"
-    Image: 'https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L8814525ce82ade459a52f04c89c2f5541.png&ct=1&type=0&code=FE93DB7CDB744997034E3F07A8F39120347CCC84E734BAFE15CD116E342DA99C&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT13220240514172806093&userSiteId=usersite-s&cn=youtube&oprChannel=10000034&dom=D952&ts=20240514172807'
-    Logo: "&#xe880;"
-    FileSize: 24802
-    ContentID: '0y11YNYhH0VT13120240524154023wvx'
-    Name: "油管视频"
-    Description: "下载油管视频"
+  # - ContentID: "0y11YNYhH0VT132202405241917415mx"
+  #   Module: "Youtube"
+  #   Version: "1.0.0"
+  #   Path: "youtube"
+  #   Image: "https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L8814525ce82ade459a52f04c89c2f5541.png&ct=1&type=0&code=FE93DB7CDB744997034E3F07A8F39120347CCC84E734BAFE15CD116E342DA99C&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT13220240514172806093&userSiteId=usersite-s&cn=youtube&oprChannel=10000034&dom=D952&ts=20240514172807"
+  #   Logo: "&#xe880;"
+  #   FileSize: 24802
+  #   Name: "油管视频"
+  #   Description: "下载油管视频"
 
-  - Module: "RouterScanner"
-    Version: "1.0.0"
-    Path: "router"
-    Image: 'https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L7f06f70e0b58f385a2a802e6483ab7f5a.png&ct=1&type=0&code=61B623D656740121D8CF9F6077F3E649CC45BD2EDF45D92E3BDB012D31AEE9D8&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT13320240514172808qa5&userSiteId=usersite-s&cn=router&oprChannel=10000034&dom=D952&ts=20240514172808'
-    Logo: "&#xe698;"
-    FileSize: 131
-    ContentID: '0y11YNYhH0VT13020240524153626kma'
-    Name: "路由器漏扫"
-    Description: >
-      路由器漏洞扫描
-      支持IP扫描、漏洞检测、漏洞利用
+  # - ContentID: "0y11YNYhH0VT13020240524153626kma"
+  #   Module: "RouterScanner"
+  #   Version: "1.0.0"
+  #   Path: "router"
+  #   Image: "https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L7f06f70e0b58f385a2a802e6483ab7f5a.png&ct=1&type=0&code=61B623D656740121D8CF9F6077F3E649CC45BD2EDF45D92E3BDB012D31AEE9D8&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT13320240514172808qa5&userSiteId=usersite-s&cn=router&oprChannel=10000034&dom=D952&ts=20240514172808"
+  #   Logo: "&#xe698;"
+  #   FileSize: 131
+  #   Name: "路由器漏扫"
+  #   Description: |
+  #     路由器漏洞扫描
+  #     支持IP扫描、漏洞检测、漏洞利用

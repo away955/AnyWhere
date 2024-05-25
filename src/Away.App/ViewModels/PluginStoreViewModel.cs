@@ -78,8 +78,10 @@ public sealed class PluginStoreViewModel : ViewModelBase
 
     private async void OnUpgrade(PluginModel model)
     {
+        model.Installing = true;
         var plugin = _appMapper.Map<PluginStoreModel>(model);
         var res = await _pluginStoreService.Upgrade(plugin);
+        model.Installing = false;
         if (res)
         {
             _ = Init();
@@ -93,7 +95,9 @@ public sealed class PluginStoreViewModel : ViewModelBase
 
     private void OnUnInstall(PluginModel model)
     {
+        model.UnInstalling = true;
         var res = _pluginStoreService.UnInstall(model.Module);
+        model.UnInstalling = true;
         if (res)
         {
             Init();
@@ -107,8 +111,10 @@ public sealed class PluginStoreViewModel : ViewModelBase
 
     private async void OnInstall(PluginModel model)
     {
+        model.Installing = true;
         var plugin = _appMapper.Map<PluginStoreModel>(model);
         var res = await _pluginStoreService.Install(plugin);
+        model.Installing = false;
         if (res)
         {
             _ = Init();

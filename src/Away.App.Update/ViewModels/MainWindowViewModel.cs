@@ -1,12 +1,12 @@
-﻿namespace Away.App.Update.ViewModels;
+﻿using Avalonia.Controls.ApplicationLifetimes;
+
+namespace Away.App.Update.ViewModels;
 
 public sealed class MainWindowViewModel : ViewModelBase
 {
-    private const string InfoUrl = AppInfo.InfoUrl;
-    private const string DownloadUrl = AppInfo.DownloadUrl;
     public static string Title => $"{AppInfo.Title} {AppInfo.Version}";
+    private string DownloadUrl { get; set; } = string.Empty;
 
-    private readonly IVersionService _versionService;
     private readonly IUpgradeService _updateService;
 
     public ICommand CloseCommand { get; }
@@ -37,9 +37,8 @@ public sealed class MainWindowViewModel : ViewModelBase
     [Reactive]
     public bool IsEnable { get; set; }
 
-    public MainWindowViewModel(IVersionService versionService, IUpgradeService updateService)
+    public MainWindowViewModel(IUpgradeService updateService)
     {
-        _versionService = versionService;
         _updateService = updateService;
 
         CloseCommand = ReactiveCommand.Create(() => OnCommand("Close"));
@@ -50,7 +49,7 @@ public sealed class MainWindowViewModel : ViewModelBase
         _updateService.OnDownloadProgress += OnDownloadProgress;
         _updateService.OnInstallProgress += OnInstallProgress;
         _updateService.OnError += OnError;
-        _ = Init();
+        Init();
     }
 
     private void OnError(string error)
@@ -92,16 +91,21 @@ public sealed class MainWindowViewModel : ViewModelBase
         _updateService.Start(DownloadUrl);
     }
 
-    private async Task Init()
+    private void Init()
     {
-        var versionInfo = await _versionService.GetVersionInfo(InfoUrl);
-        if (versionInfo == null)
+        if (Application.Current!.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktopStyleApplicationLifetime)
         {
             return;
         }
-        Updated = versionInfo.Updated;
-        Version = "v" + versionInfo.Version;
-        Info = versionInfo.Info;
+        if (desktopStyleApplicationLifetime.Args!.Length != 4)
+        {
+            return;
+        }
+        Log.Information("{0}", desktopStyleApplicationLifetime.Args);
+        DownloadUrl = desktopStyleApplicationLifetime.Args[0];
+        Updated = desktopStyleApplicationLifetime.Args[1];
+        Version = "v" + desktopStyleApplicationLifetime.Args[2];
+        Info = desktopStyleApplicationLifetime.Args[3];
         IsShowInfo = !string.IsNullOrWhiteSpace(Version);
         IsEnable = true;
     }

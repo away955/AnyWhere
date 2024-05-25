@@ -39,7 +39,6 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             {
                 return;
             }
-            Log.Information($"router:{url}");
             var view = AwayLocator.ServiceProvider.GetView(url) ?? AwayLocator.ServiceProvider.GetView("404");
             this.MainBox.Content = view;
         });

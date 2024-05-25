@@ -4,9 +4,7 @@ public sealed class UpgradeService : IUpgradeService
 {
     private readonly CancellationTokenSource _cts = new();
     private static string _basePath => AppDomain.CurrentDomain.BaseDirectory;
-    private string _destinationPath => _basePath;
-    private string _zipPath => Path.Combine(_basePath, _filename);
-    private string _filename = string.Empty;
+    private static string _zipPath => Path.Combine(_basePath, "anywhere.zip");
 
 
     /// <summary>
@@ -28,9 +26,6 @@ public sealed class UpgradeService : IUpgradeService
     {
         try
         {
-            Uri uri = new(url);
-            _filename = HttpUtility.UrlDecode(uri.Segments.Last());
-
             await Download(url);
             _ = Task.Run(Install);
         }
@@ -51,10 +46,13 @@ public sealed class UpgradeService : IUpgradeService
         File.Delete(_zipPath);
         OnDownloadProgress?.Invoke(new UpdatelEventArgs
         {
-            Description = $"开始下载文件：{_filename}",
+            Description = $"开始下载文件",
             ProgressValue = 0
         });
-        using var http = new HttpClient();
+        using var http = new HttpClient(new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
+        });
         using var resp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
         resp.EnsureSuccessStatusCode();
         using var stream = await resp.Content.ReadAsStreamAsync();
@@ -108,8 +106,7 @@ public sealed class UpgradeService : IUpgradeService
             {
                 continue;
             }
-            var filename = entry.FullName;
-            entry.ExtractToFile(Path.Combine(_destinationPath, filename), true);
+            entry.ExtractToFile(Path.Combine(_basePath, entry.FullName), true);
         }
         archive.Dispose();
         File.Delete(_zipPath);

@@ -74,7 +74,6 @@ public sealed class Program
 
         // 版本检测
         services.AddScoped<IVersionService, VersionService>();
-        services.AddScoped<IUpgradeService, UpgradeService>();
 
         // 视图
         services.AddViewModel<MainWindowViewModel>();

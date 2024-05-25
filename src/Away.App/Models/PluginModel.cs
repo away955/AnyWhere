@@ -102,4 +102,16 @@ public sealed class PluginModel : ReactiveObject
 
     [Reactive]
     public Bitmap? ImageSouce { get; set; }
+
+    /// <summary>
+    /// 安装中
+    /// </summary>
+    [Reactive]
+    public bool Installing { get; set; }
+
+    /// <summary>
+    /// 卸载中
+    /// </summary>
+    [Reactive]
+    public bool UnInstalling { get; set; }
 }

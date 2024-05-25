@@ -50,13 +50,13 @@
 									<!--action-->
 									<StackPanel Orientation="Horizontal" Spacing="5" Margin="5"
 												VerticalAlignment="Bottom" HorizontalAlignment="Right">
-										<Button Content="安装" FontSize="12" IsVisible="{Binding !IsInstalled}"
+										<Button Content="安装" FontSize="12" IsEnabled="{Binding !Installing}" IsVisible="{Binding !IsInstalled}"
 												Command="{Binding #StoreItems.((vm:PluginStoreViewModel)DataContext).InstallCommand}"
 												CommandParameter="{Binding}"/>
-										<Button Content="更新" FontSize="12" IsVisible="{Binding IsUpgrade}"
+										<Button Content="更新" FontSize="12" IsEnabled="{Binding !Installing}" IsVisible="{Binding IsUpgrade}"
 												Command="{Binding #StoreItems.((vm:PluginStoreViewModel)DataContext).UpgradeCommand}"
 												CommandParameter="{Binding}"/>
-										<Button Content="卸载" FontSize="12" IsVisible="{Binding IsInstalled}"
+										<Button Content="卸载" FontSize="12" IsEnabled="{Binding !UnInstalling}" IsVisible="{Binding IsInstalled}"
 												Command="{Binding #StoreItems.((vm:PluginStoreViewModel)DataContext).UnInstallCommand}"
 												CommandParameter="{Binding}"/>
 										<StackPanel IsVisible="{Binding IsInstalled}">

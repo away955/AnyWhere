@@ -1,7 +1,4 @@
-﻿using Away.App.Services;
-using Away.App.Services.Impl;
-
-namespace Away.App.Update;
+﻿namespace Away.App.Update;
 
 public sealed class Program
 {
@@ -42,7 +39,6 @@ public sealed class Program
           });
 
         services.AddSingleton<MainWindowViewModel>();
-        services.AddScoped<IVersionService, VersionService>();
         services.AddScoped<IUpgradeService, UpgradeService>();
     }
 }
@@ -50,7 +46,7 @@ public sealed class Program
 public static class AppBuilderServiceExtensions
 {
     public static AppBuilder UseAwayLocator(this AppBuilder builder, Action<IServiceCollection> configureServices)
-    {
+    {        
         configureServices?.Invoke(App.Services);
         return builder;
     }

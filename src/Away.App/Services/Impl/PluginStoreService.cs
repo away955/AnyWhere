@@ -46,7 +46,7 @@ public sealed class PluginStoreService : PluginStoreYun139, IPluginStoreService
     public async Task<bool> Install(PluginStoreModel model)
     {
         PluginRegisterManager.UnLoadPlugin(model.Module);
-
+#if !DEBUG
         // 下载插件包
         var pluginZipFile = Path.Combine(TempPath, $"{model.Module}.zip");
         var flag = await DownloadFile(model.ContentID, pluginZipFile);
@@ -62,7 +62,7 @@ public sealed class PluginStoreService : PluginStoreYun139, IPluginStoreService
         }
         File.Delete(pluginZipFile);
 
-
+#endif
         // 注册插件
         var entity = _mapper.Map<PluginRegisterEntity>(model);
         _pluginStoreRepository.Register(entity);

@@ -2,11 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" FontFamily="avares://Xray/Assets/#iconfont"
-			 xmlns:icon="using:Away.App.Components.IconFont"
+             mc:Ignorable="d" FontFamily="avares://Xray/Assets/#iconfont"			
 			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
 			 x:DataType="vm:XrayNodesViewModel"
              x:Class="Xray.Views.XrayNodesView">
+	
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://Xray/Assets/Icons.axaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
 
 	<UserControl.Styles>
 		<Style Selector="StackPanel.toolbaritem">
@@ -66,11 +73,11 @@
 
 		<StackPanel Spacing="5" Margin="10">
 			<Menu>
-				<MenuItem ToolTip.Tip="设置" Header="{icon:Enum Settings}" FontSize="20" Command="{Binding SettingsCommand}"/>
+				<MenuItem ToolTip.Tip="设置" Header="{StaticResource SettingsIcon}" FontSize="20" Command="{Binding SettingsCommand}"/>
 				<MenuItem ToolTip.Tip="代理服务">
 					<MenuItem.Header>
 						<StackPanel Classes="toolbaritem">
-							<TextBlock Text="{icon:Enum Server}"/>
+							<TextBlock Text="{StaticResource ServerIcon}"/>
 							<ToggleSwitch IsChecked="{Binding IsEnableXray}" OffContent="关" OnContent="开" />
 						</StackPanel>
 					</MenuItem.Header>
@@ -78,7 +85,7 @@
 				<MenuItem ToolTip.Tip="系统全局代理">
 					<MenuItem.Header>
 						<StackPanel Classes="toolbaritem">
-							<TextBlock Text="{icon:Enum SystemProxy}"/>
+							<TextBlock Text="{StaticResource SystemProxyIcon}"/>
 							<ToggleSwitch IsChecked="{Binding IsEnableGlobalProxy}" OffContent="关" OnContent="开" />
 						</StackPanel>
 					</MenuItem.Header>
@@ -86,7 +93,7 @@
 				<MenuItem ToolTip.Tip="健康检查，自动切换节点">
 					<MenuItem.Header>
 						<StackPanel Classes="toolbaritem">
-							<TextBlock Text="{icon:Enum ServerAuto}"/>
+							<TextBlock Text="{StaticResource ServerAutoIcon}"/>
 							<ToggleSwitch IsChecked="{Binding IsHealthCheck}" OffContent="关" OnContent="开" />
 						</StackPanel>
 					</MenuItem.Header>

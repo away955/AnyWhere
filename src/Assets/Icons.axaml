@@ -1,0 +1,36 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<x:String x:Key="TestIcon">&#xe7c3;</x:String>
+	<x:String x:Key="BugIcon">&#xe622;</x:String>
+	<x:String x:Key="RouterIcon">&#xe698;</x:String>
+	<x:String x:Key="PluginIcon">&#xeba9;</x:String>
+	<x:String x:Key="RightIcon">&#xebaa;</x:String>
+	<x:String x:Key="LeftIcon">&#xe612;</x:String>
+	<x:String x:Key="ThemeIcon">&#xe601;</x:String>
+	<x:String x:Key="LoadIcon">&#xe644;</x:String>
+	<x:String x:Key="FolderIcon">&#xe61f;</x:String>
+	<x:String x:Key="DownloadIcon">&#xe7ed;</x:String>
+	<x:String x:Key="YoutubeIcon">&#xe880;</x:String>
+	<x:String x:Key="ServerAutoIcon">&#xeace;</x:String>
+	<x:String x:Key="SystemProxyIcon">&#xeb25;</x:String>
+	<x:String x:Key="ServerIcon">&#xe98e;</x:String>
+	<x:String x:Key="NetworkIcon">&#xe600;</x:String>
+	<x:String x:Key="UpdateIcon">&#xe67b;</x:String>
+	<x:String x:Key="InfoIcon">&#xe6de;</x:String>
+	<x:String x:Key="SelectIcon">&#xe63c;</x:String>
+	<x:String x:Key="CancelIcon">&#xe60d;</x:String>
+	<x:String x:Key="RemoveIcon">&#xe60c;</x:String>
+	<x:String x:Key="AddIcon">&#xe660;</x:String>
+	<x:String x:Key="SaveIcon">&#xe866;</x:String>
+	<x:String x:Key="NotFoundIcon">&#xe65b;</x:String>
+	<x:String x:Key="FlyIcon">&#xe619;</x:String>
+	<x:String x:Key="SettingsIcon">&#xe638;</x:String>
+	<x:String x:Key="LogoIcon">&#xe65a;</x:String>
+	<x:String x:Key="CloseIcon">&#xe646;</x:String>
+	<x:String x:Key="HomeIcon">&#xe666;</x:String>
+	<x:String x:Key="NormalIcon">&#xe6b7;</x:String>
+	<x:String x:Key="MinimalIcon">&#xe621;</x:String>
+	<x:String x:Key="MaxIcon">&#xe606;</x:String>
+
+</ResourceDictionary>

@@ -6,7 +6,6 @@ global using Avalonia.Markup.Xaml;
 global using Avalonia.Media;
 global using Avalonia.Media.Imaging;
 global using Avalonia.ReactiveUI;
-global using Away.App.Components.IconFont;
 global using Away.App.Core;
 global using Away.App.Core.Database;
 global using Away.App.Core.Extensions;

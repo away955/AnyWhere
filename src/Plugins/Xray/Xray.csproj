@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<FileVersion>1.0.0</FileVersion>
+		<AssemblyVersion>1.0.2</AssemblyVersion>
+		<FileVersion>1.0.2</FileVersion>
 	</PropertyGroup>
 	
 	<Import Project="..\plugin.props" />
@@ -9,10 +9,6 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="set PLUGINS=$(ProjectDir)..\..\Away.App\$(OutDir)Plugins\$(AssemblyName)&#xD;&#xA;set TARGET=$(ProjectDir)$(OutDir)$(AssemblyName)&#xD;&#xA;echo 开始复制$(AssemblyName)插件到App%25PLUGINS%25&#xD;&#xA;mkdir %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.dll %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.pdb %25PLUGINS%25" />
 	</Target>
-
-	<ItemGroup>
-		<AvaloniaResource Include="Assets\**" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Condition="'$(OS)'=='Windows_NT'" Include="Data\v2ray.exe">

@@ -17,7 +17,6 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
 
     public override IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<IXraySetting, XraySettings>();
         services.AddSingleton<IXrayMapper, XrayMapper>();
         services.AddSingleton<IXrayNodeRepository, XrayNodeRepository>();
         services.AddSingleton<IXrayNodeService, XrayNodeService>();

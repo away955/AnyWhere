@@ -1,9 +1,12 @@
-﻿namespace Youtube.ViewModels;
+﻿using Youtube.Services.Impl;
+
+namespace Youtube.ViewModels;
 
 public sealed class YoutubeAddViewModel : ViewModelBase
 {
     private readonly IYoutubeMapper _mapper;
     private readonly IYoutubeService _youtubeService;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     [Reactive]
     public YoutubeModel Data { get; set; } = new();
@@ -34,11 +37,13 @@ public sealed class YoutubeAddViewModel : ViewModelBase
 
 
     public YoutubeAddViewModel(
+        IHttpClientFactory httpClientFactory,
         IYoutubeMapper mapper,
         IYoutubeService youtubeService)
     {
         _mapper = mapper;
         _youtubeService = youtubeService;
+        _httpClientFactory = httpClientFactory;
 
         SaveCommand = ReactiveCommand.Create(OnSaveCommand);
         LoadCommand = ReactiveCommand.Create(OnLoadCommand);
@@ -69,7 +74,7 @@ public sealed class YoutubeAddViewModel : ViewModelBase
         StreamItems = [];
         DescriptionItems = [];
 
-        var youtubeClient = new YoutubeClient(Data.Source);
+        var youtubeClient = new YoutubeClient(Data.Source, _httpClientFactory.CreateClient());
         var video = await youtubeClient.GetVideo();
         if (video == null)
         {

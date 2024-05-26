@@ -2,10 +2,10 @@
 global using Avalonia.ReactiveUI;
 global using Away.App.Core;
 global using Away.App.Core.Database;
+global using Away.App.Core.Extensions;
 global using Away.App.Core.Messages;
 global using Away.App.Core.MVVM;
 global using Away.App.Core.Utils;
-global using Away.App.Core.Extensions;
 global using Away.App.PluginDomain;
 global using Away.App.PluginDomain.Services;
 global using CliWrap.EventStream;

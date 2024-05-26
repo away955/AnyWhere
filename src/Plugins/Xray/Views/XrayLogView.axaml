@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
 			 x:DataType="vm:XrayLogViewModel"
              x:Class="Xray.Views.XrayLogView">
@@ -15,7 +14,7 @@
 	<Grid RowDefinitions="50,*">
 		<DockPanel>
 			<Menu HorizontalAlignment="Right" DockPanel.Dock="Right">
-				<MenuItem Header="{icon:Enum Save}" Command="{Binding SaveCommand}"/>
+				<MenuItem Header="{StaticResource SaveIcon}" Command="{Binding SaveCommand}"/>
 			</Menu>
 		</DockPanel>
 

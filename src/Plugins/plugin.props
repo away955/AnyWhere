@@ -11,6 +11,16 @@
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<AvaloniaResource Include="..\..\Assets\**">
+			<Link>Assets/%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</AvaloniaResource>
+		<AvaloniaXaml Include="..\..\Assets\Icons.axaml">
+			<Link>Assets/%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</AvaloniaXaml>
+		<!--<AvaloniaResource Include="Assets\**" />-->
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
 		<PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
 	</ItemGroup>

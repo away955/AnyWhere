@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" MinWidth="300"
-			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:TopHeaderViewModel"
              x:Class="Away.App.Views.TopHeader">
@@ -17,12 +16,12 @@
 
 	<DockPanel>
 		<Menu>
-			<MenuItem Header="&#xe612;" ToolTip.Tip="后退" IsEnabled="{Binding IsBack}" Command="{Binding BackCommand}"/>
-			<MenuItem Header="&#xebaa;" ToolTip.Tip="前进" IsEnabled="{Binding IsNext}" Command="{Binding NextCommand}"/>
+			<MenuItem Header="{StaticResource LeftIcon}" ToolTip.Tip="后退" IsEnabled="{Binding IsBack}" Command="{Binding BackCommand}"/>
+			<MenuItem Header="{StaticResource RightIcon}" ToolTip.Tip="前进" IsEnabled="{Binding IsNext}" Command="{Binding NextCommand}"/>
 		</Menu>
-		
+
 		<Menu DockPanel.Dock="Right" Classes="rightmenu">
-			<MenuItem Header="{icon:Enum Theme}" ToolTip.Tip="主题">
+			<MenuItem Header="{StaticResource ThemeIcon}" ToolTip.Tip="主题">
 				<MenuItem>
 					<MenuItem.Header>
 						<CheckBox IsChecked="{Binding IsDefaultTheme} " Content="跟随系统" FontSize="12"/>
@@ -35,13 +34,13 @@
 					</MenuItem.Header>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Header="{icon:Enum Expander}" >
+			<MenuItem Header="{StaticResource SelectIcon}" >
 				<MenuItem Header="{Binding UpdateHeader}" IsEnabled="{Binding IsEnabled}" Command="{Binding UpdateCommand}"/>
 				<MenuItem Header="关于我们" Command="{Binding InfoCommand}"/>
 			</MenuItem>
-			<MenuItem Header="{icon:Enum Minimal}" Command="{Binding MinimizedCommand}"/>
+			<MenuItem Header="{StaticResource MinimalIcon}" Command="{Binding MinimizedCommand}"/>
 			<MenuItem Header="{Binding NormalIcon}" Command="{Binding NormalCommand}"/>
-			<MenuItem Header="{icon:Enum Close}" Command="{Binding CloseCommand}"/>
+			<MenuItem Header="{StaticResource CloseIcon}" Command="{Binding CloseCommand}"/>
 		</Menu>
 	</DockPanel>
 </UserControl>

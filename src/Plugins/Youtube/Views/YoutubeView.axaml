@@ -3,10 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" FontFamily="avares://Youtube/Assets/#iconfont"
-			 xmlns:icon="using:Away.App.Components.IconFont"
-			 xmlns:vm="using:Youtube.ViewModels"
+			 xmlns:vm="clr-namespace:Youtube.ViewModels;assembly=Youtube"
 			 x:DataType="vm:YoutubeViewModel"
              x:Class="Youtube.Views.YoutubeView">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://Youtube/Assets/Icons.axaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -15,13 +23,13 @@
 		</Grid.RowDefinitions>
 
 		<Menu>
-			<MenuItem Header="{icon:Enum Add}" Command="{Binding AddCommand}"/>
+			<MenuItem ToolTip.Tip="添加视频" Header="{StaticResource AddIcon}" Command="{Binding AddCommand}"/>
 		</Menu>
 		<ScrollViewer Grid.Row="1">
-			<ItemsControl Name="VideoItems"  ItemsSource="{Binding Items}">
+			<ItemsControl Name="IC_Video"  ItemsSource="{Binding Items}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<WrapPanel />
+						<WrapPanel HorizontalAlignment="Center"/>
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
@@ -36,18 +44,22 @@
 									<TextBlock Text="{Binding Uploaded}" FontSize="12" Opacity="0.8"/>
 								</StackPanel>
 								<Menu Margin="0,10,0,0" HorizontalAlignment="Center">
-									<MenuItem Header="{icon:Enum Download}" ToolTip.Tip="下载"
-											  Command="{Binding #VideoItems.((vm:YoutubeViewModel)DataContext).DownloadCommand}"
-											  CommandParameter="{Binding}" IsVisible="{Binding IsVisibleDownloadBtn}"/>
-									<MenuItem Header="{icon:Enum Close}" ToolTip.Tip="取消"
-											  Command="{Binding #VideoItems.((vm:YoutubeViewModel)DataContext).CancelCommand}"
-											  CommandParameter="{Binding}" IsVisible="{Binding IsVisibleProgressBar}"/>
-									<MenuItem Header="{icon:Enum Remove}" ToolTip.Tip="删除"
-											  Command="{Binding #VideoItems.((vm:YoutubeViewModel)DataContext).DelCommand}"
-											  CommandParameter="{Binding}" IsVisible="{Binding !IsVisibleProgressBar}"/>
-									<MenuItem Header="{icon:Enum Folder}" ToolTip.Tip="打开文件夹"
-											  Command="{Binding #VideoItems.((vm:YoutubeViewModel)DataContext).OpenFolderCommand}"
-											  CommandParameter="{Binding}" IsVisible="{Binding IsVisibleFolderBtn}"/>
+									<MenuItem Header="{StaticResource DownloadIcon}" ToolTip.Tip="下载"
+											  Command="{Binding DownloadCommand}"
+											  CommandParameter="{Binding}"
+											  IsVisible="{Binding IsVisibleDownloadBtn}"/>
+									<MenuItem Header="{StaticResource CloseIcon}" ToolTip.Tip="取消"
+											  Command="{Binding CancelCommand}"
+											  CommandParameter="{Binding}"
+											  IsVisible="{Binding IsVisibleProgressBar}"/>
+									<MenuItem Header="{StaticResource RemoveIcon}" ToolTip.Tip="删除"
+											  Command="{Binding DelCommand}"
+											  CommandParameter="{Binding}"
+											  IsVisible="{Binding !IsVisibleProgressBar}"/>
+									<MenuItem Header="{StaticResource FolderIcon}" ToolTip.Tip="打开文件夹"
+											  Command="{Binding OpenFolderCommand}"
+											  CommandParameter="{Binding}"
+											  IsVisible="{Binding IsVisibleFolderBtn}"/>
 								</Menu>
 								<ProgressBar Value="{Binding ProgressBarValue}" Margin="5" IsVisible="{Binding IsVisibleProgressBar}"/>
 

@@ -3,10 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:icon="using:Away.App.Components.IconFont"
              x:Class="Away.App.NotFoundView">
 
-	<TextBlock Text="{icon:Enum NotFound}"
+	<TextBlock Text="{StaticResource NotFoundIcon}"
 			   FontSize="100"
 			   HorizontalAlignment="Center"
 			   VerticalAlignment="Center" />

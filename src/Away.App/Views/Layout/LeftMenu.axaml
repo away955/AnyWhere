@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" MinHeight="300"
-			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="using:Away.App.ViewModels"
 			 x:DataType="vm:LeftMenuViewModel"
 			 Background="#1A1A21"
@@ -68,8 +67,8 @@
 
 		<!--togget-->
 		<Menu Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,15,2">
-			<MenuItem Header="&#xe612;" ToolTip.Tip="收起" IsVisible="{Binding IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
-			<MenuItem Header="&#xebaa;" ToolTip.Tip="展开" IsVisible="{Binding !IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
+			<MenuItem Header="{StaticResource LeftIcon}" ToolTip.Tip="收起" IsVisible="{Binding IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
+			<MenuItem Header="{StaticResource RightIcon}" ToolTip.Tip="展开" IsVisible="{Binding !IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
 		</Menu>
 	</Grid>
 

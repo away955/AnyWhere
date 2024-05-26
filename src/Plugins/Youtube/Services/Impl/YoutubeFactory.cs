@@ -1,19 +1,18 @@
-﻿using System.Net;
-
-namespace Youtube.Services.Impl;
+﻿namespace Youtube.Services.Impl;
 
 public sealed class YoutubeFactory : IYoutubeFactory
 {
     public event Action<int, double>? DownloadProgress;
-    public IWebProxy? Proxy { get; set; }
 
     private readonly ConcurrentDictionary<int, YoutubeClient> _tasks;
     private readonly IYoutubeRepository _youtubeRepository;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public YoutubeFactory(IYoutubeRepository youtubeRepository)
+    public YoutubeFactory(IYoutubeRepository youtubeRepository, IHttpClientFactory httpClientFactory)
     {
         _tasks = new();
         _youtubeRepository = youtubeRepository;
+        _httpClientFactory = httpClientFactory;
     }
 
     public bool Cancel(int id)
@@ -42,7 +41,7 @@ public sealed class YoutubeFactory : IYoutubeFactory
 
         _youtubeRepository.SetState(id, YoutubeVideoState.Downloading);
 
-        var youtubeClient = new YoutubeClient(entity.Source, Proxy);
+        var youtubeClient = new YoutubeClient(entity.Source, _httpClientFactory.CreateClient());
         youtubeClient.VideoDownloadProgress += DownloadProgress;
         youtubeClient.VideoDownloadFinished += OnVideoDownloadFinished;
 

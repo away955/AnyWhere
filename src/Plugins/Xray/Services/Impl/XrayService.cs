@@ -11,14 +11,12 @@ public sealed class XrayService : XrayServiceBase, IXrayService
 
     private readonly IProxySetting _proxySetting;
     private readonly IXrayNodeRepository _nodeRepository;
-    private readonly IXraySetting _xrayOptions;
+
     public XrayService(
         IProxySetting proxySetting,
-        IXraySetting options,
         IXrayNodeRepository nodeRepository) : base("config.json")
     {
         _proxySetting = proxySetting;
-        _xrayOptions = options;
         _nodeRepository = nodeRepository;
         IsEnableGlobalProxy = _proxySetting.ProxyEnable;
         var process = Process.GetProcessesByName(ExeFileName)?.FirstOrDefault();
@@ -29,25 +27,19 @@ public sealed class XrayService : XrayServiceBase, IXrayService
         }
     }
 
-    private void SetXrayOptions()
-    {
-        var inbound = Config.inbounds.FirstOrDefault();
-        if (inbound == null)
-        {
-            return;
-        }
-        _xrayOptions.SetHost(inbound.listen ?? "127.0.0.1", inbound.port);
-    }
-
     public bool OpenGlobalProxy()
     {
         if (IsEnableGlobalProxy)
         {
             return true;
         }
-        SetXrayOptions();
-
-        _proxySetting.ProxyServer = _xrayOptions.Host;
+        var inbound = Config.inbounds.Where(o => o.protocol == "http").FirstOrDefault();
+        if (inbound == null)
+        {
+            return false;
+        }
+        var host = $"{inbound.listen ?? "127.0.0.1"}:{inbound.port}";
+        _proxySetting.ProxyServer = host;
         _proxySetting.ProxyEnable = true;
         _proxySetting.Save();
         IsEnableGlobalProxy = true;
@@ -60,6 +52,7 @@ public sealed class XrayService : XrayServiceBase, IXrayService
         {
             return true;
         }
+
         _proxySetting.ProxyEnable = false;
         _proxySetting.Save();
         IsEnableGlobalProxy = false;
@@ -75,8 +68,6 @@ public sealed class XrayService : XrayServiceBase, IXrayService
             xray.Kill();
         }
     }
-
-
 
     protected override void OnMessage(string msg, V2rayState state)
     {

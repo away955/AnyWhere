@@ -20,9 +20,9 @@ Updated:
   Description: "优化更新逻辑"
 
 Plugins:
-  - ContentID: "0y11YNYhH0VT133202405241540131q7"
+  - ContentID: "0y11YNYhH0VT13320240526170041gyq"
     Module: "Xray"
-    Version: "1.0.1"
+    Version: "1.0.2"
     Path: "xray"
     Image: "https://download.caiyun.feixin.10086.cn:443/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs212&fileid=L7f99687bfbc73f2f3f6d4a6f19b8e6f9e.png&ct=1&type=0&code=717DBE57FE40D84E6B16554B20524D8E32B2A79832E82BC4403BCAFE538F7228&account=MHkxMVlOWWhIMFZU&p=0&ui=0y11YNYhH0VT&ci=0y11YNYhH0VT130202405141728076fb&userSiteId=usersite-s&cn=xray&oprChannel=10000034&dom=D952&ts=20240514172808"
     Logo: "&#xe619;"

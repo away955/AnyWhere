@@ -7,10 +7,6 @@
 	<Import Project="..\plugin.props" />
 
 	<ItemGroup>
-		<AvaloniaResource Include="Assets\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<None Update="Data\router-finger-print.txt">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

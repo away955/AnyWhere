@@ -13,6 +13,12 @@
 
 	<ItemGroup>
 		<Content Include="..\..\dist\latest\pluins.yml" />
+		<AvaloniaResource Include="..\Assets\**">
+			<Link>Assets/%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</AvaloniaResource>
+		<AvaloniaXaml Include="..\Assets\Icons.axaml">
+			<Link>Assets/%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</AvaloniaXaml>
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
 
@@ -31,8 +37,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Away.App.Core\Away.App.Core.csproj" />
-	  <ProjectReference Include="..\Away.App.PluginDomain\Away.App.PluginDomain.csproj" />
+		<ProjectReference Include="..\Away.App.Core\Away.App.Core.csproj" />
+		<ProjectReference Include="..\Away.App.PluginDomain\Away.App.PluginDomain.csproj" />
 	</ItemGroup>
 
 </Project>

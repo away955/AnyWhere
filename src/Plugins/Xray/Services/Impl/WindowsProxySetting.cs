@@ -2,7 +2,7 @@
 
 namespace Xray.Services.Impl;
 
-public sealed class WindowsProxySetting : IProxySetting
+public sealed class WindowsProxySetting : ProxySettingBase, IProxySetting
 {
     const string userRoot = "HKEY_CURRENT_USER";
     const string subkey = @"Software\Microsoft\Windows\CurrentVersion\Internet Settings";
@@ -30,6 +30,8 @@ public sealed class WindowsProxySetting : IProxySetting
             Registry.SetValue(keyName, nameof(ProxyServer), ProxyServer);
             Registry.SetValue(keyName, nameof(ProxyOverride), ProxyOverride);
             Registry.SetValue(keyName, nameof(ProxyEnable), ProxyEnable ? "1" : "0", RegistryValueKind.DWord);
+
+            Set(ProxyServer, ProxyOverride, ProxyEnable);
             return true;
         }
         catch

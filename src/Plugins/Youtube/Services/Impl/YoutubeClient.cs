@@ -1,10 +1,9 @@
-﻿using System.Net;
-using Youtube.Services.Models;
+﻿using Youtube.Services.Models;
 using YoutubeExplode.Converter;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 
-namespace Youtube.Services;
+namespace Youtube.Services.Impl;
 
 public sealed class YoutubeClient : IDisposable
 {
@@ -16,13 +15,13 @@ public sealed class YoutubeClient : IDisposable
     private readonly YoutubeExplode.YoutubeClient _youtube;
     private readonly VideoId _videoId;
     private readonly CancellationTokenSource _cancellationTokenSource;
-    private static readonly string _ffmpegPath = Path.Combine(Environment.CurrentDirectory, "Data", "ffmpeg");
+    private static readonly string _ffmpegPath = Path.Combine(Constant.RootPath, "Data", "ffmpeg");
 
-    public YoutubeClient(string url, IWebProxy? proxy = null)
+    public YoutubeClient(string url, HttpClient httpClient)
     {
-        _httpClient ??= HttpClientUtils.CreateHttpClient(proxy);
+        _httpClient = httpClient;
         _videoId = ParseVideoId(url);
-        _rootPath = Path.Combine(Environment.CurrentDirectory, "Data", "Videos");
+        _rootPath = Path.Combine(Constant.RootPath, "Data", "Videos");
         _youtube ??= new(_httpClient);
         _cancellationTokenSource = new CancellationTokenSource();
     }

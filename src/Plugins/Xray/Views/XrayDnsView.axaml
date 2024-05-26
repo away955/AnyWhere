@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
 			 x:DataType="vm:XrayDnsViewModel"
              x:Class="Xray.Views.XrayDnsView">
@@ -15,7 +14,7 @@
 	<Grid RowDefinitions="50,*">
 		<DockPanel>
 			<Menu HorizontalAlignment="Right" DockPanel.Dock="Right">
-				<MenuItem Header="{icon:Enum Save}" Command="{Binding SaveCommand}"/>
+				<MenuItem Header="{StaticResource SaveIcon}" Command="{Binding SaveCommand}"/>
 			</Menu>
 		</DockPanel>
 
@@ -23,7 +22,7 @@
 			<StackPanel Spacing="5">
 				<StackPanel Spacing="5" Orientation="Horizontal" Height="60">
 					<Menu>
-						<MenuItem Header="{icon:Enum Add}" Command="{Binding AddCommand}"/>
+						<MenuItem Header="{StaticResource AddIcon}" Command="{Binding AddCommand}"/>
 					</Menu>
 					<Grid Classes="input" ColumnDefinitions="60,*">
 						<TextBlock Text="禁用缓存"/>
@@ -41,7 +40,7 @@
 							<Grid Classes="input" ColumnDefinitions="*,30">
 								<TextBox Text="{Binding Item}"/>
 								<Menu Grid.Column="1" HorizontalAlignment="Right">
-									<MenuItem Header="{icon:Enum Remove}"
+									<MenuItem Header="{StaticResource RemoveIcon}"
 											  Command="{Binding #ItemsDns.((vm:XrayDnsViewModel)DataContext).DelCommand}"
 											  CommandParameter="{Binding}"/>
 								</Menu>

@@ -3,8 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:icon="using:Away.App.Components.IconFont"
-			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"	
+			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
 			 x:DataType="vm:XrayRouteViewModel"
              x:Class="Xray.Views.XrayRouteView">
 	<UserControl.Styles>
@@ -21,10 +20,10 @@
 	<Grid RowDefinitions="50,*">
 		<DockPanel>
 			<Menu>
-				<MenuItem Header="{icon:Enum Add}" Command="{Binding AddCommand}"/>
+				<MenuItem Header="{StaticResource AddIcon}" Command="{Binding AddCommand}"/>
 			</Menu>
 			<Menu HorizontalAlignment="Right" DockPanel.Dock="Right">
-				<MenuItem Header="{icon:Enum Save}" Command="{Binding SaveCommand}"/>
+				<MenuItem Header="{StaticResource SaveIcon}" Command="{Binding SaveCommand}"/>
 			</Menu>
 		</DockPanel>
 
@@ -52,7 +51,7 @@
 						<UniformGrid Columns="1">
 							<Grid Classes="input">
 								<Menu Grid.Column="2" HorizontalAlignment="Right">
-									<MenuItem Header="{icon:Enum Remove}"
+									<MenuItem Header="{StaticResource RemoveIcon}"
 											  Command="{Binding #ItemsRoute.((vm:XrayRouteViewModel)DataContext).DelCommand}"
 											  CommandParameter="{Binding}"/>
 								</Menu>

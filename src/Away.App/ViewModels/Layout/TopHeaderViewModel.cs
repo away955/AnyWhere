@@ -2,8 +2,8 @@
 
 public sealed class TopHeaderViewModel : ViewModelBase
 {
-    private static readonly string Maximum = IconData.Current["Maximum"].ToUnicode();
-    private static readonly string Normal = IconData.Current["Normal"].ToUnicode();
+    private static readonly string Maximum = "&#xe606;".ToUnicode();
+    private static readonly string Normal = "&#xe6b7;".ToUnicode();
 
     private readonly IVersionService _versionService;
     private readonly IAppThemeService _appThemeService;

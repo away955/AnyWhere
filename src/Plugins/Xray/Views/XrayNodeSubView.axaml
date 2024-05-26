@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-			 xmlns:icon="using:Away.App.Components.IconFont"
 			 xmlns:vm="clr-namespace:Xray.ViewModels;assembly=Xray"
 			 x:DataType="vm:XrayNodeSubViewModel"
              x:Class="Xray.Views.XrayNodeSubView">
@@ -15,10 +14,10 @@
 	<Grid RowDefinitions="50,*">
 		<DockPanel>
 			<Menu>
-				<MenuItem Header="{icon:Enum Add}" Command="{Binding AddCommand}"/>
+				<MenuItem Header="{StaticResource AddIcon}" Command="{Binding AddCommand}"/>
 			</Menu>
 			<Menu HorizontalAlignment="Right" DockPanel.Dock="Right">
-				<MenuItem Header="{icon:Enum Save}" Command="{Binding SaveCommand}"/>
+				<MenuItem Header="{StaticResource SaveIcon}" Command="{Binding SaveCommand}"/>
 			</Menu>
 		</DockPanel>
 
@@ -32,7 +31,7 @@
 								<TextBlock Text="禁用"/>
 								<ToggleSwitch Grid.Column="1" IsChecked="{Binding IsDisable}" OffContent="关" OnContent="开" />
 								<Menu Grid.Column="2" HorizontalAlignment="Right">
-									<MenuItem Header="{icon:Enum Remove}"
+									<MenuItem Header="{StaticResource RemoveIcon}"
 											  Command="{Binding #ItemsSub.((vm:XrayNodeSubViewModel)DataContext).DelCommand}"
 											  CommandParameter="{Binding}"/>
 								</Menu>

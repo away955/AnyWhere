@@ -5,6 +5,14 @@
              mc:Ignorable="d" FontFamily="avares://Xray/Assets/#iconfont"
              x:Class="Xray.Views.XraySettingsView">
 
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://Xray/Assets/Icons.axaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
 	<UserControl.Styles>
 		<Style Selector="TabControl">
 			<Setter Property="CornerRadius" Value="5"/>

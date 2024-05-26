@@ -8,7 +8,14 @@
              RequestedThemeVariant="{Binding Theme}">
 
 	<Application.Resources>
-		<Convert:ImagePathConverter x:Key="ImagePath" />
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://Away.App/Assets/Icons.axaml"/>
+			</ResourceDictionary.MergedDictionaries>
+
+			<Convert:ImagePathConverter x:Key="ImagePath" />
+		</ResourceDictionary>
+
 	</Application.Resources>
 
 	<Application.Styles>

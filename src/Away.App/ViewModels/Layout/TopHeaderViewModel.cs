@@ -17,8 +17,8 @@ public sealed class TopHeaderViewModel : ViewModelBase
     public ICommand BackCommand { get; }
     public ICommand NextCommand { get; }
 
-    public bool IsBack => MessageRouter.HasBack();
-    public bool IsNext => MessageRouter.HasNext();
+    public bool IsBack => ViewRouter.HasBack();
+    public bool IsNext => ViewRouter.HasNext();
 
 
     [Reactive]
@@ -67,14 +67,10 @@ public sealed class TopHeaderViewModel : ViewModelBase
         UpdateCommand = ReactiveCommand.Create(OnUpdateCommand);
         InfoCommand = ReactiveCommand.Create(OnInfoCommand);
 
-        BackCommand = ReactiveCommand.Create(MessageRouter.Back);
-        NextCommand = ReactiveCommand.Create(MessageRouter.Next);
-        MessageRouter.Listen(args =>
+        BackCommand = ReactiveCommand.Create(ViewRouter.Back);
+        NextCommand = ReactiveCommand.Create(ViewRouter.Next);
+        ViewRouter.Listen(args =>
         {
-            if (args is not string url)
-            {
-                return;
-            }
             this.RaisePropertyChanged(nameof(IsBack));
             this.RaisePropertyChanged(nameof(IsNext));
         });

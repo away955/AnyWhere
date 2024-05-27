@@ -1,9 +1,9 @@
-﻿namespace Away.App.Core.Messages;
+﻿namespace Away.App.Core.MVVM;
 
 /// <summary>
 /// 菜单路由
 /// </summary>
-public static class MessageRouter
+public static class ViewRouter
 {
     public static List<string> Routes { get; private set; } = [];
     public static string CurrentRoute
@@ -44,24 +44,37 @@ public static class MessageRouter
         Nav(CurrentRoute);
     }
 
-    public static void Go(string url, string? contract = null)
+    public static void Go(string path, object? parameter = null, string? contract = null)
     {
-        if (string.IsNullOrWhiteSpace(url) || url == CurrentRoute)
+        if (string.IsNullOrWhiteSpace(path) || path == CurrentRoute)
         {
             return;
         }
         Routes = Routes[CurrentRouteIndex..];
-        Routes.Insert(0, url);
+        Routes.Insert(0, path);
         CurrentRouteIndex = 0;
-        Nav(url, contract);
+        Nav(path, parameter, contract);
     }
 
-    public static void Listen(Action<object> action, string? contract = null)
+    public static void Listen(Action<ViewParameter> action, string? contract = null)
     {
-        MessageBus.Current.Subscribe(MessageBusType.Routes, action, contract);
+        MessageBus.Current.Subscribe(MessageBusType.Routes, o => action((ViewParameter)o), contract);
     }
-    private static void Nav(string url, string? contract = null)
+    private static void Nav(string path, object? parameter = null, string? contract = null)
     {
-        MessageBus.Current.Publish(MessageBusType.Routes, url, contract);
+        var data = new ViewParameter { Path = path, Parameter = parameter };
+        MessageBus.Current.Publish(MessageBusType.Routes, data, contract);
     }
+}
+
+public class ViewParameter
+{
+    /// <summary>
+    /// 页面地址
+    /// </summary>
+    public required string Path { get; set; }
+    /// <summary>
+    /// 页面参数
+    /// </summary>
+    public object? Parameter { get; set; }
 }

@@ -6,4 +6,8 @@ public partial class NotFoundView : UserControl, IView
     {
         InitializeComponent();
     }
+
+    public void OnParameter(ViewParameter parameter)
+    {
+    }
 }

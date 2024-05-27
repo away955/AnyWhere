@@ -1,10 +1,9 @@
 namespace Youtube.Views;
 
-public partial class YoutubeAddView : ReactiveUserControl<YoutubeAddViewModel>, IView
+public partial class YoutubeAddView : View<YoutubeAddViewModel>, IView
 {
     public YoutubeAddView()
     {
-        ViewModel = AwayLocator.GetService<YoutubeAddViewModel>();
         InitializeComponent();
     }
 }

@@ -1,6 +1,5 @@
 <!--
 插件通用类库
-更新时间：2024年5月13日
 -->
 
 <Project>
@@ -11,14 +10,18 @@
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
 	</ItemGroup>
 
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="set PLUGINS=$(ProjectDir)..\..\Away.App\$(OutDir)Plugins\$(AssemblyName)&#xD;&#xA;set TARGET=$(ProjectDir)$(OutDir)$(AssemblyName)&#xD;&#xA;echo 开始复制$(AssemblyName)插件到App%25PLUGINS%25&#xD;&#xA;mkdir %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.dll %25PLUGINS%25&#xD;&#xA;xcopy /y %25TARGET%25.pdb %25PLUGINS%25" />
+	</Target>
+
 	<ItemGroup>
 		<AvaloniaResource Include="..\..\Assets\**">
-			<Link>Assets/%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</AvaloniaResource>
 		<AvaloniaXaml Include="..\..\Assets\Icons.axaml">
-			<Link>Assets/%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</AvaloniaXaml>
-		<!--<AvaloniaResource Include="Assets\**" />-->
+		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Debug'">

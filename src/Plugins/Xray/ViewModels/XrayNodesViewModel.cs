@@ -450,7 +450,7 @@ public sealed class XrayNodesViewModel : ViewModelBase
 
     private void OnSettingsCommand()
     {
-        MessageRouter.Go("xray-settings");
+        ViewRouter.Go("xray-settings");
     }
 
 }

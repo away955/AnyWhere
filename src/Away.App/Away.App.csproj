@@ -12,7 +12,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="..\..\dist\latest\pluins.yml" />
 		<AvaloniaResource Include="..\Assets\**">
 			<Link>Assets/%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</AvaloniaResource>

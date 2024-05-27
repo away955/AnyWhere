@@ -33,7 +33,6 @@ public sealed class PluginRegisterManager
     {
         AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
         {
-            Log.Information($"加载程序集：{args.Name}");
             var module = args!.Name.Split(",")[0];
             return AssemblyLoadContext.Default.Assemblies.FirstOrDefault(o => o.GetName().Name == module)
              ?? Assemblies.FirstOrDefault(o => o.AssemblyName.StartsWith(module))?.Assembly;

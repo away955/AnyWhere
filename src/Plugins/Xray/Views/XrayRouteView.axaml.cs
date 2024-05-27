@@ -1,10 +1,9 @@
 namespace Xray.Views;
 
-public partial class XrayRouteView : ReactiveUserControl<XrayRouteViewModel>, IView
+public partial class XrayRouteView : View<XrayRouteViewModel>, IView
 {
     public XrayRouteView()
     {
-        ViewModel = AwayLocator.GetService<XrayRouteViewModel>();
         InitializeComponent();
     }
 }

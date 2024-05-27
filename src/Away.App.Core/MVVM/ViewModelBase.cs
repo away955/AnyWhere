@@ -1,11 +1,9 @@
-﻿using System.Reactive.Disposables;
-
-namespace Away.App.Core.MVVM;
+﻿namespace Away.App.Core.MVVM;
 
 
 public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel
 {
-    public ViewModelActivator Activator { get; }  
+    public ViewModelActivator Activator { get; }
 
     public ViewModelBase()
     {
@@ -17,6 +15,13 @@ public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel
         });
     }
 
+    /// <summary>
+    /// 页面传参
+    /// </summary>
+    /// <param name="parameter">参数对象</param>
+    public virtual void OnParameter(ViewParameter parameter)
+    {
+    }
 
     /// <summary>
     /// 进入页面
@@ -33,4 +38,6 @@ public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel
     {
 
     }
+
+
 }

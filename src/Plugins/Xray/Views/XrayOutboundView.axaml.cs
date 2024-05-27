@@ -1,10 +1,9 @@
 namespace Xray.Views;
 
-public partial class XrayOutboundView : ReactiveUserControl<XrayOutboundViewModel>, IView
+public partial class XrayOutboundView : View<XrayOutboundViewModel>, IView
 {
     public XrayOutboundView()
     {
-        ViewModel = AwayLocator.GetService<XrayOutboundViewModel>();
         InitializeComponent();
     }
 }

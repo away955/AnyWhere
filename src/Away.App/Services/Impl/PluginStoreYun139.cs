@@ -106,8 +106,9 @@ public abstract class PluginStoreYun139
             Log.Error($"加载插件图片失败：{resp.StatusCode}");
             return null;
         }
-        var bytes = await resp.Content.ReadAsByteArrayAsync();
-        return new Bitmap(new MemoryStream(bytes));
+        using var stream = new MemoryStream();
+        await resp.Content.CopyToAsync(stream);
+        return new Bitmap(stream);
     }
 
     protected async Task<List<DiskModel>> GetDisk()

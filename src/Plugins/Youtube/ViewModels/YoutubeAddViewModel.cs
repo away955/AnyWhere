@@ -35,7 +35,6 @@ public sealed class YoutubeAddViewModel : ViewModelBase
     /// </summary>
     public ICommand LoadCommand { get; }
 
-
     public YoutubeAddViewModel(
         IHttpClientFactory httpClientFactory,
         IYoutubeMapper mapper,
@@ -47,6 +46,17 @@ public sealed class YoutubeAddViewModel : ViewModelBase
 
         SaveCommand = ReactiveCommand.Create(OnSaveCommand);
         LoadCommand = ReactiveCommand.Create(OnLoadCommand);
+    }
+
+    public override void OnParameter(ViewParameter args)
+    {
+        if (args.Parameter is not int id)
+        {
+            return;
+        }
+        var entity = _youtubeService.GetById(id);
+        Data = _mapper.Map<YoutubeModel>(entity);
+        DescriptionItems = [.. Data.Description.Split("\n")];
     }
 
     private void OnLoadCommand()

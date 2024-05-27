@@ -11,8 +11,4 @@
 		<NeutralLanguage>zh-Hans</NeutralLanguage>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Using Include="System.Diagnostics.CodeAnalysis" />
-	</ItemGroup>
-
 </Project>

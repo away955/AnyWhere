@@ -32,6 +32,7 @@
 						<WrapPanel HorizontalAlignment="Center"/>
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
+
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Border BoxShadow="0 0 2 2 #ccc" Margin="5,5,5,20" Width="235" MinHeight="230">
@@ -60,6 +61,10 @@
 											  Command="{Binding OpenFolderCommand}"
 											  CommandParameter="{Binding}"
 											  IsVisible="{Binding IsVisibleFolderBtn}"/>
+									<MenuItem Header="{StaticResource InfoIcon}" ToolTip.Tip="详情"
+											  Command="{Binding InfoCommand}"
+											  CommandParameter="{Binding}"
+											  IsVisible="{Binding !IsVisibleProgressBar}"/>
 								</Menu>
 								<ProgressBar Value="{Binding ProgressBarValue}" Margin="5" IsVisible="{Binding IsVisibleProgressBar}"/>
 

@@ -28,4 +28,9 @@ public class YoutubeService(IYoutubeRepository youtubeRepository) : IYoutubeServ
         var videoId = YoutubeClient.ParseVideoId(entity.Source);
         return Path.Combine(entity.ImagePath.Split(videoId)[0], videoId);
     }
+
+    public YoutubeEntity GetById(int id)
+    {
+        return youtubeRepository.GetById(id);
+    }
 }

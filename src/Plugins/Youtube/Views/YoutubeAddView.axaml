@@ -21,7 +21,7 @@
 				<Button Content="保存" Command="{Binding SaveCommand}"/>
 				<Button Content="加载" Command="{Binding LoadCommand}"/>
 			</StackPanel>
-			<TextBox Grid.Column="1" Text="{Binding Data.Source}" Watermark="请输入Youtube视频地址" />
+			<TextBox Text="{Binding Data.Source}" Watermark="请输入Youtube视频地址" />
 			<ListBox ItemsSource="{Binding StreamItems}" SelectedItem="{Binding StreamSelected}">
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
@@ -44,15 +44,16 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 
-			<TextBlock Text="{Binding Data.Title}" FontSize="25" FontWeight="Bold" TextWrapping="Wrap" Padding="0,10"/>
+			<SelectableTextBlock Text="{Binding Data.Title}" FontSize="25" FontWeight="Bold" TextWrapping="Wrap" Padding="0,10"/>
 			<StackPanel Spacing="10" Orientation="Horizontal" Margin="0,0,0,20">
-				<TextBlock Text="{Binding Data.Author}" FontSize="12" Opacity="0.8"/>
-				<TextBlock Text="{Binding Data.Uploaded}" FontSize="12" Opacity="0.8"/>
+				<SelectableTextBlock Text="{Binding Data.Author}" FontSize="12" Opacity="0.8"/>
+				<SelectableTextBlock Text="{Binding Data.Uploaded}" FontSize="12" Opacity="0.8"/>
 			</StackPanel>
-			<ItemsControl Grid.Column="1" ItemsSource="{Binding DescriptionItems}">
+
+			<ItemsControl ItemsSource="{Binding DescriptionItems}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding .}" TextWrapping="Wrap"/>
+						<SelectableTextBlock Text="{Binding .}" TextWrapping="Wrap"/>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>

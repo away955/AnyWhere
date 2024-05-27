@@ -8,9 +8,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Away.App.Update", "Away.App.Update\Away.App.Update.csproj", "{DBF50B61-0AF0-4997-BE3C-CB013E14825E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{CFEB326C-2D8C-492B-9F71-ABA8F8CADF43}"
-	ProjectSection(SolutionItems) = preProject
-		Plugins\plugin.props = Plugins\plugin.props
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RouterScanner", "Plugins\RouterScanner\RouterScanner.csproj", "{EAB8247B-FB71-48B9-A54D-EBA0EEA6F891}"
 EndProject
@@ -23,6 +20,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Away.App.PluginDomain", "Away.App.PluginDomain\Away.App.PluginDomain.csproj", "{626898A2-39A2-4E0E-8D69-976D483CDA21}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Away.App.Tests", "Away.App.Tests\Away.App.Tests.csproj", "{854FF7B6-E6D0-44B0-886E-4007718AF1D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{673722DB-95B2-477B-85BE-CDE1D8D9169F}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Plugins\plugin.props = Plugins\plugin.props
+		..\dist\latest\pluins.yml = ..\dist\latest\pluins.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

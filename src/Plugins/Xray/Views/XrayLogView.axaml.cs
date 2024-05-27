@@ -1,10 +1,9 @@
 namespace Xray.Views;
 
-public partial class XrayLogView : ReactiveUserControl<XrayLogViewModel>, IView
+public partial class XrayLogView : View<XrayLogViewModel>, IView
 {
     public XrayLogView()
     {
-        ViewModel = AwayLocator.GetService<XrayLogViewModel>();
         InitializeComponent();
     }
 }

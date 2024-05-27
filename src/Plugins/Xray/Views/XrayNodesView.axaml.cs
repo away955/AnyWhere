@@ -2,11 +2,10 @@ using Avalonia.Input;
 
 namespace Xray.Views;
 
-public partial class XrayNodesView : ReactiveUserControl<XrayNodesViewModel>, IView
+public partial class XrayNodesView : View<XrayNodesViewModel>, IView
 {
     public XrayNodesView()
     {
-        ViewModel = AwayLocator.GetService<XrayNodesViewModel>();
         InitializeComponent();
 
         LB_Nodes.DoubleTapped += DataGrid_DoubleTapped;

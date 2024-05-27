@@ -39,15 +39,11 @@ public sealed class LeftMenuViewModel : ViewModelBase
         MenuToggleCommand = ReactiveCommand.Create(OnMenuToggle);
         Init();
         MessageEvent.Listen(o => Init(), "RefreshMenu");
-        MessageRouter.Listen(args =>
+        ViewRouter.Listen(args =>
         {
-            if (args is not string url)
+            if (args.Path != CheckedMenu)
             {
-                return;
-            }
-            if (url != CheckedMenu)
-            {
-                CheckedMenu = url;
+                CheckedMenu = args.Path;
             }
         });
     }

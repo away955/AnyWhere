@@ -18,6 +18,6 @@ public partial class LeftMenu : ReactiveUserControl<LeftMenuViewModel>
         {
             return;
         }
-        MessageRouter.Go(model.Path);
+        ViewRouter.Go(model.Path);
     }
 }

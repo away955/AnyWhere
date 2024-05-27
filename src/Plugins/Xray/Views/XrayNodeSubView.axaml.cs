@@ -1,10 +1,9 @@
 namespace Xray.Views;
 
-public partial class XrayNodeSubView : ReactiveUserControl<XrayNodeSubViewModel>, IView
+public partial class XrayNodeSubView : View<XrayNodeSubViewModel>, IView
 {
     public XrayNodeSubView()
     {
-        ViewModel = AwayLocator.GetService<XrayNodeSubViewModel>();
         InitializeComponent();
     }
 }

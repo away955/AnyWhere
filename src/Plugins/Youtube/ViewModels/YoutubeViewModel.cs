@@ -1,4 +1,5 @@
-﻿namespace Youtube.ViewModels;
+﻿
+namespace Youtube.ViewModels;
 
 public sealed class YoutubeViewModel : ViewModelBase
 {
@@ -10,22 +11,6 @@ public sealed class YoutubeViewModel : ViewModelBase
     /// 添加视频
     /// </summary>
     public ICommand AddCommand { get; }
-    /// <summary>
-    /// 删除视频
-    /// </summary>
-    public ICommand DelCommand { get; }
-    /// <summary>
-    /// 下载视频
-    /// </summary>
-    public ICommand DownloadCommand { get; }
-    /// <summary>
-    /// 取消下载
-    /// </summary>
-    public ICommand CancelCommand { get; }
-    /// <summary>
-    /// 打开文件夹
-    /// </summary>
-    public ICommand OpenFolderCommand { get; }
 
     [Reactive]
     public ObservableCollection<YoutubeModel> Items { get; set; } = [];
@@ -42,10 +27,6 @@ public sealed class YoutubeViewModel : ViewModelBase
         _youtubeFactory.DownloadProgress += OnDownloadProgress;
 
         AddCommand = ReactiveCommand.Create(OnAddCommand);
-        DelCommand = ReactiveCommand.Create<YoutubeModel>(OnDelCommand);
-        DownloadCommand = ReactiveCommand.Create<YoutubeModel>(OnDownloadCommand);
-        CancelCommand = ReactiveCommand.Create<YoutubeModel>(OnCancelCommand);
-        OpenFolderCommand = ReactiveCommand.Create<YoutubeModel>(OnOpenFolderCommand);
     }
 
     private void OnDownloadProgress(int id, double value)
@@ -64,21 +45,29 @@ public sealed class YoutubeViewModel : ViewModelBase
 
     protected override void OnActivation()
     {
-        Init();
+
+        var list = _youtubeService.GetList().Select(o =>
+        {
+            var item = _mapper.Map<YoutubeModel>(o);
+            item.DelCommand = ReactiveCommand.Create<YoutubeModel>(OnDel);
+            item.DownloadCommand = ReactiveCommand.Create<YoutubeModel>(OnDownload);
+            item.CancelCommand = ReactiveCommand.Create<YoutubeModel>(OnCancel);
+            item.OpenFolderCommand = ReactiveCommand.Create<YoutubeModel>(OnOpenFolder);
+            item.InfoCommand = ReactiveCommand.Create<YoutubeModel>(OnInfo);
+            return item;
+        }).OrderByDescending(o => o.Id);
+
+        Items = new(list);
     }
 
-    private void Init()
-    {
-        var list = _youtubeService.GetList();
-        Items = new(list.Select(_mapper.Map<YoutubeModel>).OrderByDescending(o => o.Id));
-    }
+
 
     private void OnAddCommand()
     {
-        MessageRouter.Go("youtube-add");
+        ViewRouter.Go("youtube-add");
     }
 
-    private void OnDelCommand(YoutubeModel model)
+    private void OnDel(YoutubeModel model)
     {
         var entity = _mapper.Map<YoutubeEntity>(model);
         var res = _youtubeService.Remove(entity);
@@ -88,7 +77,7 @@ public sealed class YoutubeViewModel : ViewModelBase
             Items.Remove(model);
         }
     }
-    private void OnDownloadCommand(YoutubeModel model)
+    private void OnDownload(YoutubeModel model)
     {
         var flag = _youtubeFactory.AddTask(model.Id);
         if (flag)
@@ -101,7 +90,7 @@ public sealed class YoutubeViewModel : ViewModelBase
             MessageShow.Error("下载失败");
         }
     }
-    private void OnCancelCommand(YoutubeModel model)
+    private void OnCancel(YoutubeModel model)
     {
         var flag = _youtubeFactory.Cancel(model.Id);
         if (flag)
@@ -114,10 +103,14 @@ public sealed class YoutubeViewModel : ViewModelBase
             MessageShow.Error("取消失败");
         }
     }
-    private void OnOpenFolderCommand(YoutubeModel model)
+    private void OnOpenFolder(YoutubeModel model)
     {
         var entity = _mapper.Map<YoutubeEntity>(model);
         var folderPath = _youtubeService.GetFolderPath(entity);
         System.Diagnostics.Process.Start("explorer", folderPath);
+    }
+    private void OnInfo(YoutubeModel model)
+    {
+        ViewRouter.Go("youtube-add", model.Id);
     }
 }

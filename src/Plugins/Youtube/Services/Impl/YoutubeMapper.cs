@@ -5,5 +5,6 @@ public class YoutubeMapper : Mapper, IYoutubeMapper
     public YoutubeMapper()
     {
         Config.ForType<YoutubeEntity, YoutubeModel>();
+        Config.ForType<YoutubeModel, YoutubeEntity>();
     }
 }

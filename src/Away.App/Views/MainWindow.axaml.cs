@@ -33,13 +33,13 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         //系统消息
         MessageShow.Listen(args => _nofityManager?.Show(args));
         // 菜单切换
-        MessageRouter.Listen(args =>
+        ViewRouter.Listen(args =>
         {
-            if (args is not string url)
+            var view = AwayLocator.ServiceProvider.GetView(args.Path) ?? AwayLocator.ServiceProvider.GetView("404");
+            if (args.Parameter != null)
             {
-                return;
+                view?.OnParameter(args);
             }
-            var view = AwayLocator.ServiceProvider.GetView(url) ?? AwayLocator.ServiceProvider.GetView("404");
             this.MainBox.Content = view;
         });
         // 窗口状态切换

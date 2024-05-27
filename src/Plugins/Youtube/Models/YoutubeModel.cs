@@ -3,11 +3,33 @@
 public sealed class YoutubeModel : ReactiveObject
 {
     private YoutubeVideoState _state;
+
+    /// <summary>
+    /// 删除视频
+    /// </summary>
+    public ICommand DelCommand { get; set; } = null!;
+    /// <summary>
+    /// 下载视频
+    /// </summary>
+    public ICommand DownloadCommand { get; set; } = null!;
+    /// <summary>
+    /// 取消下载
+    /// </summary>
+    public ICommand CancelCommand { get; set; } = null!;
+    /// <summary>
+    /// 打开文件夹
+    /// </summary>
+    public ICommand OpenFolderCommand { get; set; } = null!;
+    /// <summary>
+    /// 详情
+    /// </summary>
+    public ICommand InfoCommand { get; set; } = null!;
+
+
     [Reactive]
     public int Id { get; set; }
     [Reactive]
     public string Title { get; set; } = string.Empty;
-
     [Reactive]
     public string Description { get; set; } = string.Empty;
     [Reactive]

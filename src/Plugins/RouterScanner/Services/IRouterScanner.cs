@@ -14,6 +14,10 @@ public interface IRouterScanner
     /// </summary>
     public event Action<VulResult>? OnVulCompleted;
     /// <summary>
+    /// 扫描完成
+    /// </summary>
+    public event Action? OnCompleted;
+    /// <summary>
     /// 扫描IP<br/>
     /// <code>
     /// 192.168.1.1

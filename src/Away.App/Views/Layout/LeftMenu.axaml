@@ -67,8 +67,8 @@
 
 		<!--togget-->
 		<Menu Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,15,2">
-			<MenuItem Header="{StaticResource LeftIcon}" ToolTip.Tip="收起" IsVisible="{Binding IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
-			<MenuItem Header="{StaticResource RightIcon}" ToolTip.Tip="展开" IsVisible="{Binding !IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
+			<MenuItem Header="{StaticResource LeftIcon}" Foreground="#C8C8CA" ToolTip.Tip="收起" IsVisible="{Binding IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
+			<MenuItem Header="{StaticResource RightIcon}" Foreground="#C8C8CA" ToolTip.Tip="展开" IsVisible="{Binding !IsMenuToggle}" Command="{Binding MenuToggleCommand}"/>
 		</Menu>
 	</Grid>
 

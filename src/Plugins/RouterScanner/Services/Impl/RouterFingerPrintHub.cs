@@ -6,7 +6,7 @@ public sealed class RouterFingerPrintHub : IRouterFingerPrintHub
 
     public RouterFingerPrintHub(string? filepath = null)
     {
-        filepath ??= Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "router-finger-print.txt");
+        filepath ??= Path.Combine(Constant.RootPath, "Data", "router-finger-print.txt");
         using var sr = File.OpenText(filepath);
 
         while (!sr.EndOfStream)

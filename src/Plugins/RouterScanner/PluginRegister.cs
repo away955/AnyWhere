@@ -21,6 +21,7 @@ public sealed class PluginRegister : PluginRegisterBase<PluginRegister>, IPlugin
 
         // 视图
         services.AddView<RouterView, RouterViewModel>("router");
+        services.AddView<RouterExploitView, RouterExploitViewModel>("router-exp");
 
         // 2018 vulhub
         services.AddKeyedScoped<IRouterVulHub, CVE_2018_12692>(Constant.VulHubKey);

@@ -3,12 +3,94 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" FontFamily="avares://RouterScanner/Assets/#iconfont"
+			 xmlns:model="clr-namespace:RouterScanner.Models;assembly=RouterScanner"
+			 xmlns:vm="clr-namespace:RouterScanner.ViewModels;assembly=RouterScanner"
+			 x:DataType="vm:RouterViewModel"
              x:Class="RouterScanner.Views.RouterView">
-	<Grid>
-		<StackPanel>
-			<TextBlock Text="I'm any where"/>
-			<TextBlock Text="&#xe698;"/>
-			<TextBlock Text="&#xe621;"/>
+
+	<UserControl.Styles>
+		<Style Selector="TabStrip TabItem">
+			<Setter Property="FontSize" Value="14"/>
+		</Style>
+		<Style Selector="TextBlock">
+			<Setter Property="Opacity" Value="0.9"/>
+		</Style>
+
+		<Style Selector="TextBox.textarea">
+			<Setter Property="Width" Value="200"/>
+			<Setter Property="Height" Value="100"/>
+			<Setter Property="AcceptsReturn" Value="True"/>
+			<Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+		</Style>
+
+		<Style Selector="Button">
+			<Setter Property="FontSize" Value="12"/>
+		</Style>
+
+		<Style Selector="DataGrid">
+			<Setter Property="IsReadOnly" Value="True"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+			<Setter Property="Margin" Value="20,5"/>
+		</Style>
+	</UserControl.Styles>
+
+	<Grid RowDefinitions="120,*">
+		<StackPanel Spacing="5" Orientation="Horizontal" Margin="15,5">
+			<StackPanel Spacing="5">
+				<Button Content="启动" IsVisible="{Binding !IsRunning}" Command="{Binding StartCommand}"/>
+				<Button Content="暂停"  Command="{Binding AboutCommand}"/>
+				<Button Content="停止" IsVisible="{Binding IsRunning}" Command="{Binding StopCommand}"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock>网络地址：</TextBlock>
+				<TextBox Classes="textarea" Text="{Binding IPs}"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock>网络端口：</TextBlock>
+				<TextBox Classes="textarea" Text="{Binding Ports}"/>
+			</StackPanel>
+			<StackPanel Spacing="5">
+				<TextBlock>指纹扫描线程数：</TextBlock>
+				<TextBox Text="{Binding FingerPrintThreads}"/>
+				<TextBlock>指纹扫描超时/毫秒：</TextBlock>
+				<TextBox Text="{Binding FingerPrintTimeout}"/>
+			</StackPanel>
+			<StackPanel Spacing="5">
+				<TextBlock>漏洞扫描线程数：</TextBlock>
+				<TextBox Text="{Binding VulThreads}"/>
+				<TextBlock>漏洞扫描超时/毫秒：</TextBlock>
+				<TextBox Text="{Binding VulTimeout}"/>
+			</StackPanel>
 		</StackPanel>
+
+		<StackPanel Spacing="5" Grid.Row="1">
+			<TabStrip>
+				<TabItem Header="全部"/>
+				<TabItem Header="有漏洞"/>
+				<TabItem Header="无漏洞"/>
+			</TabStrip>
+
+			<DataGrid ItemsSource="{Binding Items}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="地址" Width="200" Binding="{Binding Url}"/>
+					<DataGridTextColumn Header="厂商" Width="150" Binding="{Binding Production}"/>
+					<DataGridTextColumn Header="软件版本" Width="100" Binding="{Binding Version}"/>
+					<DataGridTextColumn Header="固件版本" Width="100" Binding="{Binding Firmware}"/>
+					<DataGridTemplateColumn Header="漏洞" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="model:RouterModel">
+								<Menu>
+									<MenuItem Header="命令执行"/>
+									<MenuItem Header="密码泄漏"/>
+								</Menu>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+
+		</StackPanel>
+
 	</Grid>
 </UserControl>

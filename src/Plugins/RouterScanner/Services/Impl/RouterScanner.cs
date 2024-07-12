@@ -1,6 +1,4 @@
-﻿using Away.App;
-
-namespace RouterScanner.Services.Impl;
+﻿namespace RouterScanner.Services.Impl;
 
 public sealed class RouterScanner : IRouterScanner
 {
@@ -17,9 +15,10 @@ public sealed class RouterScanner : IRouterScanner
 
     public event Action<FingerPrintResult>? OnFingerPrintCompleted;
     public event Action<VulResult>? OnVulCompleted;
+    public event Action? OnCompleted;
 
     public string IPs { get; set; } = string.Empty;
-    public string Ports { get; set; } = "80,8080";
+    public string Ports { get; set; } = "80";
     public int FingerPrintThreads { get; set; } = 10;
     public int FingerPrintTimeout { get; set; } = 1000 * 3;
     public int VulThreads { get; set; } = 10;
@@ -40,6 +39,7 @@ public sealed class RouterScanner : IRouterScanner
             .WithDegreeOfParallelism(FingerPrintThreads)
             .WithCancellation(_cancellationTokenSource.Token)
             .ForAll(Run);
+        OnCompleted?.Invoke();
     }
 
 

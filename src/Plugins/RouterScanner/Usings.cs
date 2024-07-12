@@ -17,3 +17,8 @@ global using System.Text;
 global using System.Text.RegularExpressions;
 global using System.Threading;
 global using System.Threading.Tasks;
+global using ReactiveUI;
+global using ReactiveUI.Fody.Helpers;
+global using RouterScanner.Services;
+global using RouterScanner.Models;
+global using System.Collections.ObjectModel;
